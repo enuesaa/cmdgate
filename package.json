@@ -2,6 +2,11 @@
   "name": "gateli",
   "version": "0.0.0",
   "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node dist/index.js"
+  },
   "devDependencies": {
     "typescript": "^4.7.4"
   }

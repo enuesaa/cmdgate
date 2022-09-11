@@ -1,1 +1,1 @@
-console.log('a')
+process.stdout.write('a\n')

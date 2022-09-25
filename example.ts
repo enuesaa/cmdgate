@@ -11,4 +11,4 @@ const cli = createGateli({
     }
   },
 })
-cli.parseArgs()
+await cli.parseArgs()

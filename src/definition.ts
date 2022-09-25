@@ -1,13 +1,13 @@
 export type DefinitionOptions = {
   handler: () => void,
-  definitions?: Array<Definition>,
+  definitions?: Definition[],
 }
 
 // immutable
 export class Definition {
   name: string;
   handler: () => void;
-  definitions: Array<Definition>;
+  definitions: Definition[];
 
   constructor(name: string, options: DefinitionOptions) {
     const { handler, definitions } = options;
@@ -19,6 +19,10 @@ export class Definition {
 
   match(val: string): boolean {
     return this.name === val
+  }
+
+  getName(): string {
+    return this.name
   }
 
   addDefinition(definition: Definition) {

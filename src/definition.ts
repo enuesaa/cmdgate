@@ -1,4 +1,4 @@
-type DefinitionOptions = {
+export type DefinitionOptions = {
   handler: () => void,
   definitions?: Array<Definition>,
 }

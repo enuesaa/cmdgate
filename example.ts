@@ -1,12 +1,14 @@
-import { Gateli, Definition } from './src/index'
+import createGateli from './src/index'
 
-const gateli = new Gateli([
-  new Definition('aaa', {
-    handler: (): void => { console.log('heyaaa'); },
-    definitions: [
-      new Definition('--help', {handler: (): void => { console.log('heyaaa-help'); }}),
-      new Definition('bbb', {handler: (): void => { console.log('heybbb'); }}),
-    ],
-  }),
-])
-gateli.parseArgs()
+const cli = createGateli({
+  definitions: {
+    aaa: {
+      handler: (): void => { console.log('heyaaa'); },
+      definitions: {
+        '--help': {handler: (): void => { console.log('heyaaa-help'); }},
+        'bbb': {handler: (): void => { console.log('heybbb'); }},
+      }
+    }
+  },
+})
+cli.parseArgs()

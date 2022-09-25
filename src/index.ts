@@ -1,5 +1,5 @@
-import { Gateli } from './gateli'
-import { Definition, DefinitionOptions } from './definition'
+import { Gateli } from '@/gateli'
+import { Definition, DefinitionOptions } from '@/definition'
 
 type Props = {
   definitions: Record<string, any>;

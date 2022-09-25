@@ -1,5 +1,5 @@
-import { Definition } from './definition'
-import { Prompt } from './prompt'
+import { Definition } from '@/definition'
+import { Prompt } from '@/prompt'
 
 export class Gateli {
   definitions: Definition[];

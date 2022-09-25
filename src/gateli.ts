@@ -1,12 +1,13 @@
 import { Definition } from './definition'
-import process from 'node:process'
-import { promises as readline } from 'node:readline'
+import { Prompt } from './prompt'
 
 export class Gateli {
   definitions: Definition[];
+  prompt: Prompt;
 
   constructor(definiitons: Array<Definition> = []) {
     this.definitions = definiitons;
+    this.prompt = new Prompt();
   }
 
   addDefinition(definition: Definition) {
@@ -27,7 +28,7 @@ export class Gateli {
   }
 
   async parseArgs() {
-    const args = process.argv.slice(2);
+    const args = this.prompt.getArgs()
     if (args.length === 0) {
       await this.interactive()
     } else {
@@ -36,7 +37,7 @@ export class Gateli {
         const arg = args[i]
         const res = this.search(definitions, arg);
         if (res === false) {
-          console.log('not found!')
+          this.prompt.println('not found!')
           break;
         }
         definitions = res.getDefinitions()
@@ -53,20 +54,15 @@ export class Gateli {
   }
 
   async interactive() {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    })
     const defnames = this.definitions.map((def) => def.getName()).join()
-    const answer = await rl.question(`select from [${defnames}]: `);
-    console.log(`you select: ${answer}`);
-    rl.close();
+    const answer = await this.prompt.question(`select from [${defnames}]: `);
     const res = this.search(this.definitions, answer);
     if (res === false) {
-      console.log('not found!')
+      this.prompt.println('not found!')
     } else {
       let definition = res;
       definition.doHandle();
     }
+    this.prompt.close();
   }
 }

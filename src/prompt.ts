@@ -2,7 +2,7 @@ import process from 'node:process'
 import { promises as readline } from 'node:readline'
 
 export class Prompt {
-  readline: readline.Interface;
+  readline: readline.Interface
 
   constructor() {
     this.readline = readline.createInterface({

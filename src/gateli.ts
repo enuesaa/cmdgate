@@ -1,68 +1,41 @@
-import { Definition } from '@/definition'
-import { Prompt } from '@/prompt'
+import { Command, searchFromCommands } from './command'
+import { Option } from './option'
+import { Prompt } from './prompt'
 
+type GateliArg = {
+  commands: Command[],
+  options: Option[],
+}
 export class Gateli {
-  definitions: Definition[]
-  prompt: Prompt
+  commands: Command[];
+  options: Option[];
+  prompt: Prompt;
 
-  constructor(definiitons: Array<Definition> = []) {
-    this.definitions = definiitons
-    this.prompt = new Prompt()
+  constructor({ commands, options }: GateliArg) {
+    this.commands = commands;
+    this.options = options;
+    this.prompt = new Prompt();
   }
 
-  addDefinition(definition: Definition) {
-    this.definitions.push(definition)
-  }
-
-  /**
-   * @todo return type を react hooks に近くしたい
-   * e.g. const {definition: null|Definition, {error, meta}} = this.search(definitions, val);
-   */
-  protected search(definitions: Array<Definition>, val: string): false | Definition {
-    for (const definition of definitions) {
-      if (definition.match(val)) {
-        return definition
-      }
-    }
-    return false
-  }
-
-  async parseArgs() {
+  exec() {
     const args = this.prompt.getArgs()
-    if (args.length === 0) {
-      await this.interactive()
-    } else {
-      let definitions = this.definitions ?? []
-      for (let i = 0; i < args.length; i++) {
-        const arg = args[i]
-        const res = this.search(definitions, arg)
-        if (res === false) {
-          this.prompt.println('not found!')
-          break
-        }
-        definitions = res.getDefinitions()
-        /**
-         * @todo fix logic. this cant show message like `not-matched-command`
-         */
-        if (definitions.length === 0 || i === args.length - 1) {
-          const definition = res
-          definition.doHandle()
-          break
+    if (args.length > 0) {
+      const arg = args[0]
+      if (this.isCliOption(arg)) {
+      } else {
+        const command = searchFromCommands(this.commands, arg);
+        if (command === false) {
+          console.log('not found')
+        } else {
+          command.handler()
         }
       }
     }
+    // console.log(this.commands)
+    this.prompt.close()
   }
 
-  async interactive() {
-    const defnames = this.definitions.map((def) => def.getName()).join()
-    const answer = await this.prompt.question(`select from [${defnames}]: `)
-    const res = this.search(this.definitions, answer)
-    if (res === false) {
-      this.prompt.println('not found!')
-    } else {
-      let definition = res
-      definition.doHandle()
-    }
-    this.prompt.close()
+  isCliOption(value: string): boolean {
+    return value.startsWith('-')
   }
 }

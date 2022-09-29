@@ -1,27 +1,26 @@
-import { Gateli } from '@/gateli'
-import { Definition, DefinitionOptions } from '@/definition'
+import { Gateli } from './gateli'
+import { Command, CommandArg } from './command'
+import { Option, OptionArg } from './option'
 
-type Props = {
-  definitions: Record<string, any>
-}
-const createDefinition = (name: string, { handler, definitions }: DefinitionOptions): Definition => {
-  const definition = new Definition(name, { handler })
-  for (const name in definitions) {
-    if (!definitions.hasOwnProperty(name)) {
-      continue
+export const gateli = (arg): Gateli => {
+  const commands: Command[] = [];
+  const options: Option[] = [];
+
+  for (const [key, value] of Object.entries(arg)) {
+    if (value instanceof Command) {
+      commands.push(value.setDefaultName(key));
+    } else if (value instanceof Option) {
+      options.push(value.setDefaultName(key));
     }
-    definition.addDefinition(createDefinition(name, definitions[name]))
-  }
-  return definition
-}
-export default function createGateli({ definitions }: Props): Gateli {
-  const gateli = new Gateli()
-  for (const name in definitions) {
-    if (!definitions.hasOwnProperty(name)) {
-      continue
-    }
-    gateli.addDefinition(createDefinition(name, definitions[name]))
   }
 
-  return gateli
+  return new Gateli({commands, options})
+}
+
+export const command = (arg: CommandArg): Command => {
+  return new Command(arg)
+}
+
+export const option = (arg: OptionArg): Option => {
+  return new Option(arg)
 }

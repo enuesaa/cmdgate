@@ -17,6 +17,7 @@ export class Command {
     this.handler = arg.handler
     this.options = arg.options ?? []
     this.commands = arg.commands ?? []
+    this.name = null
   }
 
   setDefaultName(name: string): Command {

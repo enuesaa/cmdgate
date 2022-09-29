@@ -1,5 +1,5 @@
 import { Command, searchFromCommands } from './command'
-import { Option } from './option'
+import { Option, searchFromOptions } from './option'
 import { Prompt } from './prompt'
 
 type GateliArg = {
@@ -18,17 +18,19 @@ export class Gateli {
   }
 
   exec() {
-    const args = this.prompt.getArgs()
-    if (args.length > 0) {
-      const arg = args[0]
-      if (this.isCliOption(arg)) {
+    let commands = this.commands;
+    let options = this.options;
+    let args = this.prompt.getArgs()
+    for (const word of args) {
+      if (this.isCliOption(word)) {
+        const option = searchFromOptions(options, word);
+        continue;
+      }
+      const command = searchFromCommands(commands, word);
+      if (command === false) {
+        console.log('not found')
       } else {
-        const command = searchFromCommands(this.commands, arg);
-        if (command === false) {
-          console.log('not found')
-        } else {
-          command.handler()
-        }
+        command.handler()
       }
     }
     // console.log(this.commands)

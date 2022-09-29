@@ -1,20 +1,22 @@
 import { Option } from './option'
 
+export type CommandHandler = () => ({});
 export type CommandArg = {
-  handler: () => ({}),
-  options?: Record<string, Option>
-  name?: string,
+  handler: CommandHandler,
+  commands?: Command[],
+  options?: Option[],
 }
 export class Command {
-  handler: () => ({});
-  options: Record<string, Option>;
+  handler: CommandHandler;
+  commands: Command[];
+  options: Option[];
   defaultName: null | string;
   name: null | string;
 
   constructor(arg: CommandArg) {
-    this.name = arg.name ?? null
     this.handler = arg.handler
-    this.options = arg.options ?? {}
+    this.options = arg.options ?? []
+    this.commands = arg.commands ?? []
   }
 
   setDefaultName(name: string): Command {

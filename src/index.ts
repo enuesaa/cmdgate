@@ -1,11 +1,10 @@
 import { Gateli } from './gateli'
-import { Command, CommandArg } from './command'
+import { Command, CommandHandler } from './command'
 import { Option, OptionArg } from './option'
 
-export const gateli = (arg): Gateli => {
+const classify = (arg: {[key: string]: Option | Command}): {commands: Command[], options: Option[]} => {
   const commands: Command[] = [];
   const options: Option[] = [];
-
   for (const [key, value] of Object.entries(arg)) {
     if (value instanceof Command) {
       commands.push(value.setDefaultName(key));
@@ -13,14 +12,26 @@ export const gateli = (arg): Gateli => {
       options.push(value.setDefaultName(key));
     }
   }
+  return {commands, options}
+}
 
+export type CreateGateliArg = {
+  [key: string]: Option | Command,
+}
+export const gateli = (arg: CreateGateliArg): Gateli => {
+  const {commands, options} = classify(arg)
   return new Gateli({commands, options})
 }
 
-export const command = (arg: CommandArg): Command => {
-  return new Command(arg)
+export type CreateCommandArg = {
+  [key: string]: Option | Command,
+}
+export const command = (arg: CreateCommandArg, handler: CommandHandler): Command => {
+  const {commands, options} = classify(arg)
+  return new Command({handler, commands, options})
 }
 
-export const option = (arg: OptionArg): Option => {
+export type CreateOptionArg = OptionArg
+export const option = (arg: CreateOptionArg): Option => {
   return new Option(arg)
 }

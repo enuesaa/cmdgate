@@ -1,5 +1,21 @@
 import createGateli from './src/index'
 
+// gateli({
+//   aaa: command({
+//     hanlder: handler,
+//     options: {
+//       input: option({}),
+//     }
+//   }),
+//   bbb: command(),
+//   ccc: command(),
+//   help: option({
+//     short: 'h',
+//     long: 'help',
+//     global: true,
+//   })
+// })
+
 const cli = createGateli({
   definitions: {
     aaa: {

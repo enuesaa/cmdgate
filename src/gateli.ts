@@ -27,16 +27,14 @@ export class Gateli {
   }
 
   exec() {
-    let commands = this.commands;
-    let options = this.options;
     let args = this.prompt.getArgs()
     if (args.length === 0) {
-      this.handler()
+      this.execRootCommand()
     } else {
+      let commands = this.commands;
       for (const word of args) {
         if (this.isCliOption(word)) {
-          const option = searchFromOptions(options, word);
-          continue;
+          break;
         }
         const command = searchFromCommands(commands, word);
         if (command === false) {
@@ -47,6 +45,10 @@ export class Gateli {
       }
     }
     this.prompt.close()
+  }
+
+  execRootCommand() {
+    this.handler()
   }
 
   isCliOption(value: string): boolean {

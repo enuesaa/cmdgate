@@ -1,26 +1,47 @@
-import {gateli, command, option, help, positional1, positional2, positionalRecursive, optionValue} from './src/a'
+import { gateli, command, option, help, positional1, positional2, positionalArgs, optionValue } from './src/index'
 
 gateli({
-  _name: 'aaa',
-  _description: 'aaa command',
-  aa: command({
-    bb: command({
-      dd: command({})
-    }),
-    cc: option({
-      aa: optionValue({ _name: 'aa'}),
-      _required: true,
-      _description: ''
-    }),
+  _name: 'a',
+  _description: 'b',
+  add: command({
+    _handler: () => { console.log('add'); return {} }
   }),
-  bbb: command({
-    bb2: command({
-      _handler: () => { console.log('bbb'); return {}},
-    }),
-  }),
-  ccc: command({
-    _handler: () => { console.log('bbb'); return {}},
-  }),
-  '--help': option({ alias: '-h', global: true }),
+  _handler: () => { console.log('a'); return {} }
 })
 .exec()
+
+// gateli({
+//   _name: 'example-package-manager',
+//   _description: 'example-package-manager cli',
+
+//   init: command({
+//     name: positional1(),
+//   }),
+
+//   add: command({
+//     name: positional1(),
+//     '--dev': option(),
+//   }),
+
+//   remove: command({
+//     name: positional1(),
+//   }),
+
+//   upgrade: command(),
+//   run: command(),
+
+//   search: command({
+//     name: positional1(),
+//   }),
+
+//   plguins: command({
+//     add: command(),
+//     remove: command(),
+//     search: command({
+//       name: positional1(),
+//     }),
+//   }),
+
+//   '--help': help({ alias: '-h', global: true }),
+// })
+// .exec()

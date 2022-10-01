@@ -1,36 +1,20 @@
-import { Command, CommandHandler } from './command'
+import { Command } from './command'
 import { Option } from './option'
 
 type ClassifyArg = {
-  _handler?: CommandHandler,
-  _name?: string,
-  _description?: string,
-  [key: string]: Command | Option | CommandHandler | string,
+  [key: string]: Command | Option,
 }
-type ClassifyRes = {
-  name: string,
-  description: string,
-  handler: CommandHandler | null,
-  commands: Command[],
-  options: Option[],
-}
-export const classify = (arg: ClassifyArg): ClassifyRes => {
+export const classify = (arg: ClassifyArg): {commands: Command[], options: Option[]} => {
   const commands: Command[] = [];
   const options: Option[] = [];
-  const name = arg._name ?? '';
-  const description = arg._description ?? ''
-  const handler = arg._handler ?? null;
 
-  for (const [key, value] of Object.entries(arg)) {
-    if (key === '_handler') {
-      continue;
-    }
+  for (const [name, value] of Object.entries(arg)) {
     if (value instanceof Command) {
-      commands.push(value.setDefaultName(key));
+      commands.push(value.bindName(name));
     } else if (value instanceof Option) {
-      options.push(value.setDefaultName(key));
+      options.push(value.bindName(name));
     }
   }
 
-  return { name, description, handler, commands, options }
+  return { commands, options }
 }

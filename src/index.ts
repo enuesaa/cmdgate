@@ -4,28 +4,52 @@ import { Option, OptionArg } from './option'
 import { classify } from './classify'
 
 export type CreateGateliArg = {
-  _name: string,
-  _description: string,
-  _handler: CommandHandler,
-  [key: string]: Command | Option | CommandHandler | string,
+  name: string,
+  description?: string,
+  handler?: CommandHandler,
+  with?: {
+    [key: string]: Command | Option,
+  }
 }
 export const gateli = (arg: CreateGateliArg): Gateli => {
-  const { name, description, handler, commands, options } = classify(arg)
-  return new Gateli({ name, description, handler, commands, options })
+  const { commands, options } = classify(arg.with ?? {})
+  return new Gateli({
+    name: arg.name,
+    description: arg.description ?? '',
+    handler: arg.handler ?? null,
+    commands,
+    options,
+  })
 }
 
 export type CreateCommandArg = {
-  _handler: CommandHandler,
-  [key: string]: Option | Command | CommandHandler,
+  description?: string,
+  handler?: CommandHandler,
+  with?: {
+    [key: string]: Command | Option,
+  },
 }
 export const command = (arg: CreateCommandArg): Command => {
-  const { commands, options, handler } = classify(arg)
-  return new Command({ handler, commands, options })
+  const { commands, options } = classify(arg.with ?? {})
+  return new Command({
+    description: arg.description ?? '',
+    handler: arg.handler ?? null,
+    commands,
+    options
+  })
 }
 
-export type CreateOptionArg = OptionArg
+export type CreateOptionArg = {
+  description?: string,
+  alias?: string,
+  required?: boolean,
+}
 export const option = (arg: CreateOptionArg): Option => {
-  return new Option(arg)
+  return new Option({
+    description: arg.description ?? '',
+    alias: arg.alias ?? '',
+    required: arg.required ?? false,
+  })
 }
 
 export const help = (arg) => {}

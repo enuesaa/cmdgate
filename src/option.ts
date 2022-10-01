@@ -1,30 +1,28 @@
 export type OptionArg = {
-  short?: string,
-  long?: string,
-  global?: boolean,
+  description: string,
+  alias: string | null,
+  required: boolean,
 }
 export class Option {
-  defaultName: null | string;
-  short: null | string;
-  long: null | string;
-  global: boolean;
+  name: string | null;
+  description: string;
+  alias: string | null;
+  required: boolean;
 
   constructor(arg: OptionArg) {
-    this.short = arg.short ?? null
-    this.long = arg.long ?? null
-    this.global = arg.global ?? false
+    this.name = null;
+    this.description = arg.description;
+    this.alias = arg.alias ?? null;
+    this.required = arg.required;
   }
 
-  setDefaultName(name: string): Option {
-    this.defaultName = name;
-    if (this.long === null) {
-      this.long = name;
-    }
+  bindName(name: string): Option {
+    this.name = name;
     return this
   }
 
   isMatch(value: string): boolean {
-    return this.long === value;
+    return this.name === value;
   }
 }
 

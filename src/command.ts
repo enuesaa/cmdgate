@@ -2,29 +2,28 @@ import { Option } from './option'
 
 export type CommandHandler = () => ({});
 export type CommandArg = {
+  description: string,
   handler: CommandHandler,
   commands?: Command[],
   options?: Option[],
 }
 export class Command {
+  name: null | string;
+  description: string;
   handler: CommandHandler;
   commands: Command[];
   options: Option[];
-  defaultName: null | string;
-  name: null | string;
 
   constructor(arg: CommandArg) {
-    this.handler = arg.handler
-    this.options = arg.options ?? []
-    this.commands = arg.commands ?? []
     this.name = null
+    this.description = arg.description ?? ''
+    this.handler = arg.handler
+    this.commands = arg.commands ?? []
+    this.options = arg.options ?? []
   }
 
-  setDefaultName(name: string): Command {
-    this.defaultName = name;
-    if (this.name === null) {
-      this.name = name;
-    }
+  bindName(name: string): Command {
+    this.name = name;
     return this
   }
 

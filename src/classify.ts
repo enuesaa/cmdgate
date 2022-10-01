@@ -1,5 +1,5 @@
-import { Command } from './command'
-import { Option } from './option'
+import { Command } from '@/command'
+import { Option } from '@/option'
 
 type ClassifyArg = {
   [key: string]: Command | Option,

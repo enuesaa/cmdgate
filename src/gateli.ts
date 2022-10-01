@@ -1,6 +1,6 @@
-import { Command, CommandHandler, searchFromCommands } from './command'
-import { Option, searchFromOptions } from './option'
-import { Prompt } from './prompt'
+import { Command, CommandHandler, searchFromCommands } from '@/command'
+import { Option, searchFromOptions } from '@/option'
+import { Prompt } from '@/prompt'
 
 type GateliArg = {
   name: string,

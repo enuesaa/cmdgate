@@ -1,4 +1,4 @@
-import { Option } from './option'
+import { Option } from '@/option'
 
 export type CommandHandler = () => ({});
 export type CommandArg = {

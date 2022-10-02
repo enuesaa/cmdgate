@@ -3,19 +3,28 @@
 # gateli
 ## usage
 ~~~ts
-import {gateli, command, option} from './src/index'
+import { gateli, command, option } from './src/index'
 
 gateli({
-  aaa: command(
-    {
-      aa: command({}, () => { console.log('aaa.aa'); return {} }),
-      input: option({}),
-    },
-    () => { console.log('aaa'); return {} }
-  ),
-  bbb: command({}, () => { console.log('bbb'); return {}}),
-  ccc: command({}, () => { console.log('ccc'); return {}}),
-  help: option({ short: 'h', long: 'help', global: true }),
+  name: 'sample', // bin name
+  gate: {
+    'aaa': command({
+      description: 'aaa subcommand',
+      gate: {
+        'aa': command({
+          handler: () => { console.log('aaa.aa'); return {} },
+        }),
+        '--input': option(),
+      },
+    }),
+    'bbb': command({
+      handler: () => { console.log('bbb'); return {} },
+    }),
+    'ccc': command({
+      handler: () => { console.log('ccc'); return {} },
+    }),
+    '--help': option({ alias: '-h' }),
+  },
 })
 .exec()
 ~~~

@@ -7,7 +7,7 @@ export type CreateGateliArg = {
   name: string,
   description?: string,
   handler?: CommandHandler,
-  with?: {
+  gate?: {
     [key: string]: Command | Option,
   }
 }
@@ -15,20 +15,20 @@ export const gateli = (arg: CreateGateliArg): Gateli => new Gateli({
   name: arg.name,
   description: arg.description ?? '',
   handler: arg.handler ?? null,
-  ...classify(arg.with ?? {}),
+  ...classify(arg.gate ?? {}),
 })
 
 export type CreateCommandArg = {
   description?: string,
   handler?: CommandHandler,
-  with?: {
+  gate?: {
     [key: string]: Command | Option,
   },
 }
 export const command = (arg: CreateCommandArg): Command => new Command({
   description: arg.description ?? '',
   handler: arg.handler ?? null,
-  ...classify(arg.with ?? {}),
+  ...classify(arg.gate ?? {}),
 })
 
 export type CreateOptionArg = {

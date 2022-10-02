@@ -4,7 +4,7 @@ gateli({
   name: 'a',
   description: 'b',
   handler: () => { console.log('a'); return {} },
-  with: {
+  gate: {
     add: command({
       handler: () => {
         console.log('b')
@@ -18,36 +18,36 @@ gateli({
 // gateli({
 //   name: 'example-package-manager',
 //   description: 'example-package-manager cli',
-//   with: {
+//   gate: {
 //     'init': command({
-//       with: {
+//       gate: {
 //         'name': positional1()
 //       }
 //     }),
 //     'add': command({
-//       with: {
+//       gate: {
 //         'name': positional1(),
 //         '--dev': option(),       
 //       }
 //     }),
 //     'remove': command({
-//       with: {
+//       gate: {
 //         name: positional1(),
 //       },
 //     }),
 //     'upgrade': command(),
 //     'run': command(),
 //     'search': command({
-//       with: {
+//       gate: {
 //         'name': positional1(),
 //       },
 //     }),
 //     'plguins': command({
-//       with: {
+//       gate: {
 //         'add': command(),
 //         'remove': command(),
 //         'search': command({
-//           with: {
+//           gate: {
 //             'name': positional1(),
 //           },
 //         }),

@@ -31,7 +31,7 @@ type CreateCommand = (arg: {
   },
 }) => Command;
 export const command: CreateCommand = ({ description, handler, gate }) => {
-  const { commands, options } = classify(gate)
+  const { commands, options } = classify(gate ?? {})
   return (
     new Command()
       .description(description ?? '')

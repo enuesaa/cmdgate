@@ -3,47 +3,67 @@ import { Command, CommandHandler } from '@/command'
 import { Option } from '@/option'
 import { classify } from '@/classify'
 
-export type CreateGateliArg = {
+type CreateGateli = (arg: {
   name: string,
   description?: string,
   handler?: CommandHandler,
   gate?: {
     [key: string]: Command | Option,
   }
+}) => Gateli;
+export const gateli: CreateGateli = ({ name, description, handler, gate }) => {
+  const { commands, options } = classify(gate ?? {})
+  return (
+    new Gateli()
+      .name(name)
+      .description(description ?? '')
+      .handler(handler ?? (() => ({})))
+      .commands(commands)
+      .options(options)
+  )
 }
-export const gateli = (arg: CreateGateliArg): Gateli => new Gateli({
-  name: arg.name,
-  description: arg.description ?? '',
-  handler: arg.handler ?? null,
-  ...classify(arg.gate ?? {}),
-})
 
-export type CreateCommandArg = {
+type CreateCommand = (arg: {
   description?: string,
   handler?: CommandHandler,
   gate?: {
     [key: string]: Command | Option,
   },
+}) => Command;
+export const command: CreateCommand = ({ description, handler, gate }) => {
+  const { commands, options } = classify(gate)
+  return (
+    new Command()
+      .description(description ?? '')
+      .handler(handler ?? (() => ({})))
+      .commands(commands)
+      .options(options)
+  )
 }
-export const command = (arg: CreateCommandArg): Command => new Command({
-  description: arg.description ?? '',
-  handler: arg.handler ?? null,
-  ...classify(arg.gate ?? {}),
-})
 
-export type CreateOptionArg = {
+type CreateOption = (arg: {
   description?: string,
   alias?: string,
   required?: boolean,
+}) => Option;
+export const option: CreateOption = ({ description, alias, required }) => {
+  return (
+    new Option()
+      .description(description ?? '')
+      .alias(alias ?? null)
+      .required(required)
+  )
 }
-export const option = (arg: CreateOptionArg): Option => new Option({
-  description: arg.description ?? '',
-  alias: arg.alias ?? '',
-  required: arg.required ?? false,
-})
 
-export const help = (arg) => {}
-export const positional1 = (arg) => {}
-export const positional2 = (arg) => {}
-export const positionalArgs = (arg) => {}
-export const optionValue = (arg) => {}
+type CreateHelp = (arg: {}) => ({});
+export const help: CreateHelp= (arg) => ({})
+
+type CreatePositional = (arg: {}) => ({});
+export const positional1: CreatePositional = (arg) => ({})
+export const positional2: CreatePositional = (arg) => ({})
+
+type CreatePositionalArgs = (arg: {}) => ({});
+export const positionalArgs: CreatePositionalArgs= (arg) => ({})
+
+type CreateOptionValue = (arg: {}) => ({});
+export const optionValue: CreateOptionValue = (arg) => ({})

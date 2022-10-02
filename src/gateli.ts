@@ -1,37 +1,60 @@
 import { Command, CommandHandler, searchFromCommands } from '@/command'
-import { Option, searchFromOptions } from '@/option'
+import { Option } from '@/option'
 import { Prompt } from '@/prompt'
 
-type GateliArg = {
-  name: string,
-  description: string,
-  handler: CommandHandler,
-  commands: Command[],
-  options: Option[],
-}
 export class Gateli {
-  name: string;
-  description: string;
-  handler: CommandHandler;
-  commands: Command[];
-  options: Option[];
-  prompt: Prompt;
+  protected _name: string;
+  protected _description: string;
+  protected _handler: CommandHandler;
+  protected _commands: Command[];
+  protected _options: Option[];
+  protected _prompt: Prompt;
 
-  constructor({ name, description, handler, commands, options }: GateliArg) {
-    this.name = name;
-    this.description = description;
-    this.commands = commands;
-    this.options = options;
-    this.prompt = new Prompt();
-    this.handler = handler ?? null;
+  constructor() {
+    this._prompt = new Prompt()
+  }
+
+  name(name: string): this {
+    this._name = name
+    return this
+  }
+
+  description(description: string): this {
+    this._description = description
+    return this
+  }
+
+  commands(commands: Command[]): this {
+    this._commands = commands
+    return this
+  }
+
+  addCommand(command: Command): this {
+    this._commands.push(command)
+    return this
+  }
+
+  options(options: Option[]): this {
+    this._options = options
+    return this
+  }
+
+  addOption(option: Option): this {
+    this._options.push(option)
+    return this
+  }
+
+  handler(handler: CommandHandler): this {
+    this._handler = handler
+    return this
   }
 
   exec() {
-    let args = this.prompt.getArgs()
+    let args = this._prompt.getArgs()
     if (args.length === 0) {
       this.execRootCommand()
     } else {
-      let commands = this.commands;
+      let commands = this._commands;
       for (const word of args) {
         if (this.isCliOption(word)) {
           break;
@@ -40,15 +63,15 @@ export class Gateli {
         if (command === false) {
           console.log('not found')
         } else {
-          command.handler()
+          command.execHandler()
         }
       }
     }
-    this.prompt.close()
+    this._prompt.close()
   }
 
   execRootCommand() {
-    this.handler()
+    this._handler()
   }
 
   isCliOption(value: string): boolean {

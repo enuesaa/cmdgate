@@ -47,15 +47,19 @@ export class Gateli {
   exec() {
     const args = this.prompt.getArgs()
     const stdinArgDict = resoveStdinArgs(args)
-    if (this.commands.length > 0) {
-      const { resolved, command, rest } = matcher(stdinArgDict.positionals, this.commands)
-      if (resolved) {
-        command.execHandler({ positionals: rest, options: stdinArgDict.options })
-        this.prompt.close()
-        return
+    if ('--help' in stdinArgDict.options) {
+      this.execHelp()
+    } else {
+      if (this.commands.length > 0) {
+        const { resolved, command, rest } = matcher(stdinArgDict.positionals, this.commands)
+        if (resolved) {
+          command.execHandler({ positionals: rest, options: stdinArgDict.options })
+          this.prompt.close()
+          return
+        }
       }
+      this.execHandler(stdinArgDict)
     }
-    this.execHandler(stdinArgDict)
     this.prompt.close()
   }
 
@@ -64,7 +68,10 @@ export class Gateli {
     if (handlerarg === false) {
       return false
     }
-    // exec help
     return this.handler(handlerarg)
+  }
+
+  execHelp(): boolean {
+    return this.help.exec()
   }
 }

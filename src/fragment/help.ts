@@ -4,13 +4,13 @@ export type HelpArg = {
 }
 
 export class Help {
-  protected name: string | null
-  protected alias: string | null
-  protected message: string
+  name: string | null
+  alias: string | null
+  message: string
 
   constructor(arg: Partial<HelpArg>) {
     this.name = null
-    this.alias = arg.alias
+    this.alias = arg.alias ?? null
     this.message = arg.message ?? 'help message'
     this._validateAlias()
   }
@@ -25,5 +25,14 @@ export class Help {
   bindName(name: string): Help {
     this.name = name
     return this
+  }
+
+  // isMatch(word: string): boolean {
+  //   return this.name === word || (this.alias !== null && this.alias === word)
+  // }
+
+  exec(): boolean {
+    console.log(this.message)
+    return true
   }
 }

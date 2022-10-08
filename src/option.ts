@@ -1,50 +1,45 @@
-import process from "node:process";
+import process from 'node:process'
+
+export type OptionArg = {
+  description: string
+  alias: string
+  required: boolean
+}
 
 export class Option {
-  protected _name: string | null;
-  protected _description: string;
-  protected _alias: string | null;
-  protected _required: boolean;
+  protected name: string | null
+  protected description: string
+  protected alias: string | null
+  protected required: boolean
 
-  constructor() {
-    this._name = null
+  constructor(arg: Partial<OptionArg>) {
+    this.name = null
+    this.description = arg.description ?? ''
+    this.alias = arg.alias ?? null
+    this.required = arg.required ?? false
+    this._validateAlias()
   }
 
-  name(name: string): this {
-    this._name = name
-    return this
-  }
-
-  description(description: string): this {
-    this._description = description
-    return this
-  }
-
-  alias(alias: string | null): this {
-    if (!alias.startsWith('-')) {
-      console.error(`invalid alias name: ${alias}. alias name should be start with "-" like "-v"`)
+  _validateAlias() {
+    if (this.alias !== null && !this.alias.startsWith('-')) {
+      console.error(`invalid alias name: ${this.alias}. alias name should be start with "-" like "-v"`)
       process.exit(1)
     }
-    this._alias = alias
-    return this
-  }
-
-  required(required: boolean): this {
-    this._required = required
-    return this
   }
 
   bindName(name: string): Option {
-    this._name = name;
+    this.name = name
     return this
   }
 
   isMatch(value: string): boolean {
-    return this._name === value;
+    return this.name === value
   }
 }
 
-
+/**
+ * @deprecated
+ */
 export const searchFromOptions = (options: Option[], value: string): false | Option => {
   for (const option of options) {
     if (option.isMatch(value)) {
@@ -53,4 +48,3 @@ export const searchFromOptions = (options: Option[], value: string): false | Opt
   }
   return false
 }
-

@@ -1,10 +1,10 @@
 import { Command } from '@/command'
 import { Option } from '@/option'
 
-type Classify = (arg: { [key: string]: Command | Option }) => ({ commands: Command[], options: Option[] })
+type Classify = (arg: { [key: string]: Command | Option }) => { commands: Command[]; options: Option[] }
 export const classify: Classify = (arg) => {
-  const commands: Command[] = [];
-  const options: Option[] = [];
+  const commands: Command[] = []
+  const options: Option[] = []
 
   for (const [name, value] of Object.entries(arg)) {
     value.bindName(name)

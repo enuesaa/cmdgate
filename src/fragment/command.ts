@@ -1,17 +1,10 @@
 import { Option } from '@/fragment/option'
 import { classify } from '@/util/classify'
-
-export type HandlerArg = {
-  positionals: string[]
-  options: {
-    [key: string]: string | null
-  }
-}
-export type CommandHandler = (arg: HandlerArg) => boolean
+import { Handler, HandlerArg } from '@/handler'
 
 export type CommandArg = {
   description: string
-  handler: CommandHandler
+  handler: Handler
   gate: {
     [key: string]: Command | Option
   }
@@ -19,14 +12,14 @@ export type CommandArg = {
 export class Command {
   name: null | string
   description: string
-  handler: CommandHandler | null
+  handler: Handler
   commands: Command[]
   options: Option[]
 
   constructor(arg: Partial<CommandArg>) {
     this.name = null
     this.description = arg.description ?? ''
-    this.handler = arg.handler ?? null
+    this.handler = arg.handler ?? ((arg: HandlerArg) => { console.log('default command handler'); return true })
     const { commands, options } = classify(arg.gate ?? {})
     this.commands = commands
     this.options = options
@@ -37,9 +30,8 @@ export class Command {
     return this
   }
 
-  execHandler(arg: HandlerArg) {
-    const handler = this.handler ?? ((arg: HandlerArg) => true)
-    handler(arg)
+  execHandler(arg: HandlerArg): boolean {
+    return this.handler(arg)
   }
 
   isMatch(value: string): boolean {

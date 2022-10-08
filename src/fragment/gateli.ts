@@ -1,14 +1,15 @@
-import { Command, HandlerArg, CommandHandler } from '@/fragment/command'
+import { Command } from '@/fragment/command'
 import { Option } from '@/fragment/option'
 import { Prompt } from '@/prompt'
 import { classify } from '@/util/classify'
 import { matcher } from '@/util/matcher'
 import { resoveStdinArgs } from '@/util/stdinArgs'
+import { Handler, HandlerArg } from '@/handler'
 
 export type GateliArg = {
   name: string
   description: string
-  handler: CommandHandler
+  handler: Handler
   gate: {
     [key: string]: Command | Option
   }
@@ -17,7 +18,7 @@ export type GateliArg = {
 export class Gateli {
   protected name: string
   protected description: string
-  protected handler: CommandHandler | null
+  protected handler: Handler
   protected commands: Command[]
   protected options: Option[]
   protected prompt: Prompt
@@ -26,7 +27,7 @@ export class Gateli {
     this.prompt = new Prompt()
     this.name = arg.name ?? ''
     this.description = arg.description ?? ''
-    this.handler = arg.handler ?? null
+    this.handler = arg.handler ?? ((arg: HandlerArg) => { console.log('default gateli handler'); return true })
     const { commands, options } = classify(arg.gate ?? {})
     this.commands = commands
     this.options = options
@@ -47,9 +48,8 @@ export class Gateli {
     this.prompt.close()
   }
 
-  execHandler(arg: HandlerArg) {
-    const handler = this.handler ?? ((arg: HandlerArg) => true)
-    handler(arg)
+  execHandler(arg: HandlerArg): boolean {
+    return this.handler(arg)
   }
 
   isCliOption(value: string): boolean {

@@ -1,7 +1,8 @@
-import { Command, CommandHandler, searchFromCommands } from '@/fragment/command'
+import { Command, CommandHandler } from '@/fragment/command'
 import { Option } from '@/fragment/option'
 import { Prompt } from '@/prompt'
 import { classify } from '@/util/classify'
+import { matcher } from '@/util/matcher'
 
 export type GateliArg = {
   name: string
@@ -31,28 +32,10 @@ export class Gateli {
   }
 
   exec() {
-    let args = this.prompt.getArgs()
-    if (args.length === 0) {
-      this.execRootCommand()
-    } else {
-      let commands = this.commands
-      for (const word of args) {
-        if (this.isCliOption(word)) {
-          break
-        }
-        const command = searchFromCommands(commands, word)
-        if (command === false) {
-          console.log('not found')
-        } else {
-          command.execHandler()
-        }
-      }
-    }
+    const args = this.prompt.getArgs()
+    const matched = matcher(args)
+    // matched()
     this.prompt.close()
-  }
-
-  execRootCommand() {
-    this.handler()
   }
 
   isCliOption(value: string): boolean {

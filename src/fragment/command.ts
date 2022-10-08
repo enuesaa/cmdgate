@@ -40,15 +40,3 @@ export class Command {
     return this.name === value
   }
 }
-
-/**
- * @deprecated
- */
-export const searchFromCommands = (commands: Command[], value: string): false | Command => {
-  for (const command of commands) {
-    if (command.isMatch(value)) {
-      return command
-    }
-  }
-  return false
-}

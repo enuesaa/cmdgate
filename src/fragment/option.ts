@@ -36,15 +36,3 @@ export class Option {
     return this.name === value
   }
 }
-
-/**
- * @deprecated
- */
-export const searchFromOptions = (options: Option[], value: string): false | Option => {
-  for (const option of options) {
-    if (option.isMatch(value)) {
-      return option
-    }
-  }
-  return false
-}

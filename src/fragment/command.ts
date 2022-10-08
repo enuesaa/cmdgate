@@ -1,16 +1,21 @@
 import { Option } from '@/fragment/option'
 import { classify } from '@/util/classify'
 
-export type CommandHandler = () => {}
+export type HandlerArg = {
+  positionals: string[]
+  options: {
+    [key: string]: string | null
+  }
+}
+export type CommandHandler = (arg: HandlerArg) => boolean
 
 export type CommandArg = {
   description: string
-  handler: CommandHandler | null
+  handler: CommandHandler
   gate: {
     [key: string]: Command | Option
   }
 }
-
 export class Command {
   name: null | string
   description: string
@@ -32,8 +37,9 @@ export class Command {
     return this
   }
 
-  execHandler() {
-    this.handler()
+  execHandler(arg: HandlerArg) {
+    const handler = this.handler ?? ((arg: HandlerArg) => true)
+    handler(arg)
   }
 
   isMatch(value: string): boolean {

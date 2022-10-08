@@ -3,12 +3,13 @@ import { gateli, command, option, help, positional1, positional2, positionals } 
 gateli({
   name: 'a',
   description: 'b',
-  handler: () => { console.log('a'); return {} },
+  handler: () => { console.log('a'); return true },
   gate: {
     add: command({
-      handler: () => {
-        console.log('b')
-        return {}
+      handler: (arg) => {
+        console.log(arg)
+        console.log('add')
+        return true
       }
     })
   }

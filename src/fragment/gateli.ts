@@ -1,4 +1,4 @@
-import { Command, CommandHandler } from '@/fragment/command'
+import { Command, HandlerArg, CommandHandler } from '@/fragment/command'
 import { Option } from '@/fragment/option'
 import { Prompt } from '@/prompt'
 import { classify } from '@/util/classify'
@@ -38,19 +38,18 @@ export class Gateli {
     if (this.commands.length > 0) {
       const {resolved, command, rest} = matcher(stdinArgDict.positionals, this.commands)
       if (resolved) {
-        command.execHandler() // rest, options
-      } else {
-        this.execHandler()
+        command.execHandler({positionals: rest, options: stdinArgDict.options})
+        this.prompt.close()
+        return;
       }
-    } else {
-      this.execHandler()
     }
+    this.execHandler(stdinArgDict)
     this.prompt.close()
   }
 
-  execHandler() {
-    const handler = this.handler ?? (() => ({}))
-    handler()
+  execHandler(arg: HandlerArg) {
+    const handler = this.handler ?? ((arg: HandlerArg) => true)
+    handler(arg)
   }
 
   isCliOption(value: string): boolean {

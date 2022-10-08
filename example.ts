@@ -61,7 +61,7 @@ gateli({
         }),
       },
     }),
-    // '--help': help({ alias: '-h' }),
+    '--help': help({ alias: '-h' }),
   }
 })
 .exec()

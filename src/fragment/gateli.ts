@@ -3,6 +3,7 @@ import { Option } from '@/fragment/option'
 import { Prompt } from '@/prompt'
 import { classify } from '@/util/classify'
 import { matcher } from '@/util/matcher'
+import { resoveStdinArgs } from '@/util/stdinArgs'
 
 export type GateliArg = {
   name: string
@@ -33,9 +34,23 @@ export class Gateli {
 
   exec() {
     const args = this.prompt.getArgs()
-    const matched = matcher(args)
-    // matched()
+    const stdinArgDict = resoveStdinArgs(args)
+    if (this.commands.length > 0) {
+      const {resolved, command, rest} = matcher(stdinArgDict.positionals, this.commands)
+      if (resolved) {
+        command.execHandler() // rest, options
+      } else {
+        this.execHandler()
+      }
+    } else {
+      this.execHandler()
+    }
     this.prompt.close()
+  }
+
+  execHandler() {
+    const handler = this.handler ?? (() => ({}))
+    handler()
   }
 
   isCliOption(value: string): boolean {

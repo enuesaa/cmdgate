@@ -12,11 +12,11 @@ export type CommandArg = {
 }
 
 export class Command {
-  protected name: null | string
-  protected description: string
-  protected handler: CommandHandler
-  protected commands: Command[]
-  protected options: Option[]
+  name: null | string
+  description: string
+  handler: CommandHandler | null
+  commands: Command[]
+  options: Option[]
 
   constructor(arg: Partial<CommandArg>) {
     this.name = null

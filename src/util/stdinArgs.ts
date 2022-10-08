@@ -1,4 +1,4 @@
-type StdinArgDict = {
+export type StdinArgDict = {
   positionals: string[]
   options: {
     [key: string]: string | null

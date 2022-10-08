@@ -23,7 +23,12 @@ export class Command {
   constructor(arg: Partial<CommandArg>) {
     this.name = null
     this.description = arg.description ?? ''
-    this.handler = arg.handler ?? ((arg: HandlerArg) => { console.log('default command handler'); return true })
+    this.handler =
+      arg.handler ??
+      ((arg: HandlerArg) => {
+        console.log('default command handler')
+        return true
+      })
     const { commands, options, positionals, help } = classify(arg.gate ?? {})
     this.commands = commands
     this.options = options
@@ -36,8 +41,8 @@ export class Command {
     return this
   }
 
-  execHandler(arg: {positionals: string[], options: Record<string, string|null>}): boolean {
-    const handlerarg = resolveHandlerArg({positionals: this.positionals, options: this.options}, arg)
+  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }): boolean {
+    const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
     if (handlerarg === false) {
       return false
     }

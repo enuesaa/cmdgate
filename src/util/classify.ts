@@ -3,12 +3,17 @@ import { Help } from '@/fragment/help'
 import { Option } from '@/fragment/option'
 import { Positional } from '@/fragment/positional'
 
-type Classify = (arg: { [key: string]: Command | Option | Positional | Help }) => { commands: Command[]; options: Option[], positionals: Positional[], help: Help|null }
+type Classify = (arg: { [key: string]: Command | Option | Positional | Help }) => {
+  commands: Command[]
+  options: Option[]
+  positionals: Positional[]
+  help: Help | null
+}
 export const classify: Classify = (arg) => {
   const commands: Command[] = []
   const options: Option[] = []
   const positionals: Positional[] = []
-  let help: Help|null = null
+  let help: Help | null = null
 
   for (const [name, value] of Object.entries(arg)) {
     value.bindName(name)

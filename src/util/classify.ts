@@ -1,5 +1,5 @@
-import { Command } from '@/command'
-import { Option } from '@/option'
+import { Command } from '@/fragment/command'
+import { Option } from '@/fragment/option'
 
 type Classify = (arg: { [key: string]: Command | Option }) => { commands: Command[]; options: Option[] }
 export const classify: Classify = (arg) => {

@@ -1,6 +1,6 @@
-import { Gateli, GateliArg } from '@/gateli'
-import { Command, CommandArg } from '@/command'
-import { Option, OptionArg } from '@/option'
+import { Gateli, GateliArg } from '@/fragment/gateli'
+import { Command, CommandArg } from '@/fragment/command'
+import { Option, OptionArg } from '@/fragment/option'
 
 export const gateli = (arg: Partial<GateliArg>) => new Gateli(arg)
 export const command = (arg: Partial<CommandArg>) => new Command(arg)

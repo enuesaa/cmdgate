@@ -1,4 +1,4 @@
-import { Option } from '@/option'
+import { Option } from '@/fragment/option'
 import { classify } from '@/util/classify'
 
 export type CommandHandler = () => {}

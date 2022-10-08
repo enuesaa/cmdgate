@@ -1,5 +1,5 @@
-import { Command, CommandHandler, searchFromCommands } from '@/command'
-import { Option } from '@/option'
+import { Command, CommandHandler, searchFromCommands } from '@/fragment/command'
+import { Option } from '@/fragment/option'
 import { Prompt } from '@/prompt'
 import { classify } from '@/util/classify'
 

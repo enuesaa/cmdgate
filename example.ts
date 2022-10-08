@@ -7,15 +7,19 @@ gateli({
 
     'version': command({
       handler: (arg) => {
+        console.log(arg)
         console.log('version: 0.1.0')
         return true
+      },
+      gate: {
+        'name': positional1({})
       }
     }),
 
     'init': command({
-      // gate: {
-      //   'name': positional1()
-      // }
+      gate: {
+        'name': positional1({})
+      }
     }),
 
     'add': command({

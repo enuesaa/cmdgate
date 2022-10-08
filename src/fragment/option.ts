@@ -7,10 +7,10 @@ export type OptionArg = {
 }
 
 export class Option {
-  protected name: string | null
-  protected description: string
-  protected alias: string | null
-  protected required: boolean
+  name: string | null
+  description: string
+  alias: string | null
+  required: boolean
 
   constructor(arg: Partial<OptionArg>) {
     this.name = null
@@ -30,9 +30,5 @@ export class Option {
   bindName(name: string): Option {
     this.name = name
     return this
-  }
-
-  isMatch(value: string): boolean {
-    return this.name === value
   }
 }

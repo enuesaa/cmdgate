@@ -1,4 +1,4 @@
-import { gateli, command, option, help, positional1, positional2, positionalArgs, optionValue } from './src/index'
+import { gateli, command, option, help, positional1, positional2, positionals } from './src/index'
 
 gateli({
   name: 'a',
@@ -53,7 +53,7 @@ gateli({
 //         }),
 //       },
 //     }),
-//     '--help': help({ alias: '-h', global: true }),
+//     '--help': help({ alias: '-h' }),
 //   }
 // })
 // .exec()

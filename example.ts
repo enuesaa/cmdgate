@@ -7,8 +7,14 @@ gateli({
 
     'version': command({
       handler: (arg) => {
-        console.log(arg)
         console.log('version: 0.1.0')
+        return true
+      },
+    }),
+
+    'init': command({
+      handler: (arg) => {
+        console.log(arg.name)
         return true
       },
       gate: {
@@ -16,43 +22,45 @@ gateli({
       }
     }),
 
-    'init': command({
+    'add': command({
+      handler: (arg) => {
+        console.log(arg)
+        return true
+      },
       gate: {
-        'name': positional1({})
+        'name': positional1({}),
+        '--dev': option({}),
       }
     }),
 
-    'add': command({
-      // gate: {
-      //   'name': positional1(),
-      //   '--dev': option(),       
-      // }
-    }),
-
     'remove': command({
-      // gate: {
-      //   name: positional1(),
-      // },
+      gate: {
+        name: positional1({}),
+      },
     }),
 
-    // 'upgrade': command(),
-    // 'run': command(),
-    // 'search': command({
-    //   gate: {
-    //     'name': positional1(),
-    //   },
-    // }),
-    // 'plguins': command({
-    //   gate: {
-    //     'add': command(),
-    //     'remove': command(),
-    //     'search': command({
-    //       gate: {
-    //         'name': positional1(),
-    //       },
-    //     }),
-    //   },
-    // }),
+    'upgrade': command({}),
+    'run': command({}),
+    'search': command({
+      gate: {
+        'name': positional1({}),
+      },
+    }),
+    'plugins': command({
+      gate: {
+        'add': command({}),
+        'remove': command({}),
+        'search': command({
+          handler: (arg) => {
+            console.log(`search plugin: ${arg.name}`)
+            return true
+          },
+          gate: {
+            'name': positional1({}),
+          },
+        }),
+      },
+    }),
     // '--help': help({ alias: '-h' }),
   }
 })

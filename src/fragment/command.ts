@@ -1,6 +1,6 @@
 import { Option } from '@/fragment/option'
 import { classify } from '@/util/classify'
-import { Handler, HandlerArg } from '@/handler'
+import { Handler, HandlerArg, resolveHandlerArg } from '@/handler'
 import { Positional } from '@/fragment/positional'
 
 export type CommandArg = {
@@ -34,23 +34,9 @@ export class Command {
   }
 
   execHandler(arg: {positionals: string[], options: Record<string, string|null>}): boolean {
-    const handlerarg = {}
-    if (this.positionals.length > 0) {
-      for (const positional of this.positionals) {
-        handlerarg[positional.name] = arg.positionals[positional.position - 1]
-      }
-    } else if (arg.positionals.length > 0) {
-      console.error('invalid positional argument');
+    const handlerarg = resolveHandlerArg({positionals: this.positionals, options: this.options}, arg)
+    if (handlerarg === false) {
       return false
-    }
-    for (const option of this.options) {
-      if (arg.options.hasOwnProperty(option.name)) {
-        handlerarg[option.name] = arg.options[option.name]
-      } else if (arg.options.hasOwnProperty(option.alias)) {
-        handlerarg[option.name] = arg.options[option.alias]
-      } else {
-        handlerarg[option.name] = null
-      }
     }
     return this.handler(handlerarg)
   }

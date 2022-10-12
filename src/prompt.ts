@@ -3,6 +3,7 @@ import { promises as readline } from 'node:readline'
 
 export class Prompt {
   readline: readline.Interface
+  args: string[]
 
   constructor() {
     this.readline = readline.createInterface({
@@ -11,8 +12,17 @@ export class Prompt {
     })
   }
 
+  setArgs(args: string[] | null): void {
+    if (args !== null) {
+      this.args = args
+    } else {
+      this.args = process.argv.slice(2) // hide bin
+    }
+  }
+
   getArgs(): string[] {
-    return process.argv.slice(2) // hide bin
+    this.setArgs(null)
+    return this.args
   }
 
   async question(value: string): Promise<string> {

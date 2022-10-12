@@ -1,0 +1,9 @@
+{
+  "preset": "ts-jest",
+  "transform": {
+    "^.+\\.ts$": ["ts-jest", {"tsConfig": "tsconfig.json"}]
+  },
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/src/$1"
+  }
+}

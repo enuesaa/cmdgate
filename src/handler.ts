@@ -1,10 +1,11 @@
 import { Option } from './fragment/option'
 import { Positional } from './fragment/positional'
+import { Prompt } from '@/prompt'
 
 export type HandlerArg = {
-  [key: string]: string | null
+  [key: string]: string | null,
 }
-export type Handler = (arg: HandlerArg) => boolean
+export type Handler = (arg: HandlerArg, prompt: Prompt) => boolean
 
 export const resolveHandlerArg = (
   def: { positionals: Positional[]; options: Option[] },

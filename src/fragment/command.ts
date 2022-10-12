@@ -3,6 +3,7 @@ import { classify } from '@/util/classify'
 import { Handler, HandlerArg, resolveHandlerArg } from '@/handler'
 import { Positional } from '@/fragment/positional'
 import { Help } from '@/fragment/help'
+import { Prompt } from '@/prompt'
 
 export type CommandArg = {
   description: string
@@ -41,12 +42,12 @@ export class Command {
     return this
   }
 
-  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }): boolean {
+  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }, prompt: Prompt): boolean {
     const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
     if (handlerarg === false) {
       return false
     }
-    return this.handler(handlerarg)
+    return this.handler(handlerarg, prompt)
   }
 
   isMatch(value: string): boolean {

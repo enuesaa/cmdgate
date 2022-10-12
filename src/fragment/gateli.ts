@@ -53,7 +53,7 @@ export class Gateli {
       if (this.commands.length > 0) {
         const { resolved, command, rest } = matcher(stdinArgDict.positionals, this.commands)
         if (resolved) {
-          command.execHandler({ positionals: rest, options: stdinArgDict.options })
+          command.execHandler({ positionals: rest, options: stdinArgDict.options }, this.prompt)
           this.prompt.close()
           return
         }
@@ -68,7 +68,7 @@ export class Gateli {
     if (handlerarg === false) {
       return false
     }
-    return this.handler(handlerarg)
+    return this.handler(handlerarg, this.prompt)
   }
 
   execHelp(): boolean {

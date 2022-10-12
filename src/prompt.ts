@@ -19,7 +19,7 @@ export class Prompt {
     return await this.readline.question(value)
   }
 
-  println(value: string): void {
+  write(value: string): void {
     this.readline.write(`${value}\n`)
   }
 

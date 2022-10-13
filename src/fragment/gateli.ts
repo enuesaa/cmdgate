@@ -44,11 +44,6 @@ export class Gateli {
     this.help = help ?? new Help({})
   }
 
-  setArgs(args: string[]): this {
-    this.prompt.setArgs(args)
-    return this
-  }
-
   exec() {
     const args = this.prompt.getArgs()
     const stdinArgDict = resoveStdinArgs(args)

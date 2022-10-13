@@ -12,17 +12,8 @@ export class Prompt {
     })
   }
 
-  setArgs(args: string[] | null): void {
-    if (args !== null) {
-      this.args = args
-    } else {
-      this.args = process.argv.slice(2) // hide bin
-    }
-  }
-
   getArgs(): string[] {
-    this.setArgs(null)
-    return this.args
+    return process.argv.slice(2) // hide bin
   }
 
   async question(value: string): Promise<string> {

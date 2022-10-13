@@ -1,3 +1,5 @@
+import { generateHelpMessage } from "@/util/help_message"
+
 export type HelpArg = {
   alias: string
   message: string
@@ -11,7 +13,7 @@ export class Help {
   constructor(arg: Partial<HelpArg>) {
     this.name = null
     this.alias = arg.alias ?? null
-    this.message = arg.message ?? 'help message'
+    this.message = arg.message ?? generateHelpMessage()
     this._validateAlias()
   }
 
@@ -26,10 +28,6 @@ export class Help {
     this.name = name
     return this
   }
-
-  // isMatch(word: string): boolean {
-  //   return this.name === word || (this.alias !== null && this.alias === word)
-  // }
 
   exec(): boolean {
     console.log(this.message)

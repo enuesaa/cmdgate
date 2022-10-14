@@ -12,7 +12,7 @@ gateli({
 
     'init': command({
       handler: (handle) => {
-        handle.prompt.write(JSON.stringify(handle.arg))
+        handle.prompt.write(JSON.stringify(handle.args))
       },
       gate: {
         'name': positional1()
@@ -21,7 +21,7 @@ gateli({
 
     'add': command({
       handler: (handle) => {
-        handle.prompt.write(JSON.stringify(handle.arg))
+        handle.prompt.write(JSON.stringify(handle.args))
       },
       gate: {
         'name': positional1(),

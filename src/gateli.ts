@@ -37,6 +37,14 @@ export class Gateli {
     this.options = options
     this.positionals = positionals
     this.help = help ?? new Help({})
+    if (this.help.message === null) {
+      this.help.setDefaultHelpMessage({
+        commands: this.commands,
+        options: this.options,
+        description: this.description,
+        name: this.name,
+      })
+    }
   }
 
   exec() {

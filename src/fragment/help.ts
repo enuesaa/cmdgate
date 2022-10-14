@@ -1,3 +1,6 @@
+import { Option } from '@/fragment/option'
+import { Command } from '@/fragment/command'
+
 export type HelpArg = {
   alias: string
   message: string
@@ -6,17 +9,24 @@ export type HelpArg = {
 export class Help {
   name: string | null
   alias: string | null
-  message: string
+  message: string | null
 
   constructor(arg: Partial<HelpArg>) {
     this.name = null
     this.alias = arg.alias ?? null
-    this.message = arg.message ?? this.generateHelpMessage()
+    this.message = arg.message ?? null
     this._validateAlias()
   }
 
-  generateHelpMessage(): string {
-    return 'help message'
+  setDefaultHelpMessage({ commands, options, description, name }: {commands: Command[], options: Option[], description: string, name: string}): void {
+    this.message = `${name}
+${description}
+
+commands:
+${commands.map(v => '  ' + v.name + '\n').join('')}
+options:
+${options.map(v => '  ' + v.name + '\n').join('')}
+`
   }
 
   _validateAlias() {

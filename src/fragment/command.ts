@@ -1,6 +1,6 @@
 import { Option } from '@/fragment/option'
 import { classify } from '@/util/classify'
-import { Handler, HandlerArg, resolveHandlerArg } from '@/handler'
+import { Handler, Handle, resolveHandlerArg } from '@/handler'
 import { Positional } from '@/fragment/positional'
 import { Help } from '@/fragment/help'
 import { Prompt } from '@/prompt'
@@ -26,7 +26,7 @@ export class Command {
     this.description = arg.description ?? ''
     this.handler =
       arg.handler ??
-      ((arg: HandlerArg) => {
+      ((arg: Handle) => {
         console.log('default command handler')
         return true
       })
@@ -42,12 +42,11 @@ export class Command {
     return this
   }
 
-  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }, prompt: Prompt): boolean {
+  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }, prompt: Prompt): void {
     const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
-    if (handlerarg === false) {
-      return false
+    if (handlerarg !== false) {
+      this.handler({args: handlerarg, prompt: prompt})
     }
-    return this.handler(handlerarg, prompt)
   }
 
   isMatch(value: string): boolean {

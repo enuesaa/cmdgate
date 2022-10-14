@@ -2,15 +2,18 @@ import { Option } from './fragment/option'
 import { Positional } from './fragment/positional'
 import { Prompt } from '@/prompt'
 
-export type HandlerArg = {
-  [key: string]: string | null,
+export type Handle = {
+  args: {
+    [key: string]: string | null,
+  },
+  prompt: Prompt,
 }
-export type Handler = (arg: HandlerArg, prompt: Prompt) => boolean
+export type Handler = (handle: Handle) => void;
 
 export const resolveHandlerArg = (
   def: { positionals: Positional[]; options: Option[] },
   arg: { positionals: string[]; options: Record<string, string | null> }
-): HandlerArg | false => {
+): {[key: string]: string | null} | false => {
   const handlerarg = {}
 
   if (def.positionals.length > 0) {

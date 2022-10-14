@@ -17,8 +17,8 @@ describe('root command', () => {
     process.argv = ['node', 'jest']
 
     gateli({
-      handler: (arg, prompt) => {
-        prompt.write('a')
+      handler: (handle) => {
+        handle.prompt.write('a')
         return true
       }
     })

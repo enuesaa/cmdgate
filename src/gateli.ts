@@ -4,7 +4,7 @@ import { Prompt } from '@/prompt'
 import { classify } from '@/util/classify'
 import { matcher } from '@/util/matcher'
 import { resoveStdinArgs } from '@/util/processArgs'
-import { Handler, HandlerArg, resolveHandlerArg } from '@/handler'
+import { Handler, Handle, resolveHandlerArg } from '@/handler'
 import { Positional } from '@/fragment/positional'
 import { Help } from '@/fragment/help'
 
@@ -31,7 +31,7 @@ export class Gateli {
     this.prompt = new Prompt()
     this.name = arg.name ?? ''
     this.description = arg.description ?? ''
-    this.handler = arg.handler ?? ((arg: HandlerArg) => this.execHelp())
+    this.handler = arg.handler ?? ((handle: Handle) => {this.execHelp()})
     const { commands, options, positionals, help } = classify(arg.gate ?? {})
     this.commands = commands
     this.options = options
@@ -66,12 +66,11 @@ export class Gateli {
     this.prompt.close()
   }
 
-  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }): boolean {
+  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }): void {
     const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
-    if (handlerarg === false) {
-      return false
+    if (handlerarg !== false) {
+      this.handler({args: handlerarg, prompt: this.prompt})
     }
-    return this.handler(handlerarg, this.prompt)
   }
 
   execHelp(): boolean {

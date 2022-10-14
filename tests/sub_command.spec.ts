@@ -19,8 +19,8 @@ describe('sub command', () => {
     gateli({
       gate: {
         aaa: command({
-          handler: (arg, prompt) => {
-            prompt.write('subcommand output')
+          handler: (handle) => {
+            handle.prompt.write('subcommand output')
             return true
           }
         })

@@ -19,8 +19,8 @@ describe('handler args', () => {
     gateli({
       gate: {
         aaa: command({
-          handler: (arg, prompt) => {
-            prompt.write(JSON.stringify(arg))
+          handler: (handle) => {
+            handle.prompt.write(JSON.stringify(handle.arg))
             return true
           },
           gate: {

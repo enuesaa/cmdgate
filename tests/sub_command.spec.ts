@@ -1,4 +1,4 @@
-import { gateli, command } from '../src/index'
+import { cli, command } from '../src/index'
 import process from 'node:process'
 import { createMockReadline, writeValue } from './mock/readline'
 
@@ -16,12 +16,11 @@ describe('sub command', () => {
   it('sub command handler', () => {
     process.argv = ['node', 'jest', 'aaa']
 
-    gateli({
+    cli({
       gate: {
         aaa: command({
-          handler: (handle) => {
-            handle.prompt.write('subcommand output')
-            return true
+          handler: ({ prompt }) => {
+            prompt.println('subcommand output')
           }
         })
       },

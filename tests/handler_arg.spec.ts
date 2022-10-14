@@ -1,4 +1,4 @@
-import { gateli, command, option } from '../src/index'
+import { cli, command, option } from '../src/index'
 import { createMockReadline, writeValue } from './mock/readline'
 import process from 'node:process'
 
@@ -16,12 +16,11 @@ describe('handler args', () => {
   it('sub command handler arg', () => {
     process.argv = ['node', 'jest', 'aaa', '--name', 'vkhbjnkm']
 
-    gateli({
+    cli({
       gate: {
         aaa: command({
-          handler: (handle) => {
-            handle.prompt.write(JSON.stringify(handle.arg))
-            return true
+          handler: ({ args, prompt }) => {
+            prompt.println(args)
           },
           gate: {
             '--name': option({})

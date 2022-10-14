@@ -15,7 +15,7 @@ gateli({
 
     'init': command({
       handler: (arg, prompt: Prompt) => {
-        prompt.write(arg.name)
+        prompt.write(JSON.stringify(arg))
         return true
       },
       gate: {

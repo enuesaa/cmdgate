@@ -1,22 +1,19 @@
-import { gateli, command, option, help, positional1, positional2, positionals } from '@/index'
-import { Prompt } from '@/prompt'
+import { gateli, command, option, help, positional1 } from '../src/index'
+import { Prompt } from '../src/prompt'
 
 gateli({
-  name: 'example-package-manager',
-  description: 'example-package-manager cli',
+  name: 'package-manager',
+  description: 'package-manager cli',
   gate: {
-
     'version': command({
       handler: (arg, prompt: Prompt) => {
         prompt.write('version: 0.1.0')
-        return true
       },
     }),
 
     'init': command({
       handler: (arg, prompt: Prompt) => {
         prompt.write(JSON.stringify(arg))
-        return true
       },
       gate: {
         'name': positional1({})
@@ -26,7 +23,6 @@ gateli({
     'add': command({
       handler: (arg, prompt: Prompt) => {
         prompt.write(JSON.stringify(arg))
-        return true
       },
       gate: {
         'name': positional1({}),
@@ -54,7 +50,6 @@ gateli({
         'search': command({
           handler: (arg, prompt: Prompt) => {
             prompt.write(`search plugin: ${arg.name}`)
-            return true
           },
           gate: {
             'name': positional1({}),

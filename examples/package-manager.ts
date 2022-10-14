@@ -1,6 +1,6 @@
-import { gateli, command, option, help, positional1 } from '../src/index'
+import { cli, command, option, help, positional1 } from '../src/index'
 
-gateli({
+cli({
   name: 'package-manager',
   description: 'package manager cli',
   gate: {
@@ -11,22 +11,22 @@ gateli({
     }),
 
     'init': command({
+      gate: {
+        'name': positional1()
+      },
       handler: (handle) => {
         handle.prompt.write(JSON.stringify(handle.args))
       },
-      gate: {
-        'name': positional1()
-      }
     }),
 
     'add': command({
-      handler: (handle) => {
-        handle.prompt.write(JSON.stringify(handle.args))
-      },
       gate: {
         'name': positional1(),
         '--dev': option(),
-      }
+      },
+      handler: (handle) => {
+        handle.prompt.write(JSON.stringify(handle.args))
+      },
     }),
 
     'remove': command({

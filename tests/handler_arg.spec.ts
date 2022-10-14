@@ -30,6 +30,6 @@ describe('handler args', () => {
     })
     .exec()
 
-    expect(writeValue).toMatch('{"--name":"vkhbjnkm"}')
+    expect(writeValue).toMatch("{ '--name': 'vkhbjnkm' }\n")
   })
 })

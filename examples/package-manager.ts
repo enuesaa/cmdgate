@@ -16,7 +16,7 @@ gateli({
         prompt.write(JSON.stringify(arg))
       },
       gate: {
-        'name': positional1({})
+        'name': positional1()
       }
     }),
 
@@ -25,34 +25,34 @@ gateli({
         prompt.write(JSON.stringify(arg))
       },
       gate: {
-        'name': positional1({}),
-        '--dev': option({}),
+        'name': positional1(),
+        '--dev': option(),
       }
     }),
 
     'remove': command({
       gate: {
-        name: positional1({}),
+        name: positional1(),
       },
     }),
 
-    'upgrade': command({}),
-    'run': command({}),
+    'upgrade': command(),
+    'run': command(),
     'search': command({
       gate: {
-        'name': positional1({}),
+        'name': positional1(),
       },
     }),
     'plugins': command({
       gate: {
-        'add': command({}),
-        'remove': command({}),
+        'add': command(),
+        'remove': command(),
         'search': command({
           handler: (arg, prompt: Prompt) => {
             prompt.write(`search plugin: ${arg.name}`)
           },
           gate: {
-            'name': positional1({}),
+            'name': positional1(),
           },
         }),
       },

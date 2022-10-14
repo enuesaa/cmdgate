@@ -5,8 +5,8 @@ cli({
   description: 'package manager cli',
   gate: {
     'version': command({
-      handler: (handle) => {
-        handle.prompt.write('version: 0.1.0')
+      handler: ({ prompt }) => {
+        prompt.println('version: 0.1.0')
       },
     }),
 
@@ -14,8 +14,8 @@ cli({
       gate: {
         'name': positional1()
       },
-      handler: (handle) => {
-        handle.prompt.write(JSON.stringify(handle.args))
+      handler: ({ args, prompt }) => {
+        prompt.println(args)
       },
     }),
 
@@ -24,8 +24,8 @@ cli({
         'name': positional1(),
         '--dev': option(),
       },
-      handler: (handle) => {
-        handle.prompt.write(JSON.stringify(handle.args))
+      handler: ({ args, prompt }) => {
+        prompt.println(args)
       },
     }),
 

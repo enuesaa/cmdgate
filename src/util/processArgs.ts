@@ -1,12 +1,12 @@
-export type StdinArgDict = {
+export type ProcessArgDict = {
   positionals: string[]
   options: {
     [key: string]: string | null
   }
 }
 
-export const resoveStdinArgs = (stdinArgs: string[]): StdinArgDict => {
-  const dict: StdinArgDict = { positionals: [], options: {} }
+export const resoveStdinArgs = (stdinArgs: string[]): ProcessArgDict => {
+  const dict: ProcessArgDict = { positionals: [], options: {} }
 
   let optionKey: string | null = null
   for (const word of stdinArgs) {

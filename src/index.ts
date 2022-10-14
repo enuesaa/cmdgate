@@ -1,4 +1,4 @@
-import { Gateli, GateliArg } from '@/fragment/gateli'
+import { Gateli, GateliArg } from '@/gateli'
 import { Command, CommandArg } from '@/fragment/command'
 import { Option, OptionArg } from '@/fragment/option'
 import { Help, HelpArg } from '@/fragment/help'

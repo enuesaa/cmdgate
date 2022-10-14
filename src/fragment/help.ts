@@ -1,5 +1,3 @@
-import { generateHelpMessage } from "@/util/help_message"
-
 export type HelpArg = {
   alias: string
   message: string
@@ -13,8 +11,12 @@ export class Help {
   constructor(arg: Partial<HelpArg>) {
     this.name = null
     this.alias = arg.alias ?? null
-    this.message = arg.message ?? generateHelpMessage()
+    this.message = arg.message ?? this.generateHelpMessage()
     this._validateAlias()
+  }
+
+  generateHelpMessage(): string {
+    return 'help message'
   }
 
   _validateAlias() {

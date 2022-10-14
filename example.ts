@@ -1,4 +1,5 @@
 import { gateli, command, option, help, positional1, positional2, positionals } from '@/index'
+import { Prompt } from '@/prompt'
 
 gateli({
   name: 'example-package-manager',
@@ -6,15 +7,15 @@ gateli({
   gate: {
 
     'version': command({
-      handler: (arg) => {
-        console.log('version: 0.1.0')
+      handler: (arg, prompt: Prompt) => {
+        prompt.write('version: 0.1.0')
         return true
       },
     }),
 
     'init': command({
-      handler: (arg) => {
-        console.log(arg.name)
+      handler: (arg, prompt: Prompt) => {
+        prompt.write(arg.name)
         return true
       },
       gate: {
@@ -23,8 +24,8 @@ gateli({
     }),
 
     'add': command({
-      handler: (arg) => {
-        console.log(arg)
+      handler: (arg, prompt: Prompt) => {
+        prompt.write(JSON.stringify(arg))
         return true
       },
       gate: {
@@ -51,8 +52,8 @@ gateli({
         'add': command({}),
         'remove': command({}),
         'search': command({
-          handler: (arg) => {
-            console.log(`search plugin: ${arg.name}`)
+          handler: (arg, prompt: Prompt) => {
+            prompt.write(`search plugin: ${arg.name}`)
             return true
           },
           gate: {

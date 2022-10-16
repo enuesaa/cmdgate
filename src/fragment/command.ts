@@ -2,54 +2,45 @@ import { Option } from '@/fragment/option'
 import { classify } from '@/util/classify'
 import { Handler, Handle, resolveHandlerArg } from '@/handler'
 import { Positional } from '@/fragment/positional'
-import { Help } from '@/fragment/help'
 import { Prompt } from '@/prompt'
+import { HelpOption } from '@/fragment/help-option'
+import { VersionOption } from '@/fragment/version-option'
 
-export type CommandArg = {
+export type CommandConfig = {
+  usage: string
   description: string
+  param: {
+    [key: string]: Option | HelpOption | VersionOption | Positional
+  },
   handler: Handler
-  gate: {
-    [key: string]: Command | Option | Positional | Help
-  }
 }
 export class Command {
-  name: null | string
+  route: string
+  usage: string
   description: string
   handler: Handler
-  commands: Command[]
   options: Option[]
   positionals: Positional[]
-  help: Help
 
-  constructor(arg: Partial<CommandArg>) {
-    this.name = null
-    this.description = arg.description ?? ''
+  constructor(route: string, config: Partial<CommandConfig>) {
+    this.route = route
+    this.usage = config.usage ?? ''
+    this.description = config.description ?? ''
     this.handler =
-      arg.handler ??
+      config.handler ??
       ((arg: Handle) => {
         console.log('default command handler')
         return true
       })
-    const { commands, options, positionals, help } = classify(arg.gate ?? {})
-    this.commands = commands
+    const { options, positionals } = classify(config.param ?? {})
     this.options = options
     this.positionals = positionals
-    this.help = help ?? new Help({})
   }
 
-  bindName(name: string): Command {
-    this.name = name
-    return this
-  }
-
-  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }, prompt: Prompt): void {
+  execHandler(arg: { options: Record<string, string | null> }, prompt: Prompt): void {
     const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
     if (handlerarg !== false) {
       this.handler({args: handlerarg, prompt: prompt})
     }
-  }
-
-  isMatch(value: string): boolean {
-    return this.name === value
   }
 }

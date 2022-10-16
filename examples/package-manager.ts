@@ -1,6 +1,6 @@
-import { cli, command, option, positional1, helpOption, versionOption } from '@/a'
+import { gateli, command, option, positional1, helpOption, versionOption } from '../src/index'
 
-cli({
+gateli({
   name: 'package-manager',
   description: 'package manager cli',
   version: '0.1.0',
@@ -10,13 +10,13 @@ cli({
     }),
     command('plugin view', {
       param: {
-        name: positional1('name', { required: true }),
+        name: positional1({ required: true }),
       },
       handler: ({ prompt }) => {},
     }),
     command('plugin add', {
       param: {
-        name: positional1('name', { required: true }),
+        name: positional1({ required: true }),
         isDev: option('--dev', { alias: '-d' }),
       },
       handler: ({ prompt }) => {},
@@ -37,3 +37,4 @@ cli({
     }),
   ],
 })
+.exec()

@@ -1,25 +1,26 @@
-import { Gateli, GateliArg } from '@/gateli'
-import { Command, CommandArg } from '@/fragment/command'
-import { Option, OptionArg } from '@/fragment/option'
-import { Help, HelpArg } from '@/fragment/help'
-import { Positional, PositionalArg } from '@/fragment/positional'
+import { Gateli, GateliConfig } from '@/gateli'
+import { Command, CommandConfig } from '@/fragment/command'
+import { Option, OptionConfig } from '@/fragment/option'
+import { HelpOption, HelpOptionConfig } from '@/fragment/help-option'
+import { VersionOption, VersionOptionConfig } from '@/fragment/version-option'
+import { Positional, PositionalConfig } from '@/fragment/positional'
 
-export const cli = (arg?: Partial<GateliArg>) => new Gateli(arg ?? {})
-export const command = (arg?: Partial<CommandArg>) => new Command(arg ?? {})
-export const option = (arg?: Partial<OptionArg>) => new Option(arg ?? {})
-export const help = (arg?: Partial<HelpArg>) => new Help(arg ?? {})
-export const positional1 = (arg?: Partial<PositionalArg>) => new Positional(1, arg ?? {})
-export const positional2 = (arg?: Partial<PositionalArg>) => new Positional(2, arg ?? {})
-export const positionals = (arg?: Partial<PositionalArg>) => new Positional(null, arg ?? {})
+export const gateli = (config?: Partial<GateliConfig>) => new Gateli(config ?? {})
+export const command = (route: string, config?: Partial<CommandConfig>) => new Command(route, config ?? {})
+export const option = (name: string, config?: Partial<OptionConfig>) => new Option(name, config ?? {})
+export const helpOption = (name: string, config?: Partial<HelpOptionConfig>) => new HelpOption(name, config ?? {})
+export const versionOption = (name: string, config?: Partial<VersionOptionConfig>) => new VersionOption(name, config ?? {})
+export const positional1 = (config?: Partial<PositionalConfig>) => new Positional(1, config ?? {})
+export const positional2 = (config?: Partial<PositionalConfig>) => new Positional(2, config ?? {})
+export const positionals = (config?: Partial<PositionalConfig>) => new Positional(null, config ?? {})
 
 export default {
-  cli,
+  gateli,
   command,
   option,
-  help,
+  helpOption,
+  versionOption,
   positional1,
   positional2,
   positionals
 }
-
-// export const optionValue = (arg) => ({})

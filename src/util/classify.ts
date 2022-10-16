@@ -1,32 +1,27 @@
-import { Command } from '@/fragment/command'
-import { Help } from '@/fragment/help'
 import { Option } from '@/fragment/option'
+import { HelpOption } from '@/fragment/help-option'
+import { VersionOption } from '@/fragment/version-option'
 import { Positional } from '@/fragment/positional'
 
-type Classify = (arg: { [key: string]: Command | Option | Positional | Help }) => {
-  commands: Command[]
+type Classify = (arg: { [key: string]: Option | HelpOption | VersionOption | Positional }) => {
   options: Option[]
+  helpOption: HelpOption[],
+  versionOption: VersionOption[],
   positionals: Positional[]
-  help: Help | null
 }
 export const classify: Classify = (arg) => {
-  const commands: Command[] = []
   const options: Option[] = []
   const positionals: Positional[] = []
-  let help: Help | null = null
+  const helpOption: HelpOption[] = []
+  const versionOption: VersionOption[] = []
 
   for (const [name, value] of Object.entries(arg)) {
-    value.bindName(name)
-    if (value instanceof Command) {
-      commands.push(value)
-    } else if (value instanceof Option) {
+    if (value instanceof Option) {
       options.push(value)
     } else if (value instanceof Positional) {
       positionals.push(value)
-    } else if (value instanceof Help) {
-      help = value
     }
   }
 
-  return { commands, options, positionals, help }
+  return { options, positionals, helpOption, versionOption }
 }

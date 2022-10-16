@@ -1,45 +1,49 @@
-import { cli, command, option, help, positional1 } from '../src/index'
+import { gateli, command, option, positional1, helpOption, versionOption } from '../src/index'
 
-const versionCmd = command({
-  handler: ({ prompt }) => {
-    prompt.println('version: 0.1.0')
-  },
+const pluginListCmd = command('plugin list', {
+  handler: ({ prompt }) => {},
 })
 
-const initCmd = command({
-  gate: {
-    name: positional1()
+const pluginViewCmd = command('plugin view', {
+  param: {
+    name: positional1({ required: true }),
   },
-  handler: ({ args, prompt }) => {
-    prompt.println(args)
-  },
+  handler: ({ prompt }) => {},
 })
 
-const addCmd = command({
-  gate: {
-    'name': positional1(),
-    '--dev': option(),
+const pluginAddCmd = command('plugin add', {
+  param: {
+    name: positional1({ required: true }),
+    isDev: option('--dev', { alias: '-d' }),
   },
-  handler: ({ args, prompt }) => {
-    prompt.println(args)
-  },
+  handler: ({ prompt }) => {},
 })
 
-const removeCmd = command({
-  gate: {
-    name: positional1(),
+const pluginCmd = command('plugin', {
+  param: {
+    help: helpOption('--help', { alias: '-h', global: true }),
   },
+  handler: ({ prompt }) => {},
 })
 
-cli({
+const rootCmd = command('', {
+  param: {
+    help: helpOption('--help', { alias: '-h' }),
+    version: versionOption('--version', { alias: '-v' }),
+  },
+  handler: ({ prompt }) => {},
+})
+
+gateli({
   name: 'package-manager2',
-  description: 'package manager cli 2',
-  gate: {
-    'version': versionCmd,
-    'init': initCmd,
-    'add': addCmd,
-    'remove': removeCmd,
-    '--help': help({ alias: '-h' }),
-  }
+  description: 'package manager 2 cli',
+  version: '0.1.0',
+  gate: [
+    pluginListCmd,
+    pluginViewCmd,
+    pluginAddCmd,
+    pluginCmd,
+    rootCmd,
+  ],
 })
 .exec()

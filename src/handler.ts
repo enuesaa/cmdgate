@@ -12,18 +12,10 @@ export type Handler = (handle: Handle) => void;
 
 export const resolveHandlerArg = (
   def: { positionals: Positional[]; options: Option[] },
-  arg: { positionals: string[]; options: Record<string, string | null> }
+  arg: { options: Record<string, string | null> }
 ): {[key: string]: string | null} | false => {
   const handlerarg = {}
 
-  if (def.positionals.length > 0) {
-    for (const positional of def.positionals) {
-      handlerarg[positional.name] = arg.positionals[positional.position - 1] ?? null
-    }
-  } else if (arg.positionals.length > 0) {
-    console.error(`invalid argument: ${arg.positionals[0]}`)
-    return false
-  }
   for (const option of def.options) {
     handlerarg[option.name] = null
   }

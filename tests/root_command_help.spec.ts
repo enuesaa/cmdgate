@@ -1,10 +1,10 @@
 import { gateli, command, helpOption } from '../src/index'
-import { createMockReadline, writeValue } from './mock/readline'
+import { Prompt } from '../src/prompt'
 
 describe('root command help', () => {
-  let mockReadline: jest.SpyInstance
-  beforeEach(() => {
-    mockReadline = createMockReadline()
+  const mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
+  afterEach(() => {
+    mockPromptPrintln.mockRestore()
   })
 
   it('help', () => {
@@ -22,6 +22,6 @@ describe('root command help', () => {
     })
     .exec(['--help'])
   
-    expect(writeValue).toMatch('command help message')
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('command help message')
   })
 })

@@ -1,10 +1,10 @@
 import { gateli, command } from '../src/index'
-import { createMockReadline, writeValue } from './mock/readline'
+import { Prompt } from '../src/prompt'
 
 describe('root command handler', () => {
-  let mockReadline: jest.SpyInstance
-  beforeEach(() => {
-    mockReadline = createMockReadline()
+  const mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
+  afterEach(() => {
+    mockPromptPrintln.mockRestore()
   })
 
   it('prompt write', () => {
@@ -19,6 +19,6 @@ describe('root command handler', () => {
     })
     .exec([])
   
-    expect(writeValue).toMatch('a')
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('a')
   })
 })

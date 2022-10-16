@@ -4,16 +4,16 @@ import { Prompt } from '@/prompt'
 
 export type Handle = {
   args: {
-    [key: string]: string | null,
-  },
-  prompt: Prompt,
+    [key: string]: string | null
+  }
+  prompt: Prompt
 }
-export type Handler = (handle: Handle) => void;
+export type Handler = (handle: Handle) => void
 
 export const resolveHandlerArg = (
   def: { positionals: Positional[]; options: Option[] },
   arg: { options: Record<string, string | null> }
-): {[key: string]: string | null} | false => {
+): { [key: string]: string | null } | false => {
   const handlerarg = {}
 
   for (const option of def.options) {

@@ -5,8 +5,8 @@ import { Positional } from '@/fragment/positional'
 
 type Classify = (arg: { [key: string]: Option | HelpOption | VersionOption | Positional }) => {
   options: Option[]
-  helpOption: HelpOption[],
-  versionOption: VersionOption[],
+  helpOption: HelpOption[]
+  versionOption: VersionOption[]
   positionals: Positional[]
 }
 export const classify: Classify = (arg) => {

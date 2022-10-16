@@ -11,7 +11,7 @@ export type CommandConfig = {
   description: string
   param: {
     [key: string]: Option | HelpOption | VersionOption | Positional
-  },
+  }
   handler: Handler
 }
 export class Command {
@@ -40,7 +40,7 @@ export class Command {
   execHandler(arg: { options: Record<string, string | null> }, prompt: Prompt): void {
     const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
     if (handlerarg !== false) {
-      this.handler({args: handlerarg, prompt: prompt})
+      this.handler({ args: handlerarg, prompt: prompt })
     }
   }
 }

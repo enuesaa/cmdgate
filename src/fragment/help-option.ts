@@ -17,14 +17,24 @@ export class HelpOption {
     this.message = config.message ?? null
   }
 
-  setDefaultHelpMessage({ commands, options, description, name }: {commands: Command[], options: Option[], description: string, name: string}): void {
+  setDefaultHelpMessage({
+    commands,
+    options,
+    description,
+    name,
+  }: {
+    commands: Command[]
+    options: Option[]
+    description: string
+    name: string
+  }): void {
     this.message = `${name}
 ${description}
 
 commands:
-${commands.map(v => '  ' + v.route + '\n').join('')}
+${commands.map((v) => '  ' + v.route + '\n').join('')}
 options:
-${options.map(v => '  ' + v.name + '\n').join('')}
+${options.map((v) => '  ' + v.name + '\n').join('')}
 `
   }
 

@@ -22,6 +22,6 @@ describe('handler args', () => {
     })
     .exec(['aaa', '--name', 'vkhbjnkm'])
 
-    expect(mockPromptPrintln.mock.calls[0][0]).toMatch("{ '--name': 'vkhbjnkm' }\n")
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatchObject({'--name': 'vkhbjnkm'})
   })
 })

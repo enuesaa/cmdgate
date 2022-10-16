@@ -12,7 +12,7 @@ export type Handler = (handle: Handle) => void
 
 export const resolveHandlerArg = (
   def: { positionals: Positional[]; options: Option[] },
-  arg: { options: Record<string, string | null> }
+  arg: { options: Record<string, string | true> }
 ): { [key: string]: string | null } | false => {
   const handlerarg = {}
 

@@ -17,7 +17,8 @@ describe('root command handler', () => {
         })
       ],
     })
-    .exec([])
+    .withArgs([])
+    .exec()
   
     expect(mockPromptPrintln.mock.calls[0][0]).toMatch('a')
   })

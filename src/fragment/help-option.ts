@@ -1,5 +1,6 @@
 import { Option } from '@/fragment/option'
 import { Command } from '@/fragment/command'
+import { Prompt } from '@/prompt'
 
 export type HelpOptionConfig = {
   alias: string
@@ -38,7 +39,7 @@ ${options.map((v) => '  ' + v.name + '\n').join('')}
 `
   }
 
-  exec() {
-    console.log(this.message)
+  execHandler(prompt: Prompt) {
+    prompt.println(this.message ?? 'default help message')
   }
 }

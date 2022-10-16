@@ -2,6 +2,11 @@ import process from 'node:process'
 import { promises as readline } from 'node:readline'
 import util from 'node:util'
 
+/**
+ * @todo fix
+ * Dont do readline.createInterface() on constructor().
+ * Failed to close readline on errors within gateli.
+ */
 export class Prompt {
   readline: readline.Interface
   args: string[]

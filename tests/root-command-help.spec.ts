@@ -20,8 +20,9 @@ describe('root command help', () => {
         })
       ],
     })
-    .exec(['--help'])
+    .withArgs(['--help'])
+    .exec()
   
-    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('command help message')
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('default help message')
   })
 })

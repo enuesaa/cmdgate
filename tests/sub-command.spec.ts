@@ -18,7 +18,8 @@ describe('sub command', () => {
         })
       ],
     })
-    .exec(['aaa'])
+    .withArgs(['aaa'])
+    .exec()
 
     expect(mockPromptPrintln.mock.calls[0][0]).toMatch('subcommand output')
   })

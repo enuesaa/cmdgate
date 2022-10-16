@@ -1,7 +1,6 @@
 import { Command } from '@/fragment/command'
 import { Prompt } from '@/prompt'
-import { matcher } from '@/util/matcher'
-import { resoveStdinArgs } from '@/util/processArgs'
+import { classifyArgs } from '@/util/classify-args'
 
 export type GateliConfig = {
   name: string
@@ -11,30 +10,37 @@ export type GateliConfig = {
 }
 
 export class Gateli {
-  name: string
-  description: string
-  version: string
-  gate: Command[]
-  prompt: Prompt
+  config: GateliConfig
+  prompt: Prompt | null
+  args: string[] | null
 
   constructor(config: Partial<GateliConfig>) {
-    this.name = config.name ?? ''
-    this.description = config.description ?? ''
-    this.version = config.version ?? ''
-    this.gate = config.gate ?? []
-    this.prompt = new Prompt()
+    this.config = { name: '', description: '', version: '', gate: [], ...config }
+    this.prompt = null
+    this.args = null
   }
 
-  exec(args: string[] = null) {
-    if (args === null) {
-      args = this.prompt.getArgs()
-    }
-    const stdinArgDict = resoveStdinArgs(args)
-    if (this.gate.length > 0) {
-      const { resolved, command } = matcher(stdinArgDict.positionals, this.gate)
-      if (resolved) {
-        command.execHandler({ options: stdinArgDict.options }, this.prompt)
+  withArgs(args: string[]): Gateli {
+    this.args = args
+    return this
+  }
+
+  protected matcher(serials: string[], commands: Command[]): { resolved: boolean; command: Command | null } {
+    const route = serials.join(' ')
+    for (const command of commands) {
+      if (command.isMatch(route)) {
+        return { resolved: true, command: command }
       }
+    }
+    return { resolved: false, command: null }
+  }
+
+  exec() {
+    this.prompt = new Prompt()
+    const args = classifyArgs(this.args ?? this.prompt.getArgs())
+    const { resolved, command } = this.matcher(args.serials, this.config.gate)
+    if (resolved) {
+      command.execHandler({ options: args.options }, this.prompt)
     }
     this.prompt.close()
   }

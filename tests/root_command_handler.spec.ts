@@ -1,25 +1,24 @@
 import { gateli, command } from '../src/index'
 import { createMockReadline, writeValue } from './mock/readline'
 
-describe('sub command', () => {
+describe('root command handler', () => {
   let mockReadline: jest.SpyInstance
   beforeEach(() => {
     mockReadline = createMockReadline()
   })
 
-  it('sub command handler', () => {
+  it('prompt write', () => {
     gateli({
       gate: [
-        command('', {}),
-        command('aaa', {
+        command('', {
           handler: ({ prompt }) => {
-            prompt.println('subcommand output')
-          }
+            prompt.println('a')
+          },
         })
       ],
     })
-    .exec(['aaa'])
-
-    expect(writeValue).toMatch('subcommand output')
+    .exec([])
+  
+    expect(writeValue).toMatch('a')
   })
 })

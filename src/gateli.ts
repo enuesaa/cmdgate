@@ -25,8 +25,10 @@ export class Gateli {
     this.prompt = new Prompt()
   }
 
-  exec() {
-    const args = this.prompt.getArgs()
+  exec(args: string[] = null) {
+    if (args === null) {
+      args = this.prompt.getArgs()
+    }
     const stdinArgDict = resoveStdinArgs(args)
     if (this.gate.length > 0) {
       const { resolved, command } = matcher(stdinArgDict.positionals, this.gate)

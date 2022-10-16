@@ -1,32 +1,27 @@
-import { gateli, command } from '../src/index'
-import process from 'node:process'
+import { gateli, command, helpOption } from '../src/index'
 import { createMockReadline, writeValue } from './mock/readline'
 
-describe('root command', () => {
-  let argv: string[]
+describe('root command help', () => {
   let mockReadline: jest.SpyInstance
   beforeEach(() => {
-    argv = process.argv
     mockReadline = createMockReadline()
   })
-  afterEach(() => {
-    process.argv = argv
-  })
 
-  it('root command handler', () => {
-    process.argv = ['node', 'jest']
-
+  it('help', () => {
     gateli({
       gate: [
         command('', {
+          param: {
+            help: helpOption('--help')
+          },
           handler: ({ prompt }) => {
             prompt.println('a')
           },
         })
       ],
     })
-    .exec()
+    .exec(['--help'])
   
-    expect(writeValue).toMatch('a')
+    expect(writeValue).toMatch('command help message')
   })
 })

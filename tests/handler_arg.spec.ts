@@ -17,20 +17,19 @@ describe('handler args', () => {
     process.argv = ['node', 'jest', 'aaa', '--name', 'vkhbjnkm']
 
     gateli({
-      gate: {
-        aaa: command({
-          handler: (arg, prompt) => {
-            prompt.write(JSON.stringify(arg))
-            return true
+      gate: [
+        command('aaa', {
+          param: {
+            name: option('--name'),
           },
-          gate: {
-            '--name': option({})
-          }
+          handler: ({ args, prompt }) => {
+            prompt.println(args)
+          },
         })
-      },
+      ],
     })
     .exec()
 
-    expect(writeValue).toMatch('{"--name":"vkhbjnkm"}')
+    expect(writeValue).toMatch("{ '--name': 'vkhbjnkm' }\n")
   })
 })

@@ -17,14 +17,14 @@ describe('sub command', () => {
     process.argv = ['node', 'jest', 'aaa']
 
     gateli({
-      gate: {
-        aaa: command({
-          handler: (arg, prompt) => {
-            prompt.write('subcommand output')
-            return true
+      gate: [
+        command('', {}),
+        command('aaa', {
+          handler: ({ prompt }) => {
+            prompt.println('subcommand output')
           }
         })
-      },
+      ],
     })
     .exec()
 

@@ -1,5 +1,6 @@
 import process from 'node:process'
 import { promises as readline } from 'node:readline'
+import util from 'node:util'
 
 export class Prompt {
   readline: readline.Interface
@@ -20,8 +21,8 @@ export class Prompt {
     return await this.readline.question(value)
   }
 
-  write(value: string): void {
-    this.readline.write(`${value}\n`)
+  println(value: any): void {
+    this.readline.write(util.format(value) + '\n')
   }
 
   close(): void {

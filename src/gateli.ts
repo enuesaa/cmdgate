@@ -1,80 +1,39 @@
 import { Command } from '@/fragment/command'
-import { Option } from '@/fragment/option'
 import { Prompt } from '@/prompt'
-import { classify } from '@/util/classify'
 import { matcher } from '@/util/matcher'
 import { resoveStdinArgs } from '@/util/processArgs'
-import { Handler, HandlerArg, resolveHandlerArg } from '@/handler'
-import { Positional } from '@/fragment/positional'
-import { Help } from '@/fragment/help'
 
-export type GateliArg = {
+export type GateliConfig = {
   name: string
   description: string
-  handler: Handler
-  gate: {
-    [key: string]: Command | Option | Positional | Help
-  }
+  version: string
+  gate: Command[]
 }
 
 export class Gateli {
   name: string
   description: string
-  handler: Handler
-  commands: Command[]
-  options: Option[]
-  positionals: Positional[]
+  version: string
+  gate: Command[]
   prompt: Prompt
-  help: Help
 
-  constructor(arg: Partial<GateliArg>) {
+  constructor(config: Partial<GateliConfig>) {
+    this.name = config.name ?? ''
+    this.description = config.description ?? ''
+    this.version = config.version ?? ''
+    this.gate = config.gate ?? []
     this.prompt = new Prompt()
-    this.name = arg.name ?? ''
-    this.description = arg.description ?? ''
-    this.handler = arg.handler ?? ((arg: HandlerArg) => this.execHelp())
-    const { commands, options, positionals, help } = classify(arg.gate ?? {})
-    this.commands = commands
-    this.options = options
-    this.positionals = positionals
-    this.help = help ?? new Help({})
-    if (this.help.message === null) {
-      this.help.setDefaultHelpMessage({
-        commands: this.commands,
-        options: this.options,
-        description: this.description,
-        name: this.name,
-      })
-    }
   }
 
   exec() {
     const args = this.prompt.getArgs()
     const stdinArgDict = resoveStdinArgs(args)
-    if ('--help' in stdinArgDict.options) {
-      this.execHelp()
-    } else {
-      if (this.commands.length > 0) {
-        const { resolved, command, rest } = matcher(stdinArgDict.positionals, this.commands)
-        if (resolved) {
-          command.execHandler({ positionals: rest, options: stdinArgDict.options }, this.prompt)
-          this.prompt.close()
-          return
-        }
+    if (this.gate.length > 0) {
+      const { resolved, command } = matcher(stdinArgDict.positionals, this.gate)
+      if (resolved) {
+        command.execHandler({ options: stdinArgDict.options }, this.prompt)
       }
-      this.execHandler(stdinArgDict)
     }
     this.prompt.close()
-  }
-
-  execHandler(arg: { positionals: string[]; options: Record<string, string | null> }): boolean {
-    const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
-    if (handlerarg === false) {
-      return false
-    }
-    return this.handler(handlerarg, this.prompt)
-  }
-
-  execHelp(): boolean {
-    return this.help.exec()
   }
 }

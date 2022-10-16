@@ -2,25 +2,20 @@ import { Option } from './fragment/option'
 import { Positional } from './fragment/positional'
 import { Prompt } from '@/prompt'
 
-export type HandlerArg = {
-  [key: string]: string | null,
+export type Handle = {
+  args: {
+    [key: string]: string | null,
+  },
+  prompt: Prompt,
 }
-export type Handler = (arg: HandlerArg, prompt: Prompt) => boolean
+export type Handler = (handle: Handle) => void;
 
 export const resolveHandlerArg = (
   def: { positionals: Positional[]; options: Option[] },
-  arg: { positionals: string[]; options: Record<string, string | null> }
-): HandlerArg | false => {
+  arg: { options: Record<string, string | null> }
+): {[key: string]: string | null} | false => {
   const handlerarg = {}
 
-  if (def.positionals.length > 0) {
-    for (const positional of def.positionals) {
-      handlerarg[positional.name] = arg.positionals[positional.position - 1] ?? null
-    }
-  } else if (arg.positionals.length > 0) {
-    console.error(`invalid argument: ${arg.positionals[0]}`)
-    return false
-  }
   for (const option of def.options) {
     handlerarg[option.name] = null
   }

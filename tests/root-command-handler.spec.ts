@@ -2,7 +2,10 @@ import { gateli, command } from '../src/index'
 import { Prompt } from '../src/prompt'
 
 describe('root command handler', () => {
-  const mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
+  let mockPromptPrintln: jest.SpyInstance
+  beforeEach(() => {
+    mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
+  })
   afterEach(() => {
     mockPromptPrintln.mockRestore()
   })

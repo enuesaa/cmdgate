@@ -23,6 +23,6 @@ describe('handler args', () => {
     .withArgs(['aaa', '--name', 'vkhbjnkm'])
     .exec()
 
-    expect(mockPromptPrintln.mock.calls[0][0]).toMatchObject({'--name': 'vkhbjnkm'})
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatchObject({name: 'vkhbjnkm'})
   })
 })

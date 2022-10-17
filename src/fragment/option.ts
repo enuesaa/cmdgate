@@ -6,14 +6,10 @@ export type OptionConfig = {
 
 export class Option {
   name: string
-  description: string
-  alias: string | null
-  required: boolean
+  config: OptionConfig
 
-  constructor(name: string, arg: Partial<OptionConfig>) {
+  constructor(name: string, config: Partial<OptionConfig>) {
     this.name = name
-    this.description = arg.description ?? ''
-    this.alias = arg.alias ?? null
-    this.required = arg.required ?? false
+    this.config = { description: '', alias: '', required: false, ...config }
   }
 }

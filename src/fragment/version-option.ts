@@ -1,15 +1,15 @@
 export type VersionOptionConfig = {
-  alias: string
+  alias: string | null
   message: string
 }
 
 export class VersionOption {
   name: string | null
-  alias: string | null
+  config: VersionOptionConfig
 
   constructor(name: string, config: Partial<VersionOptionConfig>) {
     this.name = name
-    this.alias = config.alias ?? null
+    this.config = { alias: null, message: '', ...config }
   }
 
   exec() {

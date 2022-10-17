@@ -9,13 +9,13 @@ export type HelpOptionConfig = {
 
 export class HelpOption {
   name: string | null
+  config: HelpOptionConfig
   alias: string | null
   message: string | null
 
   constructor(name: string, config: Partial<HelpOptionConfig>) {
     this.name = name
-    this.alias = config.alias ?? null
-    this.message = config.message ?? null
+    this.config = { alias: null, message: '', ...config }
   }
 
   setDefaultHelpMessage({

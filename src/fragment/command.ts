@@ -64,7 +64,7 @@ export class Command {
     for (const option of this.options) {
       ret[option.name] = null
     }
-    for (const [key, value] of Object.keys(arg.options)) {
+    for (const [key, value] of Object.entries(arg.options)) {
       if (ret.hasOwnProperty(key)) {
         ret[key] = value === null ? true : value
       } else {

@@ -12,4 +12,8 @@ export class Option {
     this.name = name
     this.config = { description: '', alias: '', required: false, ...config }
   }
+
+  isMatch(name: string): boolean {
+    return this.name === name
+  }
 }

@@ -16,74 +16,64 @@ export type CommandConfig = {
 export class Command {
   route: string
   config: CommandConfig
-  options: Option[]
-  positionals: Positional[]
-  helpOptions: HelpOption[]
-  versionOptions: VersionOption[]
+  options: { [key: string]: Option }
+  positionals: { [key: string]: Positional }
+  helpOptions: { [key: string]: HelpOption }
+  versionOptions: { [key: string]: VersionOption }
 
   constructor(route: string, config: Partial<CommandConfig>) {
     this.route = route
     this.config = { usage: '', description: '', param: {}, handler: null, ...config }
-    const { options, positionals, helpOptions, versionOptions } = this.classifyParam(this.config.param)
-    this.options = options
-    this.positionals = positionals
-    this.helpOptions = helpOptions
-    this.versionOptions = versionOptions
+    this.options = {}
+    this.positionals = {}
+    this.helpOptions = {}
+    this.versionOptions = {}
+    this.classifyParam(this.config.param)
   }
 
   isMatch(route: string): boolean {
-    return this.positionals.length === 0 ? this.route === route : route.startsWith(this.route)
+    return Object.keys(this.positionals).length === 0 ? this.route === route : route.startsWith(this.route)
   }
 
-  classifyParam(param: { [key: string]: Option | HelpOption | VersionOption | Positional }): {
-    options: Option[]
-    positionals: Positional[]
-    helpOptions: HelpOption[]
-    versionOptions: VersionOption[]
-  } {
-    const options: Option[] = []
-    const positionals: Positional[] = []
-    const helpOptions: HelpOption[] = []
-    const versionOptions: VersionOption[] = []
+  classifyParam(param: { [key: string]: Option | HelpOption | VersionOption | Positional }) {
     for (const [name, value] of Object.entries(param)) {
       if (value instanceof Option) {
-        options.push(value)
+        this.options[name] = value
       } else if (value instanceof Positional) {
-        positionals.push(value)
+        this.positionals[name] = value
       } else if (value instanceof HelpOption) {
-        helpOptions.push(value)
+        this.helpOptions[name] = value
       } else if (value instanceof VersionOption) {
-        versionOptions.push(value)
+        this.versionOptions[name] = value
       }
     }
-    return { options, positionals, helpOptions, versionOptions }
   }
 
   resolveHandlerArg(arg: { options: Record<string, string | true> }): { [key: string]: string | null } | false {
-    const ret = {}
-    for (const option of this.options) {
-      ret[option.name] = null
-    }
+    const ret = Object.keys(this.options).reduce((o, key) => ({...o, [key]: null}), {})
+    /** @todo refactor **/
+    labelA:
     for (const [key, value] of Object.entries(arg.options)) {
-      if (ret.hasOwnProperty(key)) {
-        ret[key] = value === null ? true : value
-      } else {
-        console.error(`invalid option: ${key}`)
-        return false
+      for (const option of Object.values(this.options)) {
+        if (option.isMatch(key)) {
+          ret[key] = value === null ? true : value
+          continue labelA
+        }
       }
+      console.error(`invalid option: ${key}`)
+      return false
     }
     return ret
   }
 
   execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt): void {
-    for (const helpOption of this.helpOptions) {
+    for (const [name, helpOption] of Object.entries(this.helpOptions)) {
       if (helpOption.name in arg.options) {
         helpOption.execHandler(prompt)
         return
       }
     }
     const handlerarg = this.resolveHandlerArg(arg)
-    console.log(handlerarg)
     if (handlerarg !== false && this.config.handler !== null) {
       this.config.handler({ args: handlerarg, prompt: prompt })
     }

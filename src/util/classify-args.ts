@@ -1,5 +1,5 @@
 type ClassifyStdinArgsResult = {
-  options: { [key: string]: string | true };
+  options: { [key: string]: string | true }
   serials: string[]
 }
 export const classifyArgs = (args: string[]): ClassifyStdinArgsResult => {
@@ -18,5 +18,5 @@ export const classifyArgs = (args: string[]): ClassifyStdinArgsResult => {
     }
   }
 
-  return ret 
+  return ret
 }

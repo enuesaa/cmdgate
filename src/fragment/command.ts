@@ -35,7 +35,12 @@ export class Command {
     return this.positionals.length === 0 ? this.route === route : route.startsWith(this.route)
   }
 
-  classifyParam(param: {[key: string]: Option | HelpOption | VersionOption | Positional}): { options: Option[], positionals: Positional[], helpOptions: HelpOption[], versionOptions: VersionOption[] } {
+  classifyParam(param: { [key: string]: Option | HelpOption | VersionOption | Positional }): {
+    options: Option[]
+    positionals: Positional[]
+    helpOptions: HelpOption[]
+    versionOptions: VersionOption[]
+  } {
     const options: Option[] = []
     const positionals: Positional[] = []
     const helpOptions: HelpOption[] = []
@@ -53,7 +58,7 @@ export class Command {
     }
     return { options, positionals, helpOptions, versionOptions }
   }
-  
+
   resolveHandlerArg(arg: { options: Record<string, string | true> }): { [key: string]: string | null } | false {
     const ret = {}
     for (const option of this.options) {
@@ -74,7 +79,7 @@ export class Command {
     for (const helpOption of this.helpOptions) {
       if (helpOption.name in arg.options) {
         helpOption.execHandler(prompt)
-        return;
+        return
       }
     }
     const handlerarg = this.resolveHandlerArg(arg)

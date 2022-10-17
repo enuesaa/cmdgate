@@ -1,6 +1,6 @@
 export type OptionConfig = {
   description: string
-  alias: string
+  alias: string | null
   required: boolean
 }
 
@@ -10,10 +10,10 @@ export class Option {
 
   constructor(name: string, config: Partial<OptionConfig>) {
     this.name = name
-    this.config = { description: '', alias: '', required: false, ...config }
+    this.config = { description: '', alias: null, required: false, ...config }
   }
 
   isMatch(name: string): boolean {
-    return this.name === name
+    return this.name === name || this.config.alias === name
   }
 }

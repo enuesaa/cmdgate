@@ -51,16 +51,15 @@ export class Command {
 
   resolveHandlerArg(arg: { options: Record<string, string | true> }): { [key: string]: string | null } | false {
     const ret = Object.keys(this.options).reduce((o, key) => ({...o, [key]: null}), {})
-    /** @todo refactor **/
     labelA:
-    for (const [key, value] of Object.entries(arg.options)) {
-      for (const option of Object.values(this.options)) {
-        if (option.isMatch(key)) {
-          ret[key] = value === null ? true : value
+    for (const [name, value] of Object.entries(arg.options)) {
+      for (const [k, option] of Object.entries(this.options)) {
+        if (option.isMatch(name)) {
+          ret[k] = value === null ? true : value
           continue labelA
         }
       }
-      console.error(`invalid option: ${key}`)
+      console.error(`invalid option: ${name}`)
       return false
     }
     return ret

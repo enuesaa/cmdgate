@@ -1,6 +1,5 @@
 import { Option } from '@/fragment/option'
-import { classify } from '@/util/classify'
-import { Handler, resolveHandlerArg } from '@/handler'
+import { Handler } from '@/handler'
 import { Positional } from '@/fragment/positional'
 import { Prompt } from '@/prompt'
 import { HelpOption } from '@/fragment/help-option'
@@ -54,6 +53,22 @@ export class Command {
     }
     return { options, positionals, helpOptions, versionOptions }
   }
+  
+  resolveHandlerArg(arg: { options: Record<string, string | true> }): { [key: string]: string | null } | false {
+    const ret = {}
+    for (const option of this.options) {
+      ret[option.name] = null
+    }
+    for (const [key, value] of Object.keys(arg.options)) {
+      if (ret.hasOwnProperty(key)) {
+        ret[key] = value === null ? true : value
+      } else {
+        console.error(`invalid option: ${key}`)
+        return false
+      }
+    }
+    return ret
+  }
 
   execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt): void {
     for (const helpOption of this.helpOptions) {
@@ -62,7 +77,7 @@ export class Command {
         return;
       }
     }
-    const handlerarg = resolveHandlerArg({ positionals: this.positionals, options: this.options }, arg)
+    const handlerarg = this.resolveHandlerArg(arg)
     console.log(handlerarg)
     if (handlerarg !== false && this.config.handler !== null) {
       this.config.handler({ args: handlerarg, prompt: prompt })

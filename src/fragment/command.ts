@@ -30,24 +30,22 @@ export class Command {
 
   execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt): void {
     const handlerArg :{[key: string]: null | string | boolean } = Object.keys(this.config.param).reduce((o, key) => ({...o, [key]: null}), {})
-    
-    for (const [argName, argValue] of Object.entries(arg.options)) {
+
+    /** @todo resolve positionals  */
+    for (const [passedName, passedValue] of Object.entries(arg.options)) {
       const defName = Object.entries(this.config.param).reduce((prev: string | false, [k, v]) => {
         if (prev !== false) { return prev }
-        return v.isMatch(argName)? k : false
+        return v.isMatch(passedName)? k : false
       }, false)
 
       if (defName === false) {
-        return prompt.error(`invaild option: ${argName}`)
+        return prompt.error(`invaild option: ${passedName}`)
       }
       const defValue = this.config.param[defName]
-      if (defValue instanceof HelpOption) {
+      if (defValue instanceof HelpOption || defValue instanceof VersionOption) {
         return defValue.execHandler(prompt)
       } 
-      if (defValue instanceof VersionOption) {
-        return defValue.execHandler(prompt)
-      }
-      handlerArg[defName] = argValue
+      handlerArg[defName] = passedValue
     }
 
     if (this.config.handler !== null) {

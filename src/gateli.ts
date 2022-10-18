@@ -1,6 +1,5 @@
 import { Command } from '@/fragment/command'
 import { Prompt } from '@/prompt'
-import { classifyArgs } from '@/util/classify-args'
 
 export type GateliConfig = {
   name: string
@@ -35,12 +34,29 @@ export class Gateli {
     return { resolved: false, command: null }
   }
 
+  classifyPassedArgs(args: string[]): { options: { [key: string]: string | true }; serials: string[] } {
+    const ret = { options: {}, serials: [] }
+    let optionKey: string | null = null
+    for (const word of args) {
+      if (word.startsWith('-')) {
+        optionKey = word
+        ret.options[optionKey] = true
+      } else if (optionKey !== null) {
+        ret.options[optionKey] = word
+        optionKey = null
+      } else {
+        ret.serials.push(word)
+      }
+    }
+    return ret
+  }
+
   exec() {
     this.prompt = new Prompt()
-    const args = classifyArgs(this.args ?? this.prompt.getArgs())
-    const { resolved, command } = this.matcher(args.serials, this.config.gate)
+    const passed = this.classifyPassedArgs(this.args ?? this.prompt.getArgs())
+    const { resolved, command } = this.matcher(passed.serials, this.config.gate)
     if (resolved) {
-      command.execHandler({ options: args.options }, this.prompt)
+      command.execHandler({ options: passed.options }, this.prompt)
     }
     this.prompt.close()
   }

@@ -1,4 +1,4 @@
-import { gateli, command, helpOption } from '../src/index'
+import { gateli, command, helpOption, option } from '../src/index'
 import { Prompt } from '../src/prompt'
 
 describe('root command help', () => {
@@ -15,7 +15,8 @@ describe('root command help', () => {
       gate: [
         command('', {
           param: {
-            help: helpOption('--help')
+            aaa: option('--aaa'),
+            help: helpOption('--help'),
           },
           handler: ({ prompt }) => {
             prompt.println('a')
@@ -26,6 +27,6 @@ describe('root command help', () => {
     .withArgs(['--help'])
     .exec()
   
-    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('default help message')
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('options:\n  --aaa')
   })
 })

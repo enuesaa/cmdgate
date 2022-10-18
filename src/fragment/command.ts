@@ -28,6 +28,19 @@ export class Command {
     return this.hasPositionals ? route.startsWith(this.route) : this.route === route
   }
 
+  classifyParam() : { options: Option[], positionals: Positional[] } {
+    const options: Option[] = []
+    const positionals: Positional[] = []
+    for (const value of Object.values(this.config.param)) {
+      if (value instanceof Option) {
+        options.push(value)
+      }
+      if (value instanceof Positional) {
+        positionals.push(value)
+      }
+    }
+    return { options, positionals }
+  }
   execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt): void {
     const handlerArg :{[key: string]: null | string | boolean } = Object.keys(this.config.param).reduce((o, key) => ({...o, [key]: null}), {})
 
@@ -42,9 +55,12 @@ export class Command {
         return prompt.error(`invaild option: ${passedName}`)
       }
       const defValue = this.config.param[defName]
-      if (defValue instanceof HelpOption || defValue instanceof VersionOption) {
-        return defValue.execHandler(prompt)
+      if (defValue instanceof HelpOption) {
+        return defValue.execHandler(prompt, this.classifyParam())
       } 
+      if (defValue instanceof VersionOption) {
+        return defValue.execHandler(prompt)
+      }
       handlerArg[defName] = passedValue
     }
 

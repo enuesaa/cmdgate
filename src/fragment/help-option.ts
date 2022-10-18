@@ -1,6 +1,7 @@
 import { Option } from '@/fragment/option'
 import { Command } from '@/fragment/command'
 import { Prompt } from '@/prompt'
+import { Positional } from './positional'
 
 export type HelpOptionConfig = {
   alias: string
@@ -22,28 +23,16 @@ export class HelpOption {
     return this.name === name || this.config.alias === name
   }
 
-  setDefaultHelpMessage({
-    commands,
-    options,
-    description,
-    name,
-  }: {
-    commands: Command[]
-    options: Option[]
-    description: string
-    name: string
-  }): void {
-    this.message = `${name}
-${description}
-
-commands:
-${commands.map((v) => '  ' + v.route + '\n').join('')}
+  generateHelpMessage(options: Option[], positionals: Positional[]): string {
+    /** @todo list commands */
+    return `
 options:
-${options.map((v) => '  ' + v.name + '\n').join('')}
+${options.map((v) => `  ${v.name}`).join('\n')}
 `
   }
 
-  execHandler(prompt: Prompt) {
-    prompt.println(this.message ?? 'default help message')
+  execHandler(prompt: Prompt, def: { options: Option[], positionals: Positional[] }) {
+    const message = this.generateHelpMessage(def.options, def.positionals)
+    prompt.println(message)
   }
 }

@@ -18,6 +18,7 @@ gateli({
       param: {
         name: positional1({ required: true }),
         isDev: option('--dev', { alias: '-d' }),
+        help: helpOption('--help', { alias: '-h', global: true }),
       },
       handler: ({ prompt }) => {},
     }),

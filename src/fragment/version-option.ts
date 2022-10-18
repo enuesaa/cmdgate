@@ -1,3 +1,5 @@
+import { Prompt } from '@/prompt'
+
 export type VersionOptionConfig = {
   alias: string | null
   message: string
@@ -12,7 +14,11 @@ export class VersionOption {
     this.config = { alias: null, message: '', ...config }
   }
 
-  exec() {
-    console.log('version')
+  isMatch(name: string): boolean {
+    return this.name === name || this.config.alias === name
+  }
+
+  execHandler(prompt: Prompt) {
+    prompt.println('version')
   }
 }

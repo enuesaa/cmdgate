@@ -8,4 +8,8 @@ export class Positional {
     this.position = position ?? null
     this.config = config
   }
+
+  isMatch(name: string): boolean {
+    return false
+  }
 }

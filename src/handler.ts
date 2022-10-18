@@ -4,7 +4,7 @@ import { Prompt } from '@/prompt'
 
 export type Handle = {
   args: {
-    [key: string]: string | null
+    [key: string]: string | null | boolean
   }
   prompt: Prompt
 }

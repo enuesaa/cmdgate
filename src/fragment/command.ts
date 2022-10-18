@@ -16,18 +16,12 @@ export type CommandConfig = {
 export class Command {
   route: string
   config: CommandConfig
-  options: { [key: string]: Option }
   positionals: { [key: string]: Positional }
-  helpOptions: { [key: string]: HelpOption }
-  versionOptions: { [key: string]: VersionOption }
 
   constructor(route: string, config: Partial<CommandConfig>) {
     this.route = route
     this.config = { usage: '', description: '', param: {}, handler: null, ...config }
-    this.options = {}
     this.positionals = {}
-    this.helpOptions = {}
-    this.versionOptions = {}
     this.classifyParam(this.config.param)
   }
 
@@ -37,44 +31,33 @@ export class Command {
 
   classifyParam(param: { [key: string]: Option | HelpOption | VersionOption | Positional }) {
     for (const [name, value] of Object.entries(param)) {
-      if (value instanceof Option) {
-        this.options[name] = value
-      } else if (value instanceof Positional) {
+      if (value instanceof Positional) {
         this.positionals[name] = value
-      } else if (value instanceof HelpOption) {
-        this.helpOptions[name] = value
-      } else if (value instanceof VersionOption) {
-        this.versionOptions[name] = value
       }
     }
-  }
-
-  resolveHandlerArg(arg: { options: Record<string, string | true> }): { [key: string]: string | null } | false {
-    const ret = Object.keys(this.options).reduce((o, key) => ({...o, [key]: null}), {})
-    labelA:
-    for (const [name, value] of Object.entries(arg.options)) {
-      for (const [k, option] of Object.entries(this.options)) {
-        if (option.isMatch(name)) {
-          ret[k] = value === null ? true : value
-          continue labelA
-        }
-      }
-      console.error(`invalid option: ${name}`)
-      return false
-    }
-    return ret
   }
 
   execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt): void {
-    for (const [name, helpOption] of Object.entries(this.helpOptions)) {
-      if (helpOption.name in arg.options) {
-        helpOption.execHandler(prompt)
-        return
+    const handlerArg :{[key: string]: null | string | boolean } = Object.keys(this.config.param).reduce((o, key) => ({...o, [key]: null}), {})
+    
+    for (const [name, value] of Object.entries(this.config.param)) {
+      for (const [argname, argvalue] of Object.entries(arg.options)) {
+        if (value.isMatch(argname)) {
+          handlerArg[name] = argvalue
+          if (value instanceof HelpOption) {
+            return value.execHandler(prompt)
+          } 
+          if (value instanceof VersionOption) {
+            return value.execHandler(prompt)
+          }
+        }
       }
     }
-    const handlerarg = this.resolveHandlerArg(arg)
-    if (handlerarg !== false && this.config.handler !== null) {
-      this.config.handler({ args: handlerarg, prompt: prompt })
+
+    // check is invalid
+
+    if (this.config.handler !== null) {
+      this.config.handler({ args: handlerArg, prompt: prompt })
     }
   }
 }

@@ -18,6 +18,10 @@ export class HelpOption {
     this.config = { alias: null, message: '', ...config }
   }
 
+  isMatch(name: string): boolean {
+    return this.name === name || this.config.alias === name
+  }
+
   setDefaultHelpMessage({
     commands,
     options,

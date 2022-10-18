@@ -2,7 +2,10 @@ import { gateli, command, option } from '../src/index'
 import { Prompt } from '../src/prompt'
 
 describe('handler args', () => {
-  const mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
+  let mockPromptPrintln: jest.SpyInstance
+  beforeEach(() => {
+    mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
+  })
   afterEach(() => {
     mockPromptPrintln.mockRestore()
   })
@@ -24,5 +27,24 @@ describe('handler args', () => {
     .exec()
 
     expect(mockPromptPrintln.mock.calls[0][0]).toMatchObject({name: 'vkhbjnkm'})
+  })
+
+  it('sub command handler arg is invalid', () => {
+    gateli({
+      gate: [
+        command('aaa', {
+          param: {
+            name: option('--name'),
+          },
+          handler: ({ args, prompt }) => {
+            prompt.println(args)
+          },
+        })
+      ],
+    })
+    .withArgs(['aaa', '--bbb', 'vkhbjnkm'])
+    .exec()
+
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('invaild option: --bbb')
   })
 })

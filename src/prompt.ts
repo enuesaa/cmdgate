@@ -30,6 +30,13 @@ export class Prompt {
     this.readline.write(util.format(value) + '\n')
   }
 
+  /**
+   * @todo fix to out stderror
+   */
+  error(value: any): void {
+    this.println(value)
+  }
+
   close(): void {
     this.readline.close()
   }

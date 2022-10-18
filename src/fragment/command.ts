@@ -16,25 +16,16 @@ export type CommandConfig = {
 export class Command {
   route: string
   config: CommandConfig
-  positionals: { [key: string]: Positional }
+  hasPositionals: boolean
 
   constructor(route: string, config: Partial<CommandConfig>) {
     this.route = route
     this.config = { usage: '', description: '', param: {}, handler: null, ...config }
-    this.positionals = {}
-    this.classifyParam(this.config.param)
+    this.hasPositionals = Object.values(this.config.param).map(v => v instanceof Positional).some(v => v === true)
   }
 
   isMatch(route: string): boolean {
-    return Object.keys(this.positionals).length === 0 ? this.route === route : route.startsWith(this.route)
-  }
-
-  classifyParam(param: { [key: string]: Option | HelpOption | VersionOption | Positional }) {
-    for (const [name, value] of Object.entries(param)) {
-      if (value instanceof Positional) {
-        this.positionals[name] = value
-      }
-    }
+    return this.hasPositionals ? route.startsWith(this.route) : this.route === route
   }
 
   execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt): void {

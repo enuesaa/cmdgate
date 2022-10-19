@@ -21,7 +21,7 @@ describe('sub command', () => {
         })
       ],
     })
-    .withArgs(['aaa'])
+    .pass(['aaa'])
     .exec()
 
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('subcommand output')

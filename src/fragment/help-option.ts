@@ -1,5 +1,4 @@
 import { Option } from '@/fragment/option'
-import { Command } from '@/fragment/command'
 import { Prompt } from '@/prompt'
 import { Positional } from './positional'
 import { Gateli } from '@/gateli'

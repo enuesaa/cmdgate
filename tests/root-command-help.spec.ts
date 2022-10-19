@@ -24,7 +24,7 @@ describe('root command help', () => {
         })
       ],
     })
-    .withArgs(['--help'])
+    .pass(['--help'])
     .exec()
   
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('\n\n\ncommands:\n  \n\noptions:\n  --aaa\n')

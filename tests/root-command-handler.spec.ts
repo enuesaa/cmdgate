@@ -20,7 +20,7 @@ describe('root command handler', () => {
         })
       ],
     })
-    .withArgs([])
+    .pass([])
     .exec()
   
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('a')

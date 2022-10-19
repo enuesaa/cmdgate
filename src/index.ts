@@ -14,14 +14,3 @@ export const versionOption = (name: string, config?: Partial<VersionOptionConfig
 export const positional1 = (config?: Partial<PositionalConfig>) => new Positional(1, config ?? {})
 export const positional2 = (config?: Partial<PositionalConfig>) => new Positional(2, config ?? {})
 export const positionals = (config?: Partial<PositionalConfig>) => new Positional(null, config ?? {})
-
-export default {
-  gateli,
-  command,
-  option,
-  helpOption,
-  versionOption,
-  positional1,
-  positional2,
-  positionals,
-}

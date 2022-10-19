@@ -1,10 +1,17 @@
 import { Option } from '@/fragment/option'
-import { Handler } from '@/handler'
 import { Positional } from '@/fragment/positional'
 import { Prompt } from '@/prompt'
 import { HelpOption } from '@/fragment/help-option'
 import { VersionOption } from '@/fragment/version-option'
 import { Gateli } from '@/gateli'
+
+export type Handle = {
+  args: {
+    [key: string]: string | null | boolean
+  }
+  prompt: Prompt
+}
+export type Handler = (handle: Handle) => void
 
 export type CommandConfig = {
   usage: string
@@ -42,11 +49,12 @@ export class Command {
     }
     return { options, positionals }
   }
-  execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt, gateli: Gateli): void {
+  execHandler({ options, gateli }: { options: Record<string, string | true>, gateli: Gateli }): void {
+    const prompt = gateli.prompt
     const handlerArg :{[key: string]: null | string | boolean } = Object.keys(this.config.param).reduce((o, key) => ({...o, [key]: null}), {})
 
     /** @todo resolve positionals  */
-    for (const [passedName, passedValue] of Object.entries(arg.options)) {
+    for (const [passedName, passedValue] of Object.entries(options)) {
       const defName = Object.entries(this.config.param).reduce((prev: string | false, [k, v]) => {
         if (prev !== false) { return prev }
         return v.isMatch(passedName)? k : false

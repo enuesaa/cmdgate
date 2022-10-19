@@ -5,7 +5,7 @@ import util from 'node:util'
 /**
  * @todo fix
  * Dont do readline.createInterface() on constructor().
- * Failed to close readline on errors within gateli.
+ * Failed to close readline when an error occurred within gateli.
  */
 export class Prompt {
   readline: readline.Interface
@@ -30,9 +30,6 @@ export class Prompt {
     this.readline.write(util.format(value) + '\n')
   }
 
-  /**
-   * @todo fix to out stderror
-   */
   error(value: any): void {
     this.println(value)
   }

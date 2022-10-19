@@ -23,7 +23,7 @@ describe('handler args', () => {
         })
       ],
     })
-    .withArgs(['aaa', '--name', 'vkhbjnkm'])
+    .pass(['aaa', '--name', 'vkhbjnkm'])
     .exec()
 
     expect(mockPromptPrintln.mock.calls[0][0]).toMatchObject({name: 'vkhbjnkm'})
@@ -42,7 +42,7 @@ describe('handler args', () => {
         })
       ],
     })
-    .withArgs(['aaa', '--bbb', 'vkhbjnkm'])
+    .pass(['aaa', '--bbb', 'vkhbjnkm'])
     .exec()
 
     expect(mockPromptPrintln.mock.calls[0][0]).toMatch('invaild option: --bbb')

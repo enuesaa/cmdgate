@@ -24,7 +24,7 @@ describe('sub command option', () => {
         })
       ],
     })
-    .withArgs(['aaa', '---bbb'])
+    .pass(['aaa', '---bbb'])
     .exec()
 
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('subcommand output. args.bbb is true')
@@ -44,7 +44,7 @@ describe('sub command option', () => {
         })
       ],
     })
-    .withArgs(['aaa', '-b'])
+    .pass(['aaa', '-b'])
     .exec()
 
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('subcommand output. args.bbb is true')

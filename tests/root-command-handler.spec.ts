@@ -23,6 +23,6 @@ describe('root command handler', () => {
     .withArgs([])
     .exec()
   
-    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('a')
+    expect(mockPromptPrintln.mock.calls[0][0]).toBe('a')
   })
 })

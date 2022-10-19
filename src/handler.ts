@@ -1,5 +1,3 @@
-import { Option } from './fragment/option'
-import { Positional } from './fragment/positional'
 import { Prompt } from '@/prompt'
 
 export type Handle = {

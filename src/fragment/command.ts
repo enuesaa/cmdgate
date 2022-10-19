@@ -4,6 +4,7 @@ import { Positional } from '@/fragment/positional'
 import { Prompt } from '@/prompt'
 import { HelpOption } from '@/fragment/help-option'
 import { VersionOption } from '@/fragment/version-option'
+import { Gateli } from '@/gateli'
 
 export type CommandConfig = {
   usage: string
@@ -41,7 +42,7 @@ export class Command {
     }
     return { options, positionals }
   }
-  execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt): void {
+  execHandler(arg: { options: Record<string, string | true> }, prompt: Prompt, gateli: Gateli): void {
     const handlerArg :{[key: string]: null | string | boolean } = Object.keys(this.config.param).reduce((o, key) => ({...o, [key]: null}), {})
 
     /** @todo resolve positionals  */
@@ -56,7 +57,7 @@ export class Command {
       }
       const defValue = this.config.param[defName]
       if (defValue instanceof HelpOption) {
-        return defValue.execHandler(prompt, this.classifyParam())
+        return defValue.execHandler(prompt, this.classifyParam(), gateli, this.route, this.config.description)
       } 
       if (defValue instanceof VersionOption) {
         return defValue.execHandler(prompt)

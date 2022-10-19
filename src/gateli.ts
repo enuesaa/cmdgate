@@ -56,7 +56,7 @@ export class Gateli {
     const passed = this.classifyPassedArgs(this.args ?? this.prompt.getArgs())
     const { resolved, command } = this.matcher(passed.serials, this.config.gate)
     if (resolved) {
-      command.execHandler({ options: passed.options }, this.prompt)
+      command.execHandler({ options: passed.options }, this.prompt, this)
     }
     this.prompt.close()
   }

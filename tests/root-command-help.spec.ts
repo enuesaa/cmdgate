@@ -1,15 +1,7 @@
 import { gateli, command, helpOption, option } from '../src/index'
-import { Prompt } from '../src/prompt'
+import { mockPromptPrintln } from './mock/prompt'
 
 describe('root command help', () => {
-  let mockPromptPrintln: jest.SpyInstance
-  beforeEach(() => {
-    mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
-  })
-  afterEach(() => {
-    mockPromptPrintln.mockRestore()
-  })
-
   it('help', () => {
     gateli({
       gate: [

@@ -1,15 +1,7 @@
 import { gateli, command } from '../src/index'
-import { Prompt } from '../src/prompt'
+import { mockPromptPrintln } from './mock/prompt'
 
 describe('sub command', () => {
-  let mockPromptPrintln: jest.SpyInstance
-  beforeEach(() => {
-    mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
-  })
-  afterEach(() => {
-    mockPromptPrintln.mockRestore()
-  })
-
   it('sub command handler', () => {
     gateli({
       gate: [

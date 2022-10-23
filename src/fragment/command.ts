@@ -49,11 +49,11 @@ export class Command {
     }
     return { options, positionals }
   }
-  execHandler({ options, gateli }: { options: Record<string, string | true>, gateli: Gateli }): void {
+
+  execHandler({ options, positionals, gateli }: { options: Record<string, string | true>, positionals: string[], gateli: Gateli }): void {
     const prompt = gateli.prompt
     const handlerArg :{[key: string]: null | string | boolean } = Object.keys(this.config.param).reduce((o, key) => ({...o, [key]: null}), {})
 
-    /** @todo resolve positionals  */
     for (const [passedName, passedValue] of Object.entries(options)) {
       const defName = Object.entries(this.config.param).reduce((prev: string | false, [k, v]) => {
         if (prev !== false) { return prev }
@@ -71,6 +71,23 @@ export class Command {
         return defValue.execHandler(prompt)
       }
       handlerArg[defName] = passedValue
+    }
+
+    const { positionals: defPositionals } = this.classifyParam()
+    if (defPositionals.length > 0) {
+      if (positionals.length === 0) {
+        return prompt.error('need positional')
+      }
+      /** @todo should be DRY */
+      for (const [name, value] of  Object.entries(this.config.param)) {
+        if (value instanceof Positional) {
+          const position = value.position
+          if (positionals.length <= position) {
+            return prompt.error('need positional')
+          }
+          handlerArg[name] = positionals[position]
+        }
+      }
     }
 
     if (this.config.handler !== null) {

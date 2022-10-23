@@ -55,9 +55,11 @@ export class Gateli {
   exec() {
     this.prompt = new Prompt()
     const { serials, options } = this.classifyPassedArgs()
-    const { resolved, command } = this.matcher(this.config.gate, serials, )
+    const { resolved, command } = this.matcher(this.config.gate, serials)
     if (resolved) {
-      command.execHandler({ options: options, gateli: this })
+      const commandRoute = command.route
+      const positionals = serials.join(' ').replace(commandRoute, '').split(' ') // @todo fix replace
+      command.execHandler({ options, positionals, gateli: this })
     } else {
       this.prompt.error('not found')
     }

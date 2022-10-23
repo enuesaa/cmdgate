@@ -1,7 +1,5 @@
-import { Option } from '@/fragment/option'
-import { Prompt } from '@/prompt'
-import { Positional } from './positional'
 import { Gateli } from '@/gateli'
+import { Command } from '@/fragment/command'
 
 export type HelpOptionConfig = {
   alias: string
@@ -9,10 +7,8 @@ export type HelpOptionConfig = {
 }
 
 export class HelpOption {
-  name: string | null
+  name: string
   config: HelpOptionConfig
-  alias: string | null
-  message: string | null
 
   constructor(name: string, config: Partial<HelpOptionConfig>) {
     this.name = name
@@ -23,22 +19,26 @@ export class HelpOption {
     return this.name === name || this.config.alias === name
   }
 
-  generateHelpMessage(options: Option[], positionals: Positional[], gateli: Gateli, route: string, description: string): string {
+  generateDefaultMessage(gateli: Gateli, triggered: Command): string {
+    const route = triggered.route
+    const description = triggered.config.description
+    const { options, positionals } = triggered.classifyParam()
     const commands = gateli.config.gate
-    const matchedCommands = commands.filter(v => v.route.startsWith(route))
+    const matchedCommands = commands.filter((v) => v.route.startsWith(route))
+
     return `${route}
 ${description}
 
 commands:
-${matchedCommands.map(v => `  ${v.route}`).join('\n')}
+${matchedCommands.map((v) => `  ${v.route}`).join('\n')}
 
 options:
 ${options.map((v) => `  ${v.name}`).join('\n')}
 `
   }
 
-  execHandler(prompt: Prompt, def: { options: Option[], positionals: Positional[] }, gateli: Gateli, route: string, description: string) {
-    const message = this.generateHelpMessage(def.options, def.positionals, gateli, route, description)
-    prompt.println(message)
+  exec(gateli: Gateli, triggered: Command) {
+    const message = this.generateDefaultMessage(gateli, triggered)
+    gateli.prompt.println(message)
   }
 }

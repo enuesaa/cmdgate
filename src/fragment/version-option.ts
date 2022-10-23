@@ -1,4 +1,5 @@
-import { Prompt } from '@/prompt'
+import { Gateli } from '@/gateli'
+import { Command } from './command'
 
 export type VersionOptionConfig = {
   alias: string | null
@@ -6,7 +7,7 @@ export type VersionOptionConfig = {
 }
 
 export class VersionOption {
-  name: string | null
+  name: string
   config: VersionOptionConfig
 
   constructor(name: string, config: Partial<VersionOptionConfig>) {
@@ -18,7 +19,7 @@ export class VersionOption {
     return this.name === name || this.config.alias === name
   }
 
-  execHandler(prompt: Prompt) {
-    prompt.println('version')
+  exec(gateli: Gateli, triggered: Command) {
+    gateli.prompt.println('version')
   }
 }

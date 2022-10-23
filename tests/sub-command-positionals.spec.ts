@@ -2,7 +2,7 @@ import { gateli, command, positional1, positional2 } from '../src/index'
 import { mockPromptPrintln } from './mock/prompt'
 
 describe('sub command positionals', () => {
-  it('sub command positional1', () => {
+  it('positional1', () => {
     gateli({
       gate: [
         command('', {}),
@@ -22,7 +22,7 @@ describe('sub command positionals', () => {
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('subcommand output. positional1 value is val')
   })
 
-  it('sub command positional1 and positional2', () => {
+  it('positional2', () => {
     gateli({
       gate: [
         command('', {}),

@@ -1,8 +1,8 @@
 import { gateli, command } from '../src/index'
 import { mockPromptPrintln } from './mock/prompt'
 
-describe('sub command', () => {
-  it('sub command handler', () => {
+describe('sub command handler', () => {
+  it('execute handler', () => {
     gateli({
       gate: [
         command('', {}),

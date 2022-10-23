@@ -2,7 +2,45 @@ import { gateli, command, option } from '../src/index'
 import { mockPromptPrintln } from './mock/prompt'
 
 describe('sub command option', () => {
-  it('sub command option name', () => {
+  it('pass args to handler', () => {
+    gateli({
+      gate: [
+        command('aaa', {
+          param: {
+            name: option('--name'),
+          },
+          handler: ({ args, prompt }) => {
+            prompt.println(args)
+          },
+        })
+      ],
+    })
+    .pass(['aaa', '--name', 'vkhbjnkm'])
+    .exec()
+
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatchObject({name: 'vkhbjnkm'})
+  })
+
+  it('invalid option', () => {
+    gateli({
+      gate: [
+        command('aaa', {
+          param: {
+            name: option('--name'),
+          },
+          handler: ({ args, prompt }) => {
+            prompt.println(args)
+          },
+        })
+      ],
+    })
+    .pass(['aaa', '--bbb', 'vkhbjnkm'])
+    .exec()
+
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('invaild option: --bbb')
+  })
+
+  it('pass boolean value to handler', () => {
     gateli({
       gate: [
         command('', {}),
@@ -22,7 +60,7 @@ describe('sub command option', () => {
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('subcommand output. args.bbb is true')
   })
 
-  it('sub command option name', () => {
+  it('alias', () => {
     gateli({
       gate: [
         command('', {}),

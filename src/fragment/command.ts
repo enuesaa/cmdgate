@@ -8,7 +8,7 @@ import { Gateli } from '@/gateli'
 type CommandParam = {
   [key: string]: Option | HelpOption | VersionOption | Positional
 }
-export type Handler = (handle: { args: { [key: keyof CommandParam]: string | null | boolean }; prompt: Prompt }) => void
+export type Handler = (handle: { args: { [key: keyof CommandParam]: string | null | boolean| string[] }; prompt: Prompt }) => void
 export type CommandConfig = {
   usage: string
   description: string
@@ -56,7 +56,7 @@ export class Command {
     gateli: Gateli
   }): void {
     const prompt = gateli.prompt
-    const handlerArg: { [key: string]: null | string | boolean } = Object.keys(this.config.param).reduce(
+    const handlerArg: { [key: string]: null | string | boolean | string[] } = Object.keys(this.config.param).reduce(
       (o, key) => ({ ...o, [key]: null }),
       {}
     )
@@ -88,10 +88,14 @@ export class Command {
       for (const [name, value] of Object.entries(this.config.param)) {
         if (value instanceof Positional) {
           const position = value.position
-          if (positionals.length <= position) {
-            return prompt.error('need positional')
+          if (position === null) {
+            handlerArg[name] = positionals
+          } else {
+            if (positionals.length < position) {
+              return prompt.error('need positional')
+            }
+            handlerArg[name] = positionals[position - 1]
           }
-          handlerArg[name] = positionals[position]
         }
       }
     }

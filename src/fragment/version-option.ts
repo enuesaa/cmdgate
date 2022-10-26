@@ -20,6 +20,6 @@ export class VersionOption {
   }
 
   exec(gateli: Gateli, triggered: Command) {
-    gateli.prompt.println('version')
+    gateli.prompt.println(`version: ${gateli.config.version}`)
   }
 }

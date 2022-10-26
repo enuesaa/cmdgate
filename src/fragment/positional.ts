@@ -1,4 +1,5 @@
 export type PositionalConfig = {}
+
 export class Positional {
   position: number | null
   config: PositionalConfig

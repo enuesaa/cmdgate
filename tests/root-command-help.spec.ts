@@ -19,6 +19,6 @@ describe('root command help', () => {
     .pass(['--help'])
     .exec()
   
-    expect(mockPromptPrintln.mock.calls[0][0]).toBe('\n\n\ncommands:\n  \n\noptions:\n  --aaa\n')
+    expect(mockPromptPrintln.mock.calls[0][0]).toBe('\n\n\ncommands:\n  \noptions:\n  --aaa\n')
   })
 })

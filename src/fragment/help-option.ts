@@ -26,15 +26,17 @@ export class HelpOption {
     const commands = gateli.config.gate
     const matchedCommands = commands.filter((v) => v.route.startsWith(route))
 
-    return `${route}
-${description}
-
-commands:
-${matchedCommands.map((v) => `  ${v.route}`).join('\n')}
-
-options:
-${options.map((v) => `  ${v.name}`).join('\n')}
-`
+    return (
+      `${route}\n`
+      + `${description}\n`
+      + '\n'
+      + 'commands:\n'
+      + matchedCommands.map((v) => `  ${v.route}`).join('\n')
+      + '\n'
+      + 'options:\n'
+      + options.map((v) => `  ${v.name}`).join('\n')
+      + '\n'
+    )
   }
 
   exec(gateli: Gateli, triggered: Command) {

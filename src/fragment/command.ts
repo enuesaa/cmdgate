@@ -5,16 +5,16 @@ import { HelpOption } from '@/fragment/help-option'
 import { VersionOption } from '@/fragment/version-option'
 import { Gateli } from '@/gateli'
 
-type CommandParam = {
-  [key: string]: Option | HelpOption | VersionOption | Positional
-}
-export type Handler = (handle: { args: { [key: keyof CommandParam]: string | null | boolean| string[] }; prompt: Prompt }) => void
+export type Handler = (handle: { args: { [key: string]: string | null | boolean| string[] }; prompt: Prompt }) => void
 export type CommandConfig = {
   usage: string
   description: string
-  param: CommandParam
+  param: {
+    [key: string]: Option | HelpOption | VersionOption | Positional
+  }
   handler: Handler | null
 }
+
 export class Command {
   route: string
   config: CommandConfig
@@ -46,62 +46,76 @@ export class Command {
     return { options, positionals }
   }
 
-  execHandler({
-    options,
-    positionals,
-    gateli,
-  }: {
-    options: Record<string, string | true>
-    positionals: string[]
-    gateli: Gateli
-  }): void {
-    const prompt = gateli.prompt
-    const handlerArg: { [key: string]: null | string | boolean | string[] } = Object.keys(this.config.param).reduce(
-      (o, key) => ({ ...o, [key]: null }),
-      {}
-    )
+  retriveParamDefName(passed: string): string|false {
+    for(const [name, def] of Object.entries(this.config.param)) {
+      if (def.isMatch(passed)) {
+        return name
+      }
+    }
+    return false
+  }
 
-    for (const [passedName, passedValue] of Object.entries(options)) {
-      const defName = Object.entries(this.config.param).reduce((prev: string | false, [k, v]) => {
-        if (prev !== false) {
-          return prev
-        }
-        return v instanceof Positional ? false : v.isMatch(passedName) ? k : false
-      }, false)
+  mapParams({ options, positionals }: {options: Record<string, string | true>; positionals: string[]}): {mapped: {[k: string]: string|boolean|string[]|null}, invalid: string[]} {
+    const mapped: {[k: string]: string|boolean|string[]|null} = {}
+    const invalid: string[] = []
 
+    for (const [name, value] of Object.entries(options)) {
+      const defName = this.retriveParamDefName(name)
       if (defName === false) {
-        return prompt.error(`invaild option: ${passedName}`)
+        invalid.push(name)
+        continue
       }
-      const defValue = this.config.param[defName]
-      if (defValue instanceof HelpOption || defValue instanceof VersionOption) {
-        return defValue.exec(gateli, this)
-      }
-      handlerArg[defName] = passedValue
+      mapped[defName] = value
     }
 
-    const { positionals: defPositionals } = this.classifyParam()
-    if (defPositionals.length > 0) {
-      if (positionals.length === 0) {
-        return prompt.error('need positional')
-      }
-      /** @todo should be DRY */
-      for (const [name, value] of Object.entries(this.config.param)) {
-        if (value instanceof Positional) {
-          const position = value.position
-          if (position === null) {
-            handlerArg[name] = positionals
-          } else {
-            if (positionals.length < position) {
-              return prompt.error('need positional')
-            }
-            handlerArg[name] = positionals[position - 1]
-          }
+    for (const [defName, defValue] of Object.entries(this.config.param)) {
+      if (defValue instanceof Positional) {
+        const position = defValue.position
+        if (position === null) {
+          mapped[defName] = positionals
+        } else if (positionals.length >= position) {
+          mapped[defName] = positionals[position - 1]
+        } else {
+          mapped[defName] = null
         }
+      }
+    }
+
+    return {mapped, invalid}
+  }
+
+  validateParam({mapped, invalid }: {mapped: {[k: string]: string|boolean|string[]|null}, invalid: string[]}): [boolean, string|null] {
+    if (invalid.length > 0) {
+      return [false, `invalid option: ${invalid[0]}`]
+    }
+    for (const [defName, defValue] of Object.entries(this.config.param)) {
+      if (defValue instanceof Positional && !defValue.isValid(mapped[defName])) {
+        return [false, 'need positional']
+      }
+    }
+    return [true, null]
+  }
+
+  exec({ options, positionals, gateli }: {options: Record<string, string | true>; positionals: string[]; gateli: Gateli}): void {
+    const {mapped, invalid} = this.mapParams({options, positionals})
+    const [result, errorMessage] = this.validateParam({mapped, invalid})
+    if (!result) {
+      gateli.prompt.error(errorMessage)
+    }
+
+    for (const [defName, defValue] of Object.entries(this.config.param)) {
+      if (defValue instanceof HelpOption && mapped[defName] === true) {
+        defValue.exec(gateli, this)
+        return;
+      }
+      if (defValue instanceof VersionOption && mapped[defName] === true) {
+        defValue.exec(gateli, this)
+        return;
       }
     }
 
     if (this.config.handler !== null) {
-      this.config.handler({ args: handlerArg, prompt: prompt })
+      this.config.handler({ args: mapped, prompt: gateli.prompt })
     }
   }
 }

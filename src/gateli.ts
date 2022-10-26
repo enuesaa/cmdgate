@@ -59,7 +59,7 @@ export class Gateli {
     if (resolved) {
       const commandRoute = command.route
       const positionals = serials.join(' ').replace(commandRoute, '').split(' ').filter(v => v !== '') // @todo fix replace
-      command.execHandler({ options, positionals, gateli: this })
+      command.exec({ options, positionals, gateli: this })
     } else {
       this.prompt.error('not found')
     }

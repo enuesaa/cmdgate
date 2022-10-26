@@ -37,7 +37,7 @@ describe('sub command option', () => {
     .pass(['aaa', '--bbb', 'vkhbjnkm'])
     .exec()
 
-    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('invaild option: --bbb')
+    expect(mockPromptPrintln.mock.calls[0][0]).toMatch('invalid option: --bbb')
   })
 
   it('pass boolean value to handler', () => {

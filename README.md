@@ -1,5 +1,5 @@
 **Work in progress..**
-# gateli
+# cmdgate
 commandgate
 
 ## Usage
@@ -34,8 +34,8 @@ const cli = createCommand()
     req
       .handler(checkNeedHelpHandler)
       .handler(checkNeedVersionHandler)
-      .on('needHelp', helpMessagePresenter)
-      .on('needVersion', versionMessagePresenter)
+      .on('needHelp', showHelpMessageHandler) // abort
+      .on('needVersion', showVersionMessageHandler)
     return req
   })
   .route('aaa', aaa)

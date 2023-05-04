@@ -1,42 +1,45 @@
 **Work in progress..**
 # gateli
+commandgate
+
 ## Usage
 ~~~ts
-import { createCommand, createRoute, createContext, validator } from './src/main'
+import { createCommand, createRoute, createContext, validationHandler } from './src/main'
 
 // state
 type AaaStates = 'init'|'validationSucceeded'|'validationFailed'
 type AdditionalData = {a: 'b'}
-const aaaContext = createContext<AaaStates, AdditionalData>()
 
-const aaaGate = createGate()
-  .context(aaaContext)
-  .handler(validationHandler) // (context) => { context.args }
-  .handler(mainHandler)
-  .on('validationFailed', startPromptIfMissingArgHandler)
-  .gate('ddd', dddHandler)
-
-const aaaRoute = createRoute()
+const aaa = createRoute()
   .argument('name')
   .option('--aaa', 'aaa option')
   .description('aaa command.')
-  .gate(aaaGate)
+  .gate(req => {
+    const aaaContext = createContext<AaaStates, AdditionalData>()
+    req
+      .context(aaaContext)
+      .handler(validationHandler) // (context) => { context.args }
+      .handler(mainHandler)
+      .on('validationFailed', startPromptIfMissingArgHandler)
+    return req
+  })
 
 // type guard 的なことをできればいいけど, 難しいだろうなあ
-
-const mainGate = createGate()
-  .handler(checkNeedHelpHandler)
-  .handler(checkNeedVersionHandler)
-  .on('needHelp', helpMessagePresenter)
-  .on('needVersion', versionMessagePresenter)
 
 const cli = createCommand()
   .name('sample')
   .option('--help', 'help option')
   .option('--version', 'version option')
-  .gate(mainGate)
-  .route('aaa', aaaRoute)
-  .route('bbb cc', aaaRoute)
+  .gate(req => {
+    req
+      .handler(checkNeedHelpHandler)
+      .handler(checkNeedVersionHandler)
+      .on('needHelp', helpMessagePresenter)
+      .on('needVersion', versionMessagePresenter)
+    return req
+  })
+  .route('aaa', aaa)
+  .route('bbb cc', bbb)
 
 cli.run()
 ~~~

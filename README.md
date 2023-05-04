@@ -1,37 +1,22 @@
-**DEVELOPING**
-
+**Work in progress..**
 # gateli
-## usage
+## Usage
 ~~~ts
-import { gateli, command, option, helpOption, versionOption } from './src/index'
+import { createCommand, createRoute } from './src/main'
 
-gateli({
-  name: 'sample', // bin name
-  gate: [
-    command('aaa', {
-      param: {
-        input: option('--input', {}),
-      },
-    }),
-    command('aaa aa', {
-      handler: () => { console.log('aaa.aa'); return {} },
-    }),
-    command('bbb', {
-      handler: () => { console.log('bbb'); return {} },
-    }),
-    command('ccc', {
-      handler: () => { console.log('ccc'); return {} },
-    }),
-    command('', {
-      param: {
-        help: helpOption('--help', { alias: '-h' }),
-        version: versionOption('--version', { alias: '-v' }),
-      },
-      handler: ({ prompt }) => {},
-    }),
-  ],
-})
-.exec()
+const aaaRoute = createRoute()
+  .argument('name')
+  .description('aaa command.')
+  .handler(validationHandler)
+  .handler(startPromptIfMissingArgHandler)
+  .handler(mainHandler)
+
+const cli = createCommand()
+  .name('sample')
+  .route('aaa', aaaRoute)
+  .route('bbb cc', aaaRoute)
+
+cli.run()
 ~~~
 
 ## Memo
@@ -40,4 +25,4 @@ gateli({
 ただしヘルプメッセージを構築したり、コマンドライン引数を扱うときにヘルパーツールが欲しくなるので、ライブラリ的でありたい
 
 ## http middleware のように層を重ねる感じにしたい
-前述のようにある処理が必要な場面と必要でない場面があるので、コマンドごとに取り外せるようにしたい
+[gin](https://github.com/gin-gonic/gin) のように handler を重ねられればベスト

@@ -2,13 +2,15 @@
 # gateli
 ## Usage
 ~~~ts
-import { createCommand, createRoute } from './src/main'
+import { createCommand, createRoute, validator } from './src/main'
 
 const aaaRoute = createRoute()
   .argument('name')
+  .option('--aaa', 'aaa option')
   .description('aaa command.')
-  .handler(validationHandler)
+  .handler(validationHandler) // (context) => { context.args }
   .handler(startPromptIfMissingArgHandler)
+  // type guard 的なことをできればいいけど, 難しいだろうなあ
   .handler(mainHandler)
 
 const cli = createCommand()

@@ -2,19 +2,39 @@
 # gateli
 ## Usage
 ~~~ts
-import { createCommand, createRoute, validator } from './src/main'
+import { createCommand, createRoute, createContext, validator } from './src/main'
+
+// state
+type AaaStates = 'init'|'validationSucceeded'|'validationFailed'
+type AdditionalData = {a: 'b'}
+const aaaContext = createContext<AaaStates, AdditionalData>()
+
+const aaaGate = createGate()
+  .context(aaaContext)
+  .handler(validationHandler) // (context) => { context.args }
+  .handler(mainHandler)
+  .on('validationFailed', startPromptIfMissingArgHandler)
+  .gate('ddd', dddHandler)
 
 const aaaRoute = createRoute()
   .argument('name')
   .option('--aaa', 'aaa option')
   .description('aaa command.')
-  .handler(validationHandler) // (context) => { context.args }
-  .handler(startPromptIfMissingArgHandler)
-  // type guard 的なことをできればいいけど, 難しいだろうなあ
-  .handler(mainHandler)
+  .gate(aaaGate)
+
+// type guard 的なことをできればいいけど, 難しいだろうなあ
+
+const mainGate = createGate()
+  .handler(checkNeedHelpHandler)
+  .handler(checkNeedVersionHandler)
+  .on('needHelp', helpMessagePresenter)
+  .on('needVersion', versionMessagePresenter)
 
 const cli = createCommand()
   .name('sample')
+  .option('--help', 'help option')
+  .option('--version', 'version option')
+  .gate(mainGate)
   .route('aaa', aaaRoute)
   .route('bbb cc', aaaRoute)
 

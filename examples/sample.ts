@@ -1,5 +1,10 @@
 import { createCommand, createGate } from '@/index'
+import type { Handler } from '@/index'
 
+const checkNeedHelpHandler: Handler = (context) => {
+  console.log('a')
+  return context
+}
 
 const global = createGate()
   .option('--help', {
@@ -11,11 +16,11 @@ const global = createGate()
     alias: '-v',
   })
   .steps(steps => {
-    // steps
-    //   .handler(checkNeedHelpHandler)
-    //   .handler(checkNeedVersionHandler)
-    //   .on('needHelp', showHelpMessageHandler) // abort
-    //   .on('needVersion', showVersionMessageHandler)
+    steps
+      .handler(checkNeedHelpHandler)
+      .handler(checkNeedHelpHandler)
+      .on('needHelp', checkNeedHelpHandler) // abort
+      .on('needVersion', checkNeedHelpHandler)
     return steps
   })
 

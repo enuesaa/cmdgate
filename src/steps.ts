@@ -1,23 +1,30 @@
-type Context = {}
-type Handler = (context: Context) => Context;
-type EventHandler = {
-  name: string,
-  handler: Handler;
-}
+import { Context } from '@/context'
+
+export type Handler = (context: Context) => Context;
+type OrderedHandlers = Handler[]
+type MappedHandlers = Record<string, Handler> 
 
 export class Steps {
   constructor(
-    protected _handlers: Handler[] = [],
-    protected _eventHandlers: EventHandler[] = [],
+    protected _orderedHandlers: OrderedHandlers = [],
+    protected _mappedHandlers: MappedHandlers = {},
   ) {}
 
   handler(handler: Handler): this {
-    this._handlers.push(handler)
+    this._orderedHandlers.push(handler)
     return this
   }
 
   on(name: string, handler: Handler): this {
-    this._eventHandlers.push({ name, handler })
+    this._mappedHandlers[name] = handler
     return this
+  }
+
+  getOrderedHandlers(): OrderedHandlers {
+    return this._orderedHandlers
+  }
+
+  getMappedHandlers(): MappedHandlers {
+    return this._mappedHandlers
   }
 }

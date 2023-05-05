@@ -1,7 +1,5 @@
-import { Gate, GlobalGates, MappedGates } from '@/gate';
+import { Gate, Middlewares, Gates } from '@/gate';
 import process from 'node:process'
-import { promises as readline } from 'node:readline'
-import { Steps } from '@/steps'
 import { Context } from '@/context'
 import { runGate } from '@/runner'
 
@@ -9,8 +7,8 @@ export class Command {
   constructor(
     protected _name: string = '',
     protected _description: string = '',
-    protected _globalGates: GlobalGates = [],
-    protected _mappedGates: MappedGates = {},
+    protected _middlewares: Middlewares = [],
+    protected _gates: Gates = {},
   ) {}
 
   name(name: string): this {
@@ -24,12 +22,12 @@ export class Command {
   }
 
   use(gate: Gate): this {
-    this._globalGates.push(gate)
+    this._middlewares.push(gate)
     return this
   }
 
   gate(name: string, gate: Gate): this {
-    this._mappedGates[name] = gate
+    this._gates[name] = gate
     return this
   }
 
@@ -37,12 +35,12 @@ export class Command {
     const args = process.argv.slice(2) // hide bin
     let context = new Context()
 
-    for (const gate of this._globalGates) {
+    for (const gate of this._middlewares) {
       context = runGate(gate, context)
     }
 
     const route = context.getParsedRoute()
-    for (const [gateRoute, gate] of Object.entries(this._mappedGates)) {
+    for (const [gateRoute, gate] of Object.entries(this._gates)) {
       if (gateRoute === route) {
         runGate(gate, context)
         break;

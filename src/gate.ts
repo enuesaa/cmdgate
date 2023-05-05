@@ -4,8 +4,8 @@ import { Argument, ArgumentConfig } from '@/argument'
 import { Context } from '@/context'
 import { runGate } from '@/runner'
 
-export type GlobalGates = Gate[]
-export type MappedGates = Record<string, Gate>
+export type Middlewares = Gate[]
+export type Gates = Record<string, Gate>
 type BuildStepsFn = (steps: Steps) => Steps
 
 export class Gate {
@@ -14,8 +14,8 @@ export class Gate {
     protected _options: Option[] = [],
     protected _buildStepsFn: BuildStepsFn = (steps) => steps,
     protected _description: string = '',
-    protected _globalGates: GlobalGates = [],
-    protected _mappedGates: MappedGates = {},
+    protected _middlewares: Middlewares = [],
+    protected _gates: Gates = {},
   ) {}
 
   argument(name: string, config: ArgumentConfig): this {
@@ -39,12 +39,12 @@ export class Gate {
   }
 
   use(gate: Gate): this {
-    this._globalGates.push(gate)
+    this._middlewares.push(gate)
     return this
   }
 
   gate(name: string, gate: Gate): this {
-    this._mappedGates[name] = gate
+    this._gates[name] = gate
     return this
   }
 
@@ -53,12 +53,12 @@ export class Gate {
   }
 
   run(context: Context): Context {
-    for (const gate of this._globalGates) {
+    for (const gate of this._middlewares) {
       context = runGate(gate, context)
     }
 
     const route = context.getParsedRoute()
-    for (const [gateRoute, gate] of Object.entries(this._mappedGates)) {
+    for (const [gateRoute, gate] of Object.entries(this._gates)) {
       if (gateRoute === route) {
         runGate(gate, context)
         break;

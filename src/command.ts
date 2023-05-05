@@ -1,16 +1,10 @@
-import { Gate } from '@/gate'
-import { Route } from '@/route';
-import { Option, OptionConfig } from '@/option'
-
-type GateBuildfn = (gate: Gate) => Gate;
+import { Gate } from '@/gate';
 
 export class Command {
   constructor(
     protected _name: string = '',
     protected _description: string = '',
-    protected _options: Option[] = [],
-    protected _gates: GateBuildfn[] = [],
-    protected _routes: Route[] = [],
+    protected _gates: Gate[] = [],
   ) {}
 
   name(name: string): this {
@@ -23,17 +17,13 @@ export class Command {
     return this
   }
 
-  option(name: string, config: OptionConfig): this {
-    this._options.push(new Option(name, config));
+  use(gate: Gate): this {
+    this._gates.push(gate)
     return this
   }
 
-  gate(buildfn: GateBuildfn): this {
-    this._gates.push(buildfn)
-    return this
-  }
-
-  route(name: string, route: Route): this {
+  gate(name: string, gate: Gate): this {
+    this._gates.push(gate)
     return this
   }
 

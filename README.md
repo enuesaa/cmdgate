@@ -19,7 +19,7 @@ const aaa = createGate()
     return steps
   })
 
-const gloabl = createGate()
+const global = createGate()
   .option('--help', {
     description: 'Print help message. ',
     alias: '-h',

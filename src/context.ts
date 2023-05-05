@@ -5,11 +5,10 @@ type Arg = {
   value: string;
 }
 
-export class Context<S extends string[], T extends Record<'string', any>> {
+export class Context<S extends string[]> {
   constructor(
     protected _rawargs: string = '',
     protected _args: Arg[] = [],
-    protected _data: T = {} as T,
     protected _state: keyof S,
   ) {}
 
@@ -22,14 +21,6 @@ export class Context<S extends string[], T extends Record<'string', any>> {
   }
 
   get(name: string) {}
-
-  setData<N extends keyof T>(name: N, value: T[N]) {
-    this._data[name] = value;
-  }
-
-  getData<N extends keyof T>(name: N): T[N] {
-    return this._data[name]
-  }
 
   setState(state: keyof S) {
     this._state = state

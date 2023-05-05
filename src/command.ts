@@ -33,10 +33,10 @@ export class Command {
 
   run(): void {
     const args = process.argv.slice(2) // hide bin
-    let context = new Context()
+    const context = new Context()
 
     for (const gate of this._middlewares) {
-      context = runGate(gate, context)
+      runGate(gate, context)
     }
 
     const route = context.getParsedRoute()

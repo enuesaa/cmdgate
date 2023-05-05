@@ -2,7 +2,7 @@ import { Gate } from '@/gate'
 import { Steps } from '@/steps'
 import { Context } from '@/context'
 
-export const runGate = (gate: Gate, context: Context): Context => {
+export const runGate = (gate: Gate, context: Context) => {
   const buildStepsFn = gate.getBuildStepsFn()
   const steps = buildStepsFn(new Steps())
 
@@ -17,7 +17,7 @@ export const runGate = (gate: Gate, context: Context): Context => {
       break;
     }
 
-    context = handler(context)
+    handler(context)
   }
 
   let state = context.getState()
@@ -25,10 +25,8 @@ export const runGate = (gate: Gate, context: Context): Context => {
     if (context.isAborted()) {
       break;
     }
-    context = mapped[state](context)        
+    mapped[state](context)        
   }
 
-  context = gate.run(context)
-
-  return context
+  gate.run(context)
 }

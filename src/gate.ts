@@ -54,7 +54,7 @@ export class Gate {
 
   run(context: Context): Context {
     for (const gate of this._middlewares) {
-      context = runGate(gate, context)
+      runGate(gate, context)
     }
 
     const route = context.getParsedRoute()

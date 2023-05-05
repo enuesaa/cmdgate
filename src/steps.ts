@@ -1,6 +1,6 @@
 import { Context } from '@/context'
 
-export type Handler = (context: Context) => Context;
+export type Handler = (context: Context) => void;
 type OrderedHandlers = Handler[]
 type MappedHandlers = Record<string, Handler> 
 

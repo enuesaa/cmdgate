@@ -1,9 +1,9 @@
-import { Option } from '@/fragment/option'
-import { Positional } from '@/fragment/positional'
-import { Prompt } from '@/prompt'
-import { HelpOption } from '@/fragment/help-option'
-import { VersionOption } from '@/fragment/version-option'
-import { Gateli } from '@/gateli'
+import { Option } from '@/old/fragment/option'
+import { Positional } from '@/old/fragment/positional'
+import { Prompt } from '@/old/prompt'
+import { HelpOption } from '@/old/fragment/help-option'
+import { VersionOption } from '@/old/fragment/version-option'
+import { Gateli } from '@/old/gateli'
 
 export type Handler = (handle: { args: { [key: string]: string | null | boolean| string[] }; prompt: Prompt }) => void
 export type CommandConfig = {

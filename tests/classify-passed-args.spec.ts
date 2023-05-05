@@ -1,4 +1,4 @@
-import { Gateli } from '../src/gateli'
+import { Gateli } from '../src/old/gateli'
 
 describe('classify passed args', () => {
   it('normal', () => {

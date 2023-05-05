@@ -1,4 +1,4 @@
-import { Gateli } from '@/gateli'
+import { Gateli } from '@/old/gateli'
 import { Command } from './command'
 
 export type VersionOptionConfig = {

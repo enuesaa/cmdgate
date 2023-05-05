@@ -1,5 +1,5 @@
-import { Gateli } from '@/gateli'
-import { Command } from '@/fragment/command'
+import { Gateli } from '@/old/gateli'
+import { Command } from '@/old/fragment/command'
 
 export type HelpOptionConfig = {
   alias: string

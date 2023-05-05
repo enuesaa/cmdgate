@@ -1,5 +1,5 @@
-import { Command } from '@/fragment/command'
-import { Prompt } from '@/prompt'
+import { Command } from '@/old/fragment/command'
+import { Prompt } from '@/old/prompt'
 
 export type GateliConfig = {
   name: string

@@ -4,7 +4,7 @@ commandgate
 
 ## Usage
 ~~~ts
-import { createCommand, createRoute, createContext, validationHandler } from './src/main'
+import { createCommand, createRoute, createContext, validationHandler } from './src/index'
 
 // state
 type AaaStates = 'init'|'validationSucceeded'|'validationFailed'
@@ -30,8 +30,8 @@ const cli = createCommand()
   .name('sample')
   .option('--help', 'help option')
   .option('--version', 'version option')
-  .gate(req => {
-    req
+  .gate(gate => {
+    gate
       .handler(checkNeedHelpHandler)
       .handler(checkNeedVersionHandler)
       .on('needHelp', showHelpMessageHandler) // abort

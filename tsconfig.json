@@ -19,5 +19,5 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**.ts", "examples"]
+  "include": ["src/**/*.ts", "tests/**.ts", "sample-package-manager"]
 }

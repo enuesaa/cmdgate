@@ -1,15 +1,13 @@
 import { Gate } from '@/gate'
 import { Route } from '@/route';
+import { Option, OptionConfig } from '@/option'
 
-type Option = {
-  name: string;
-  description: string;
-}
 type GateBuildfn = (gate: Gate) => Gate;
 
 export class Command {
   constructor(
     protected _name: string = '',
+    protected _description: string = '',
     protected _options: Option[] = [],
     protected _gates: GateBuildfn[] = [],
     protected _routes: Route[] = [],
@@ -19,9 +17,14 @@ export class Command {
     this._name = name;
     return this
   }
-  
-  option(name: string, description: string): this {
-    this._options.push({ name, description });
+
+  description(description: string): this {
+    this._description = description;
+    return this
+  }
+
+  option(name: string, config: OptionConfig): this {
+    this._options.push(new Option(name, config));
     return this
   }
 

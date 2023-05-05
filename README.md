@@ -1,45 +1,47 @@
 **Work in progress..**
 # cmdgate
-commandgate
-
 ## Usage
 ~~~ts
-import { createCommand, createRoute, createContext, validationHandler } from './src/index'
+import { createCommand, createGate, validationHandler } from './src/index'
 
 // state
 type AaaStates = 'init'|'validationSucceeded'|'validationFailed'
-type AdditionalData = {a: 'b'}
 
-const aaa = createRoute()
+const aaa = createGate()
   .argument('name')
   .option('--aaa', 'aaa option')
   .description('aaa command.')
-  .gate(req => {
-    const aaaContext = createContext<AaaStates, AdditionalData>()
-    req
-      .context(aaaContext)
+  .steps((steps: Steps<AaaStates>) => {
+    steps
       .handler(validationHandler) // (context) => { context.args }
       .handler(mainHandler)
       .on('validationFailed', startPromptIfMissingArgHandler)
-    return req
+    return steps
   })
 
-// type guard 的なことをできればいいけど, 難しいだろうなあ
-
-const cli = createCommand()
-  .name('sample')
-  .option('--help', 'help option')
-  .option('--version', 'version option')
-  .gate(gate => {
-    gate
+const gloabl = createGate()
+  .option('--help', {
+    description: 'Print help message. ',
+    alias: '-h',
+  })
+  .option('--version', {
+    description: 'Print version information. ',
+    alias: '-v',
+  })
+  .steps(steps => {
+    steps
       .handler(checkNeedHelpHandler)
       .handler(checkNeedVersionHandler)
       .on('needHelp', showHelpMessageHandler) // abort
       .on('needVersion', showVersionMessageHandler)
-    return req
+    return steps
   })
-  .route('aaa', aaa)
-  .route('bbb cc', bbb)
+
+const cli = createCommand()
+  .name('sample')
+  .use(global)
+  .gate('aaa', aaa)
+  .gate('bbb cc', bbb)
 
 cli.run()
 ~~~
@@ -51,3 +53,7 @@ cli.run()
 
 ## http middleware のように層を重ねる感じにしたい
 [gin](https://github.com/gin-gonic/gin) のように handler を重ねられればベスト
+
+
+## TODO
+- Check tsconfig settings. Undefined variables like `window` are suggested in vscode.

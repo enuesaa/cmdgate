@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc --build",
-    "start": "tsx examples/version-manager.ts",
+    "dev": "tsx examples/sample.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "jest"
   },

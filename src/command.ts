@@ -1,7 +1,7 @@
 import { Gate, Middlewares, Gates } from '@/gate';
-import process from 'node:process'
 import { Context } from '@/context'
 import { runGate } from '@/runner'
+import { getArgs } from '@/parse'
 
 export class Command {
   constructor(
@@ -31,9 +31,9 @@ export class Command {
     return this
   }
 
-  run(): void {
-    const args = process.argv.slice(2) // hide bin
-    const context = new Context()
+  run(args: string[] = getArgs()): void {
+    // const parsedArgs = parseArgs(args)
+    const context = new Context() // pass args
 
     for (const gate of this._middlewares) {
       runGate(gate, context)

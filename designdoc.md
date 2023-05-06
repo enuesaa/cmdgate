@@ -2,24 +2,24 @@
 
 ## Usage
 ~~~ts
-import { createCommand, createGate, validationHandler } from './src/index'
+import { createCommand, createHandler, validationHandler } from './src/index'
 
 // state
 type AaaStates = 'init'|'validationSucceeded'|'validationFailed'
 
-const aaa = createGate()
+const aaa = createHandler()
   .argument('name')
   .option('--aaa', 'aaa option')
   .description('aaa command.')
-  .steps((steps: Steps<AaaStates>) => {
-    steps
-      .handler(validationHandler) // (context) => { context.args }
-      .handler(mainHandler)
-      .on('validationFailed', startPromptIfMissingArgHandler)
-    return steps
+  .steps((context) => {
+    // anything welcome here.
+
+    if (!validate(context)) {
+      prompt()
+    }
   })
 
-const global = createGate()
+const global = createHandler()
   .option('--help', {
     description: 'Print help message. ',
     alias: '-h',
@@ -28,20 +28,24 @@ const global = createGate()
     description: 'Print version information. ',
     alias: '-v',
   })
-  .steps(steps => {
-    steps
-      .handler(checkNeedHelpHandler)
-      .handler(checkNeedVersionHandler)
-      .on('needHelp', showHelpMessageHandler) // abort
-      .on('needVersion', showVersionMessageHandler)
-    return steps
+  .steps(context => {
+    if (!validate(context)) {
+      prompt()
+    }
+    if (hasHelpFlag(context)) {
+      showHelpMessage()
+      return;
+    }
+    if (hasVersionFlag(context)) {
+      showVersionInformation()
+    }
   })
 
 const cli = createCommand()
   .name('sample')
   .use(global)
-  .gate('aaa', aaa)
-  .gate('bbb cc', bbb)
+  .route('aaa', aaa)
+  .route('bbb cc', bbb)
 
 cli.run()
 ~~~

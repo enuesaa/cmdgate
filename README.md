@@ -1,3 +1,3 @@
 **Work in progress..**
 # cmdgate
-NodeJS Cli Helper.
+NodeJS cli helper.

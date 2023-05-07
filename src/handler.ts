@@ -4,18 +4,18 @@ import { Argument, ArgumentConfig } from '@/argument'
 import { Context } from '@/context'
 import { runGate } from '@/runner'
 
-export type Middlewares = Gate[]
-export type Gates = Record<string, Gate>
+export type Middlewares = Handler[]
+export type Handlers = Record<string, Handler>
 type BuildStepsFn = (steps: Steps) => Steps
 
-export class Gate {
+export class Handler {
   constructor(
     protected _arguments: Argument[] = [],
     protected _options: Option[] = [],
     protected _buildStepsFn: BuildStepsFn = (steps) => steps,
     protected _description: string = '',
     protected _middlewares: Middlewares = [],
-    protected _gates: Gates = {},
+    protected _handlers: Handlers = {},
   ) {}
 
   argument(name: string, config: ArgumentConfig): this {
@@ -38,13 +38,13 @@ export class Gate {
     return this
   }
 
-  use(gate: Gate): this {
-    this._middlewares.push(gate)
+  use(handler: Handler): this {
+    this._middlewares.push(handler)
     return this
   }
 
-  gate(name: string, gate: Gate): this {
-    this._gates[name] = gate
+  handler(name: string, handler: Handler): this {
+    this._handlers[name] = handler
     return this
   }
 
@@ -58,7 +58,7 @@ export class Gate {
     }
 
     const route = context.getParsedRoute()
-    for (const [gateRoute, gate] of Object.entries(this._gates)) {
+    for (const [gateRoute, gate] of Object.entries(this._handlers)) {
       if (gateRoute === route) {
         runGate(gate, context)
         break;

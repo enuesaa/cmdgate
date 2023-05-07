@@ -1,7 +1,7 @@
 import { Command } from '@/command'
-import { Gate } from '@/gate'
+import { Hanlder } from '@/handler'
 
 export const createCommand = () => new Command()
-export const createGate = () => new Gate()
+export const createHandler = () => new Handler()
 
 export type { Handler } from '@/steps'

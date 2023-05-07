@@ -1,4 +1,4 @@
-import { Gate, Middlewares, Gates } from '@/gate';
+import { Handler, Middlewares, Handlers } from '@/handler';
 import { Context } from '@/context'
 import { runGate } from '@/runner'
 import { getArgs } from '@/parse'
@@ -8,7 +8,7 @@ export class Command {
     protected _name: string = '',
     protected _description: string = '',
     protected _middlewares: Middlewares = [],
-    protected _gates: Gates = {},
+    protected _handlers: Handlers = {},
   ) {}
 
   name(name: string): this {
@@ -21,13 +21,13 @@ export class Command {
     return this
   }
 
-  use(gate: Gate): this {
-    this._middlewares.push(gate)
+  use(handler: Handler): this {
+    this._middlewares.push(handler)
     return this
   }
 
-  gate(name: string, gate: Gate): this {
-    this._gates[name] = gate
+  handler(name: string, handler: Handler): this {
+    this._handlers[name] = handler
     return this
   }
 
@@ -40,7 +40,7 @@ export class Command {
     }
 
     const route = context.getParsedRoute()
-    for (const [gateRoute, gate] of Object.entries(this._gates)) {
+    for (const [gateRoute, gate] of Object.entries(this._handlers)) {
       if (gateRoute === route) {
         runGate(gate, context)
         break;

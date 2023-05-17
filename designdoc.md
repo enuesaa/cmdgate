@@ -1,21 +1,17 @@
 # Designdoc
-
 ## Usage
 ~~~ts
-import { createCommand, createHandler, validationHandler } from './src/index'
-
-// state
-type AaaStates = 'init'|'validationSucceeded'|'validationFailed'
+import { createCommand, createHandler } from './src/index'
 
 const aaa = createHandler()
   .argument('name')
   .option('--aaa', 'aaa option')
   .description('aaa command.')
-  .steps((context) => {
+  .handle((context, prompt) => {
     // anything welcome here.
 
-    if (!validate(context)) {
-      prompt()
+    if (!context.validate()) {
+      prompt.exit(1)
     }
   })
 
@@ -28,16 +24,17 @@ const global = createHandler()
     description: 'Print version information. ',
     alias: '-v',
   })
-  .steps(context => {
-    if (!validate(context)) {
-      prompt()
+  .handle((context, prompt) => {
+    if (!context.validate()) {
+      prompt.exit(1)
     }
-    if (hasHelpFlag(context)) {
-      showHelpMessage()
+    if (context.hasFlag('--help')) {
+      prompt.showHelpMessage()
       return;
     }
-    if (hasVersionFlag(context)) {
-      showVersionInformation()
+    if (context.hasFlag('--version')) {
+      prompt.showVersionInformation()
+      return;
     }
   })
 
@@ -51,10 +48,6 @@ cli.run()
 ~~~
 
 ## Memo
-### フレームワークではなくライブラリにしたい
-規模によるがNodeJSでCLIツールを作るのは簡単である.. 
-ただしヘルプメッセージを構築したり、コマンドライン引数を扱うときにヘルパーツールが欲しくなるので、ライブラリ的でありたい
-
 ## http middleware のように層を重ねる感じにしたい
 [gin](https://github.com/gin-gonic/gin) のように handler を重ねられればベスト
 

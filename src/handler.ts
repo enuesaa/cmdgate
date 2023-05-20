@@ -1,4 +1,3 @@
-import { Steps } from '@/steps'
 import { Option, OptionConfig } from '@/option'
 import { Argument, ArgumentConfig } from '@/argument'
 import { Context } from '@/context'
@@ -6,13 +5,13 @@ import { runGate } from '@/runner'
 
 export type Middlewares = Handler[]
 export type Handlers = Record<string, Handler>
-type BuildStepsFn = (steps: Steps) => Steps
+type HandleFn = () => void
 
 export class Handler {
   constructor(
     protected _arguments: Argument[] = [],
     protected _options: Option[] = [],
-    protected _buildStepsFn: BuildStepsFn = (steps) => steps,
+    protected _handlefn: HandleFn = () => {},
     protected _description: string = '',
     protected _middlewares: Middlewares = [],
     protected _handlers: Handlers = {},
@@ -33,8 +32,8 @@ export class Handler {
     return this
   }
 
-  steps(buildStepsFn: BuildStepsFn): this {
-    this._buildStepsFn = buildStepsFn;
+  handle(handlefn: HandleFn): this {
+    this._handlefn = handlefn;
     return this
   }
 
@@ -46,10 +45,6 @@ export class Handler {
   handler(name: string, handler: Handler): this {
     this._handlers[name] = handler
     return this
-  }
-
-  getBuildStepsFn(): BuildStepsFn {
-    return this._buildStepsFn
   }
 
   run(context: Context): Context {

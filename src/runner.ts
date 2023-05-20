@@ -1,7 +1,9 @@
 import { Gate } from '@/gate'
-import { Steps } from '@/steps'
 import { Context } from '@/context'
 
+/**
+ * @deprecated
+ */
 export const runGate = (gate: Gate, context: Context) => {
   const buildStepsFn = gate.getBuildStepsFn()
   const steps = buildStepsFn(new Steps())

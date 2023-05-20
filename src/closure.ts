@@ -1,20 +1,23 @@
-export const createState = <T>(initialValue: T, actions: Record<string, (state: T) => any>) => {
+export const createState = <T>(initialValue: T) => {
   let state = initialValue;
 
-  return Object.assign(actions, {
+  return {
     state: () => { return state },
-  })
+    setState: (state: T) => {},
+  }
 }
 
 type CommandState = {
   name: string,
 }
-const commandStateInit: CommandState = {
+export const command = createState<CommandState>({
   name: 'a',
-}
-export const command = createState<CommandState>(commandStateInit, {
-  name: (state) => (value: string) => {
-    state.name = value;
-    return command
-  },
 })
+
+const createCommand = {
+  name: (name: string) => {
+    const state = command.state()
+    state.name = name
+    command.setState(state)
+  }
+}

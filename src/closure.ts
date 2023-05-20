@@ -1,15 +1,20 @@
-export const use = () => {
-  let state = 0;
+export const createState = <T>(initialValue: T, actions: Record<string, (state: T) => any>) => {
+  let state = initialValue;
 
-  return {
+  return Object.assign(actions, {
     state: () => { return state },
-    add: () => { state++; },
-  }
+  })
 }
 
-const a = use();
-a.add()
-console.log(a.state());
-
-// see https://qiita.com/takeharu/items/4975031faf6f7baf077a
-
+type CommandState = {
+  name: string,
+}
+const commandStateInit: CommandState = {
+  name: 'a',
+}
+export const command = createState<CommandState>(commandStateInit, {
+  name: (state) => (value: string) => {
+    state.name = value;
+    return command
+  },
+})

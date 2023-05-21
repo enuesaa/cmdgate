@@ -10,8 +10,7 @@
     "build": "tsc --build",
     "dev": "tsx sample-package-manager/cli.ts",
     "format": "prettier --write \"src/**/*.ts\"",
-    "test": "jest",
-    "closure": "tsx src/closure.ts"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^29.5.1",

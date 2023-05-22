@@ -6,12 +6,10 @@ type Arg = {
 }
 
 export class Context {
-  constructor(
-    protected _rawargs: string = '',
-    protected _args: Arg[] = [],
-    protected _state: null | string = null,
-    protected _isAborted: boolean = false,
-  ) {}
+  protected _rawargs: string = '';
+  protected _args: Arg[] = [];
+  protected _state: null | string = null;
+  protected _isAborted: boolean = false;
 
   getRawArgs(): string {
     return this._rawargs

@@ -4,12 +4,10 @@ import { runGate } from '@/runner'
 import { getArgs } from '@/parse'
 
 export class Command {
-  constructor(
-    protected _name: string = '',
-    protected _description: string = '',
-    protected _middlewares: Middlewares = [],
-    protected _handlers: Handlers = {},
-  ) {}
+  private _name: string = ''
+  private _description: string = ''
+  private _middlewares: Middlewares = []
+  private _handlers: Handlers = {}
 
   name(name: string): this {
     this._name = name
@@ -30,6 +28,8 @@ export class Command {
     this._handlers[name] = handler
     return this
   }
+
+  // describe()
 
   run(args: string[] = getArgs()): void {
     // const parsedArgs = parseArgs(args)

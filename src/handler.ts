@@ -8,14 +8,12 @@ export type Handlers = Record<string, Handler>
 type HandleFn = () => void
 
 export class Handler {
-  constructor(
-    protected _arguments: Argument[] = [],
-    protected _options: Option[] = [],
-    protected _handlefn: HandleFn = () => {},
-    protected _description: string = '',
-    protected _middlewares: Middlewares = [],
-    protected _handlers: Handlers = {},
-  ) {}
+  protected _arguments: Argument[] = [];
+  protected _options: Option[] = [];
+  protected _handlefn: HandleFn = () => {};
+  protected _description: string = '';
+  protected _middlewares: Middlewares = [];
+  protected _handlers: Handlers = {};
 
   argument(name: string, config: ArgumentConfig): this {
     this._arguments.push({ name, config })

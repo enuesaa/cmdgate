@@ -28,11 +28,11 @@ const global = createHandler()
     if (!context.validate()) {
       prompt.exit(1)
     }
-    if (context.hasFlag('--help')) {
+    if (context.hasOption('--help')) {
       prompt.showHelpMessage()
       return;
     }
-    if (context.hasFlag('--version')) {
+    if (context.hasOption('--version')) {
       prompt.showVersionInformation()
       return;
     }

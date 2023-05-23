@@ -1,6 +1,5 @@
-import { Handler, Middlewares, Handlers } from '@/handler';
+import { Handler, Middlewares, Handlers } from '@/handler'
 import { Context } from '@/context'
-import { runGate } from '@/runner'
 import { getArgs } from '@/parse'
 
 export class Command {

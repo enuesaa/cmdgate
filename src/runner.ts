@@ -1,6 +1,26 @@
 import { Gate } from '@/gate'
 import { Context } from '@/context'
 
+// TODO implements RunnerInterface
+
+export class Runner {
+  run(args: string[], manifest: ManifestInterface): number {
+    // for (const gate of this._middlewares) {
+    //   runGate(gate, context)
+    // }
+
+    // const route = context.getParsedRoute()
+    // for (const [gateRoute, gate] of Object.entries(this._handlers)) {
+    //   if (gateRoute === route) {
+    //     runGate(gate, context)
+    //     break;
+    //   }
+    // }
+    return 1
+  }
+}
+
+
 /**
  * @deprecated
  */

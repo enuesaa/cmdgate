@@ -1,5 +1,4 @@
 # nodejs
-dist
 node_modules
 
 # Logs
@@ -12,6 +11,9 @@ yarn-error.log*
 
 # misc
 .DS_Store
+
+# dist
+dist
 
 # editors
 .vscode

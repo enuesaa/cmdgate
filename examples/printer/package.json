@@ -1,0 +1,23 @@
+{
+  "name": "printer",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "cmdgate": "file:../../"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "esbuild": "^0.17.19",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.4"
+  },
+  "bin": {
+    "printer": "bin/printer.js"
+  }
+}

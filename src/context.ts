@@ -1,4 +1,5 @@
 
+// todo: arg だとかの定義が曖昧
 // bool or string or string[]
 type Arg = {
   name: string;
@@ -19,7 +20,12 @@ export class Context {
     return this._args
   }
 
-  get(name: string) {}
+  get(name: string): null | Arg {
+    if (name in this._args) {
+      return this._args[name]
+    }
+    return null
+  }
 
   setState(state: null | string) {
     this._state = state

@@ -18,6 +18,4 @@ class ParsedArgs {
   }
 }
 
-export const parseArgs = (args: string[]) => {
-
-}
+export const parseArgs = (args: string[]) => {}

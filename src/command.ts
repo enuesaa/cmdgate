@@ -1,12 +1,12 @@
-import { Handler, Middlewares } from '@/handler'
-import { Context } from '@/context'
+import { Handler } from '@/handler'
 import { getArgs } from '@/parse'
-import { Runner } from './runner'
+import { type Runner, defaultRunner } from '@/runner'
+import { type CommandManifest } from '@/manifest'
 
 export class Command {
   private _name: string = ''
   private _description: string = ''
-  private _middlewares: Middlewares = []
+  private _middlewares: Handler[] = []
   private _handlers: Record<string, Handler> = {}
 
   name(name: string): this {
@@ -25,19 +25,25 @@ export class Command {
   }
   
   route(route: string, handler: Handler): this {
-    this._handlers[route] = handler;
+    this._handlers[route] = handler
     return this
   }
 
-  // should return manifest interface
-  describeManifest(): any {
-    // describe this command information.
+  describeManifest(): CommandManifest {
+    return {
+      name: this._name,
+      description: this._description,
+      middlewares: this._middlewares,
+      handlers: this._handlers,
+    }
   }
 
-  run(args: string[] = getArgs(), runner: RunnerInterface = new Runner()): number {
+  /**
+   * @returns number exit code.
+   */
+  run(args: string[] = getArgs(), runner: Runner = defaultRunner): number {
     const manifest = this.describeManifest()
-    const exitCode = runner.run(args, manifest)
 
-    return exitCode ?? 1
+    return runner(args, manifest)
   }
 }

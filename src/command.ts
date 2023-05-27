@@ -42,9 +42,8 @@ export class Command {
    * @returns number exit code.
    */
   run(argv: string[] = process.argv, runner: Runner = defaultRunner): number {
-    const [_nodepath, _filename, ...args] = argv
     const manifest = this.describeManifest()
 
-    return runner(args, manifest)
+    return runner(argv, manifest)
   }
 }

@@ -1,8 +1,10 @@
 import { Context } from '@/context'
 import { CommandManifest } from '@/manifest'
 
-export type Runner = (args: string[], manifest: CommandManifest) => number;
-export const defaultRunner: Runner = (args, manifest) => {
+export type Runner = (argv: string[], manifest: CommandManifest) => number;
+export const defaultRunner: Runner = (argv, manifest) => {
+  const [_nodepath, _filename, ...args] = argv
+
   for (const handler of manifest.middlewares) {
     const handlerManifest = handler.describeManifest()
     handlerManifest.handlefn() // todo pass context

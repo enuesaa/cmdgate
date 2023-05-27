@@ -1,6 +1,6 @@
-import { Option, OptionConfig } from '@/option'
-import { Argument, ArgumentConfig } from '@/argument'
-import { HandleFn } from '@/handlefn'
+import { Option, OptionConfig } from '@/handler/option'
+import { Argument, ArgumentConfig } from '@/handler/argument'
+import { HandleFn } from '@/handler/handlefn'
 import { type HandlerManifest } from '@/manifest'
 
 export class Handler {

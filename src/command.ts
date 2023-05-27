@@ -1,5 +1,5 @@
 import { Handler } from '@/handler'
-import { getArgs } from '@/parse'
+import process from 'node:process'
 import { type Runner, defaultRunner } from '@/runner'
 import { type CommandManifest } from '@/manifest'
 
@@ -41,7 +41,8 @@ export class Command {
   /**
    * @returns number exit code.
    */
-  run(args: string[] = getArgs(), runner: Runner = defaultRunner): number {
+  run(argv: string[] = process.argv, runner: Runner = defaultRunner): number {
+    const [_nodepath, _filename, ...args] = argv
     const manifest = this.describeManifest()
 
     return runner(args, manifest)

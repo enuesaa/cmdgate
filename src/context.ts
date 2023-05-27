@@ -1,6 +1,6 @@
-
-// todo: arg だとかの定義が曖昧
-// bool or string or string[]
+/**
+ * @deprecated
+ */
 type Arg = {
   name: string;
   value: string;

@@ -1,7 +1,7 @@
 import { Handler } from '@/handler'
-import { Argument } from '@/argument'
-import { Option } from '@/option'
-import { type HandleFn } from '@/handlefn'
+import { Argument } from '@/handler/argument'
+import { Option } from '@/handler/option'
+import { type HandleFn } from '@/handler/handlefn'
 
 export type CommandManifest = {
   name: string;

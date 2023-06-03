@@ -1,14 +1,5 @@
-/**
- * @deprecated
- */
-type Arg = {
-  name: string;
-  value: string;
-}
-
 export class Context {
   protected _argv: string[] = [];
-  protected _args: Arg[] = [];
   protected _state: null | string = null;
   protected _isAborted: boolean = false;
 

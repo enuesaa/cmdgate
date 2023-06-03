@@ -1,7 +1,7 @@
-import { Handler } from '@/handler'
+import { Handler } from '@/handler/handler'
 import process from 'node:process'
-import { type Runner, defaultRunner } from '@/runner'
-import { type CommandManifest } from '@/manifest'
+import { type Runner, defaultRunner } from '@/runner/runner'
+import { type CommandManifest } from '@/runner/manifest'
 
 export class Command {
   private _name: string = ''

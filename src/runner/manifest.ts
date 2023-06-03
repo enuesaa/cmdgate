@@ -1,6 +1,6 @@
-import { Handler } from '@/handler'
-import { Argument } from '@/handler/argument'
-import { Option } from '@/handler/option'
+import { Handler } from '@/handler/handler'
+import { Argument } from '@/fragments/argument'
+import { Option } from '@/fragments/option'
 import { type HandleFn } from '@/handler/handlefn'
 
 export type CommandManifest = {

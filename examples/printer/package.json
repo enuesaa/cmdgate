@@ -7,6 +7,10 @@
   "files": [
     "dist"
   ],
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsx build.ts"
+  },
   "dependencies": {
     "cmdgate": "file:../../"
   },

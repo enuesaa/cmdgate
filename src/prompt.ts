@@ -4,7 +4,6 @@ import util from 'node:util'
 
 export class Prompt {
   readline: readline.Interface
-  args: string[] = []
 
   constructor() {
     /**
@@ -16,19 +15,19 @@ export class Prompt {
     })
   }
 
-  getArgs(): string[] {
-    return process.argv.slice(2) // hide bin
-  }
-
   async question(value: string): Promise<string> {
     return await this.readline.question(value)
   }
 
-  println(value: any): void {
+  println(value: any) {
     this.readline.write(util.format(value) + '\n')
   }
 
-  error(value: any): void {
+  info(value: any) {
+    this.println(value)
+  }
+
+  error(value: any) {
     this.println(value)
   }
 

@@ -1,10 +1,14 @@
+import { HandlerManifest } from '@/runner/manifest'
+
 export class Context {
   protected _argv: string[] = [];
+  protected _manifest: HandlerManifest;
   protected _state: null | string = null;
   protected _isAborted: boolean = false;
 
-  constructor(argv: string[]) {
+  constructor(argv: string[], manifest: HandlerManifest) {
     this._argv = argv
+    this._manifest = manifest
   }
 
   getArgv(): string[] {
@@ -18,24 +22,56 @@ export class Context {
 
   /**
    * @example context.validate()
+   * @todo more strict validation
    */
   validate(): boolean {
-    // todo
+    const argumentsDef = this._manifest.arguments;
+    if (argumentsDef.length < this.getArgs().length) {
+      return false
+    }
+    const optionsDef = this._manifest.options;
+    for (const def of optionsDef) {
+      if (def.config.required === true) {
+        if (!(def.name in this.getArgs())) {
+          return false
+        }
+      }
+    }
     return true
   }
 
   /**
    * @example context.hasOption('--help') 
+   * @todo alias
    */
   hasOption(name: string): boolean {
-    // todo
-    return true
+    let next = false;
+    for (const arg of this.getArgs()) {
+      if (arg === name) {
+        next = true
+        continue;
+      }
+      if (next === true && arg.length > 0) {
+        return true;
+      }
+    }
+    return false
   }
 
   /**
    * @example const name = context.getOptionValue('--name') 
    */
   getOptionValue(name: string): string|null {
+    let next = false;
+    for (const arg of this.getArgs()) {
+      if (arg === name) {
+        next = true
+        continue;
+      }
+      if (next === true && arg.length > 0) {
+        return arg;
+      }
+    }
     return null
   }
 

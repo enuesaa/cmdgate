@@ -9,13 +9,13 @@ export class Handler {
   protected _options: Option[] = []
   protected _handlefn: HandleFn = () => {}
 
-  argument(name: string, config: ArgumentConfig): this {
-    this._arguments.push({ name, config })
+  argument(name: string, config: Partial<ArgumentConfig>): this {
+    this._arguments.push({ name, config: { description: '', ...config } })
     return this
   }
 
-  option(name: string, config: OptionConfig): this {
-    this._options.push({ name, config })
+  option(name: string, config: Partial<OptionConfig>): this {
+    this._options.push({ name, config: { description: '', alias: null, required: false, ...config } })
     return this
   }
 

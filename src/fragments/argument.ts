@@ -1,6 +1,5 @@
 export type ArgumentConfig = {
   description: string;
-  required: boolean;  
 }
 
 export type Argument = {

@@ -11,24 +11,24 @@ const global = createHandler()
   })
   .handle((context, prompt) => {
     if (!context.validate()) {
-      prompt.exit(1)
-    }
-    if (context.hasFlag('--help')) {
-      prompt.showHelpMessage()
+      // prompt.exit(1)
       return;
     }
-    if (context.hasFlag('--version')) {
-      prompt.showVersionInformation()
+    if (context.hasOption('--help')) {
+      prompt.info(context.getHelpMessage())
+      return;
+    }
+    if (context.hasOption('--version')) {
+      prompt.info(context.getVersionMessage())
       return;
     }
   })
 
 const rootCmd = createHandler()
-  .argument('message', {
-    required: true,
-  })
+  .argument('message', {})
   .handle((context, prompt) => {
-    console.log(context.getArg('message'))
+    const message = context.getArgumentValue('message')
+    console.log(message)
   })
 
 const cli = createCommand()

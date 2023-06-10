@@ -1,4 +1,4 @@
-import { createCommand, createHandler } from 'cmdgate'
+import { createCommand, createHandler } from '../../../dist'
 
 const global = createHandler()
   .option('--help', {

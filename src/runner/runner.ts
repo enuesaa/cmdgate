@@ -24,5 +24,7 @@ export const defaultRunner: Runner = (argv, manifest) => {
     }
   }
 
+  prompt.close()
+
   return 1
 }

@@ -11,9 +11,6 @@
     "dev": "tsx src/cli.ts",
     "build": "tsx build.ts"
   },
-  "dependencies": {
-    "cmdgate": "file:../../dist"
-  },
   "devDependencies": {
     "@types/node": "^20.2.3",
     "esbuild": "^0.17.19",

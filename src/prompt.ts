@@ -6,9 +6,6 @@ export class Prompt {
   readline: readline.Interface
 
   constructor() {
-    /**
-     * @todo remove because error happens on closing command.
-     */ 
     this.readline = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -31,7 +28,10 @@ export class Prompt {
     this.println(value)
   }
 
-  close(): void {
+  /**
+   * @todo refactor like deconstructor.
+   */
+  close() {
     this.readline.close()
   }
 }

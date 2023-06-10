@@ -12,7 +12,7 @@
     "build": "tsx build.ts"
   },
   "dependencies": {
-    "cmdgate": "file:../../"
+    "cmdgate": "file:../../dist"
   },
   "devDependencies": {
     "@types/node": "^20.2.3",

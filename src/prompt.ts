@@ -35,17 +35,4 @@ export class Prompt {
   close(): void {
     this.readline.close()
   }
-
-  // レイヤーが違う気がする
-  showHelpMessage(): void {
-    // `${route}\n`
-    // + `${description}\n`
-    // + '\n'
-    // + 'commands:\n'
-    // + matchedCommands.map((v) => `  ${v.route}`).join('\n')
-    // + '\n'
-    // + 'options:\n'
-    // + options.map((v) => `  ${v.name}`).join('\n')
-    // + '\n'
-  }
 }

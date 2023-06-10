@@ -29,11 +29,11 @@ const global = createHandler()
       prompt.exit(1)
     }
     if (context.hasOption('--help')) {
-      prompt.showHelpMessage()
+      prompt.info(context.getHelpMessage())
       return;
     }
     if (context.hasOption('--version')) {
-      prompt.showVersionInformation()
+      prompt.info(context.getVersionMessage())
       return;
     }
   })

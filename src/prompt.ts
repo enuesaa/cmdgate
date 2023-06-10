@@ -4,7 +4,7 @@ import util from 'node:util'
 
 export class Prompt {
   readline: readline.Interface
-  args: string[]
+  args: string[] = []
 
   constructor() {
     /**

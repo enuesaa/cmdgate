@@ -2,12 +2,15 @@ import { Handler } from '@/handler/handler'
 import process from 'node:process'
 import { type Runner, defaultRunner } from '@/runner/runner'
 import { type CommandManifest } from '@/runner/manifest'
+import { Prompt } from './prompt'
 
 export class Command {
   private _name: string = ''
   private _description: string = ''
   private _middlewares: Handler[] = []
   private _handlers: Record<string, Handler> = {}
+  private _runner: Runner = defaultRunner
+  private _prompt: Prompt = new Prompt()
 
   name(name: string): this {
     this._name = name
@@ -38,12 +41,20 @@ export class Command {
     }
   }
 
+  withRunner(runner: Runner) {
+    this._runner = runner
+  }
+
+  withPrompt(prompt: Prompt) {
+    this._prompt = prompt
+  }
+
   /**
    * @returns number exit code.
    */
-  run(argv: string[] = process.argv, runner: Runner = defaultRunner): number {
+  run(argv: string[] = process.argv): number {
     const manifest = this.describeManifest()
 
-    return runner(argv, manifest)
+    return this._runner(argv, manifest, this._prompt)
   }
 }

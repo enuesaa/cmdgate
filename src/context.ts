@@ -1,10 +1,10 @@
 import { HandlerManifest } from '@/runner/manifest'
 
 export class Context {
-  protected _argv: string[] = [];
-  protected _manifest: HandlerManifest;
-  protected _state: null | string = null;
-  protected _isAborted: boolean = false;
+  protected _argv: string[] = []
+  protected _manifest: HandlerManifest
+  protected _state: null | string = null
+  protected _isAborted: boolean = false
 
   constructor(argv: string[], manifest: HandlerManifest) {
     this._argv = argv
@@ -25,11 +25,11 @@ export class Context {
    * @todo more strict validation
    */
   validate(): boolean {
-    const argumentsDef = this._manifest.arguments;
+    const argumentsDef = this._manifest.arguments
     if (argumentsDef.length < this.getArgs().length) {
       return false
     }
-    const optionsDef = this._manifest.options;
+    const optionsDef = this._manifest.options
     for (const def of optionsDef) {
       if (def.config.required === true) {
         if (!(def.name in this.getArgs())) {
@@ -41,44 +41,44 @@ export class Context {
   }
 
   /**
-   * @example context.hasOption('--help') 
+   * @example context.hasOption('--help')
    * @todo alias
    */
   hasOption(name: string): boolean {
-    let next = false;
+    let next = false
     for (const arg of this.getArgs()) {
       if (arg === name) {
         next = true
-        continue;
+        continue
       }
       if (next === true && arg.length > 0) {
-        return true;
+        return true
       }
     }
     return false
   }
 
   /**
-   * @example const name = context.getOptionValue('--name') 
+   * @example const name = context.getOptionValue('--name')
    */
-  getOptionValue(name: string): string|null {
-    let next = false;
+  getOptionValue(name: string): string | null {
+    let next = false
     for (const arg of this.getArgs()) {
       if (arg === name) {
         next = true
-        continue;
+        continue
       }
       if (next === true && arg.length > 0) {
-        return arg;
+        return arg
       }
     }
     return null
   }
 
   /**
-   * @example const name = context.getArgumentValue('name') 
+   * @example const name = context.getArgumentValue('name')
    */
-  getArgumentValue(name: string): string|null {
+  getArgumentValue(name: string): string | null {
     return null
   }
 

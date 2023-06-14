@@ -1,8 +1,8 @@
 export type ArgumentConfig = {
-  description: string;
+  description: string
 }
 
 export type Argument = {
-  name: string;
-  config: ArgumentConfig;
+  name: string
+  config: ArgumentConfig
 }

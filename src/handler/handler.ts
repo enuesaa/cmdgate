@@ -20,12 +20,12 @@ export class Handler {
   }
 
   description(description: string): this {
-    this._description = description;
+    this._description = description
     return this
   }
 
   handle(handlefn: HandleFn): this {
-    this._handlefn = handlefn;
+    this._handlefn = handlefn
     return this
   }
 

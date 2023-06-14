@@ -26,7 +26,7 @@ export class Command {
     this._middlewares.push(handler)
     return this
   }
-  
+
   route(route: string, handler: Handler): this {
     this._handlers[route] = handler
     return this

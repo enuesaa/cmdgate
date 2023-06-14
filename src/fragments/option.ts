@@ -1,10 +1,10 @@
 export type OptionConfig = {
-  description: string;
-  alias: null | string;
-  required: boolean;
+  description: string
+  alias: null | string
+  required: boolean
 }
 
 export type Option = {
-  name: string;
-  config: OptionConfig;
+  name: string
+  config: OptionConfig
 }

@@ -62,9 +62,14 @@ export class Context {
    * @example const name = context.getOptionValue('--name')
    */
   getOptionValue(name: string): string | null {
+    const option = this._manifest.options.find((v) => v.name === name) ?? null
+    if (option === null) {
+      return null
+    }
+
     let next = false
     for (const arg of this.getArgs()) {
-      if (arg === name) {
+      if (arg === option.name || arg === option.config.alias) {
         next = true
         continue
       }
@@ -79,7 +84,26 @@ export class Context {
    * @example const name = context.getArgumentValue('name')
    */
   getArgumentValue(name: string): string | null {
-    return null
+    const argumentIndex = this._manifest.arguments.reduce((prev: number|null, v, i) => {
+      if (prev !== null) {
+        return prev
+      }
+      if (v.name === name) {
+        return i
+      }
+      return null
+    }, null)
+
+    if (argumentIndex === null) {
+      return null
+    }
+
+    const args = this.getArgs()
+    if (args.length < argumentIndex) {
+      return null
+    }
+
+    return args[argumentIndex]
   }
 
   getHelpMessage(): string {

@@ -10,10 +10,11 @@ const global = createHandler()
     alias: '-v',
   })
   .handle((context, prompt) => {
-    if (!context.validate()) {
-      // prompt.exit(1)
-      return;
-    }
+    // 後続のhandlerがあるためバリデーションが上手くいかない
+    // if (!context.validate()) {
+    //   prompt.exit(1)
+    //   return;
+    // }
     if (context.hasOption('--help')) {
       prompt.info(context.getHelpMessage())
       return;
@@ -27,6 +28,12 @@ const global = createHandler()
 const rootCmd = createHandler()
   .argument('message', {})
   .handle((context, prompt) => {
+    if (!context.validate()) {
+      prompt.info('something wrong with argments.')
+      prompt.exit(1);
+      return;
+    }
+    prompt.info('aa')
     const message = context.getArgumentValue('message')
     console.log(message)
   })

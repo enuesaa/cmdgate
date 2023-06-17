@@ -28,6 +28,11 @@ export class Prompt {
     this.println(value)
   }
 
+  exit(code: number): never {
+    this.close()
+    process.exit(code)
+  }
+
   /**
    * @todo refactor like deconstructor.
    */

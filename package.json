@@ -19,8 +19,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsx build.ts",
-    "build:types": "tsc && tsc-alias",
+    "build": "tsx build.ts && tsc && tsc-alias",
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "jest"
   },

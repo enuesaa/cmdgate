@@ -1,7 +1,7 @@
 import { Option, OptionConfig } from '@/fragments/option'
 import { Argument, ArgumentConfig } from '@/fragments/argument'
 import { HandleFn } from '@/handler/handlefn'
-import { type HandlerManifest } from '@/runner/manifest'
+import { type HandlerManifest } from '@/handler/manifest'
 
 export class Handler {
   protected _description: string = ''

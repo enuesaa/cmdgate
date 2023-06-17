@@ -1,7 +1,7 @@
 import { Handler } from '@/handler/handler'
 import process from 'node:process'
 import { type Runner, defaultRunner } from '@/runner/runner'
-import { type CommandManifest } from '@/runner/manifest'
+import { type CommandManifest } from '@/handler/manifest'
 import { Prompt } from './prompt'
 
 export class Command {

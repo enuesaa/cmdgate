@@ -1,6 +1,6 @@
 import { Context } from '@/context'
 import { Prompt } from '@/prompt'
-import { CommandManifest } from '@/runner/manifest'
+import { CommandManifest } from '@/handler/manifest'
 
 export type Runner = (argv: string[], manifest: CommandManifest, prompt: Prompt) => number
 export const defaultRunner: Runner = (argv, manifest, prompt) => {

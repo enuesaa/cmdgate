@@ -1,4 +1,4 @@
-import { HandlerManifest } from '@/runner/manifest'
+import { HandlerManifest } from '@/handler/manifest'
 
 export class Context {
   protected _argv: string[] = []
@@ -16,7 +16,7 @@ export class Context {
   }
 
   getArgs(): string[] {
-    const [_nodepath, _filename, ...args] = this._argv
+    const [_nodebin, _filename, ...args] = this._argv
     return args
   }
 
@@ -83,19 +83,10 @@ export class Context {
   }
 
   getHelpMessage(): string {
-    // `${route}\n`
-    // + `${description}\n`
-    // + '\n'
-    // + 'commands:\n'
-    // + matchedCommands.map((v) => `  ${v.route}`).join('\n')
-    // + '\n'
-    // + 'options:\n'
-    // + options.map((v) => `  ${v.name}`).join('\n')
-    // + '\n'
-    return ''
+    return 'this is help message'
   }
 
   getVersionMessage(): string {
-    return ''
+    return 'this is version message'
   }
 }

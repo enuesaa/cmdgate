@@ -7,6 +7,7 @@ import { Prompt } from './prompt'
 export class Command {
   private _name: string = ''
   private _description: string = ''
+  private _version: string = ''
   private _middlewares: Handler[] = []
   private _handlers: Record<string, Handler> = {}
   private _runner: Runner = defaultRunner
@@ -19,6 +20,11 @@ export class Command {
 
   description(description: string): this {
     this._description = description
+    return this
+  }
+
+  version(version: string): this {
+    this._version = version
     return this
   }
 
@@ -36,6 +42,7 @@ export class Command {
     return {
       name: this._name,
       description: this._description,
+      version: this._version,
       middlewares: this._middlewares,
       handlers: this._handlers,
     }

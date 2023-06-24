@@ -6,6 +6,7 @@ import { type HandleFn } from '@/handler/handlefn'
 export type CommandManifest = {
   name: string
   description: string
+  version: string
   middlewares: Handler[]
   handlers: Record<string, Handler>
 }

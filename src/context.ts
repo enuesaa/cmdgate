@@ -108,6 +108,9 @@ export class Context {
     return args[argumentIndex]
   }
 
+  /**
+   * @todo middleware用とhandler用とで2つあったほうがいいかも
+   */
   getHelpMessage(): string {
     const commandDescription = this._commandManifest.description
     const subcommands = Object.keys(this._commandManifest.handlers)
@@ -123,6 +126,15 @@ ${subcommands}
   }
 
   getVersionMessage(): string {
-    return 'this is version message'
+    const commandName = this._commandManifest.name
+    const version = this._commandManifest.version
+
+    const message = `
+${commandName}
+
+${version}
+`
+
+    return message
   }
 }

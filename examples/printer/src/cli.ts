@@ -10,8 +10,6 @@ const global = createHandler()
     alias: '-v',
   })
   .handle((context, prompt) => {
-    console.log(context.getHelpMessage())
-    return;
     // 後続のhandlerがあるためバリデーションが上手くいかない
     // if (!context.validate()) {
     //   prompt.exit(1)

@@ -7,6 +7,7 @@ describe('context', () => {
   const commandManifest: CommandManifest = {
     name: 'samplecmd',
     description: 'sample command',
+    version: '',
     middlewares: [],
     handlers: {},
   }

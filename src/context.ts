@@ -1,14 +1,16 @@
-import { HandlerManifest } from '@/handler/manifest'
+import { CommandManifest, HandlerManifest } from '@/handler/manifest'
 
 export class Context {
   protected _argv: string[] = []
-  protected _manifest: HandlerManifest
+  protected _commandManifest: CommandManifest
+  protected _handlerManifest: HandlerManifest
   protected _state: null | string = null
   protected _isAborted: boolean = false
 
-  constructor(argv: string[], manifest: HandlerManifest) {
+  constructor(argv: string[], commandManifest: CommandManifest, handlerManifest: HandlerManifest) {
     this._argv = argv
-    this._manifest = manifest
+    this._commandManifest = commandManifest
+    this._handlerManifest = handlerManifest
   }
 
   getArgv(): string[] {
@@ -25,11 +27,11 @@ export class Context {
    * @todo more strict validation
    */
   validate(): boolean {
-    const argumentsDef = this._manifest.arguments
+    const argumentsDef = this._handlerManifest.arguments
     if (argumentsDef.length < this.getArgs().length) {
       return false
     }
-    const optionsDef = this._manifest.options
+    const optionsDef = this._handlerManifest.options
     for (const def of optionsDef) {
       if (def.config.required === true) {
         if (!(def.name in this.getArgs())) {
@@ -62,7 +64,7 @@ export class Context {
    * @example const name = context.getOptionValue('--name')
    */
   getOptionValue(name: string): string | null {
-    const option = this._manifest.options.find((v) => v.name === name) ?? null
+    const option = this._handlerManifest.options.find((v) => v.name === name) ?? null
     if (option === null) {
       return null
     }
@@ -84,7 +86,7 @@ export class Context {
    * @example const name = context.getArgumentValue('name')
    */
   getArgumentValue(name: string): string | null {
-    const argumentIndex = this._manifest.arguments.reduce((prev: number|null, v, i) => {
+    const argumentIndex = this._handlerManifest.arguments.reduce((prev: number|null, v, i) => {
       if (prev !== null) {
         return prev
       }
@@ -107,7 +109,17 @@ export class Context {
   }
 
   getHelpMessage(): string {
-    return 'this is help message'
+    const commandDescription = this._commandManifest.description
+    const subcommands = Object.keys(this._commandManifest.handlers)
+
+    const message = `
+${commandDescription}
+
+Subcommands:
+${subcommands}
+`
+
+    return message
   }
 
   getVersionMessage(): string {

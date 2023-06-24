@@ -7,7 +7,7 @@ export const defaultRunner: Runner = (argv, manifest, prompt) => {
   for (const handler of manifest.middlewares) {
     const handlerManifest = handler.describeManifest()
     const handlefn = handlerManifest.handlefn
-    const context = new Context(argv, handlerManifest)
+    const context = new Context(argv, manifest, handlerManifest)
     handlefn(context, prompt)
   }
 
@@ -16,7 +16,7 @@ export const defaultRunner: Runner = (argv, manifest, prompt) => {
     if (route === handlerRoute) {
       const handlerManifest = handler.describeManifest()
       const handlefn = handlerManifest.handlefn
-      const context = new Context(argv, handlerManifest)
+      const context = new Context(argv, manifest, handlerManifest)
       handlefn(context, prompt)
       break
     }

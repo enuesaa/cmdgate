@@ -3,7 +3,7 @@ import { Prompt } from '@/prompt'
 import { CommandManifest } from '@/manifest'
 
 // ここを変えたいユースケースは何があるのだろう
-// getHelpMessage, validate は runner にあってもいい?
+// これ command の中にあってもいいなあ
 export type Runner = (argv: string[], manifest: CommandManifest, prompt: Prompt) => number
 export const normalRunner: Runner = (argv, manifest, prompt) => {
   const context = new Context(argv, manifest)

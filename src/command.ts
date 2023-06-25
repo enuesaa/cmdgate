@@ -48,13 +48,13 @@ export class Command {
     }
   }
 
-  withRunner(runner: Runner) {
-    this._runner = runner
-  }
+  // withRunner(runner: Runner) {
+  //   this._runner = runner
+  // }
 
-  withPrompt(prompt: Prompt) {
-    this._prompt = prompt
-  }
+  // withPrompt(prompt: Prompt) {
+  //   this._prompt = prompt
+  // }
 
   /**
    * @returns number exit code.

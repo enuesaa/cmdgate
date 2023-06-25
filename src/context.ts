@@ -32,6 +32,8 @@ export class Context {
   }
 
   /**
+   * そういえば gin の context にも validate というメソッドあるからいいか。
+   * 
    * @example context.validate()
    * @todo more strict validation
    */

@@ -2,6 +2,8 @@ import process from 'node:process'
 import { promises as readline } from 'node:readline'
 import util from 'node:util'
 
+// deprecated. 
+// prompt の開発は重たいのでスコープアウトしたい
 export class Prompt {
   readline: readline.Interface
 

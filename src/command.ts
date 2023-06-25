@@ -1,7 +1,7 @@
 import { Handler } from '@/handler/handler'
 import process from 'node:process'
-import { type Runner, defaultRunner } from '@/runner/runner'
-import { type CommandManifest } from '@/handler/manifest'
+import { type Runner, normalRunner } from '@/runner'
+import { type CommandManifest } from '@/manifest'
 import { Prompt } from './prompt'
 
 export class Command {
@@ -10,7 +10,7 @@ export class Command {
   private _version: string = ''
   private _middlewares: Handler[] = []
   private _handlers: Record<string, Handler> = {}
-  private _runner: Runner = defaultRunner
+  private _runner: Runner = normalRunner
   private _prompt: Prompt = new Prompt()
 
   name(name: string): this {

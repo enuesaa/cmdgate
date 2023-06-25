@@ -1,6 +1,6 @@
 import { createHandler } from '@/index'
 import { Context } from '@/context'
-import { CommandManifest } from '@/handler/manifest'
+import { CommandManifest } from '@/handler/config'
 
 describe('context', () => {
   const normalArgv = ['node', 'main.js', 'thisiscontent', '--filename', 'aa.json', '-f', 'json']

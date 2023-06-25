@@ -1,7 +1,7 @@
 import { Option, OptionConfig } from '@/fragments/option'
 import { Argument, ArgumentConfig } from '@/fragments/argument'
 import { HandleFn } from '@/handler/handlefn'
-import { type HandlerManifest } from '@/handler/manifest'
+import { type HandlerConfig } from '@/handler/config'
 
 export class Handler {
   protected _description: string = ''
@@ -29,7 +29,7 @@ export class Handler {
     return this
   }
 
-  describeManifest(): HandlerManifest {
+  describeManifest(): HandlerConfig {
     return {
       description: this._description,
       arguments: this._arguments,

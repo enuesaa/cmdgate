@@ -1,16 +1,25 @@
-import { CommandManifest, HandlerManifest } from '@/handler/manifest'
+import { CommandManifest } from '@/manifest'
+import { HandlerConfig } from '@/handler/config'
 
 export class Context {
   protected _argv: string[] = []
   protected _commandManifest: CommandManifest
-  protected _handlerManifest: HandlerManifest
+  protected _histories: HandlerConfig[] = [];
   protected _state: null | string = null
   protected _isAborted: boolean = false
 
-  constructor(argv: string[], commandManifest: CommandManifest, handlerManifest: HandlerManifest) {
+  constructor(argv: string[], commandManifest: CommandManifest) {
     this._argv = argv
     this._commandManifest = commandManifest
-    this._handlerManifest = handlerManifest
+  }
+
+  pushHistory(handler: HandlerConfig) {
+    this._histories.push(handler)
+  }
+
+  // constructorの引数を変えたいのでわざと雑に書いている
+  getCurrentHandlerManifest(): HandlerConfig {
+    return this._histories[this._histories.length - 1]
   }
 
   getArgv(): string[] {
@@ -27,11 +36,11 @@ export class Context {
    * @todo more strict validation
    */
   validate(): boolean {
-    const argumentsDef = this._handlerManifest.arguments
+    const argumentsDef = this._histories[-1].arguments
     if (argumentsDef.length < this.getArgs().length) {
       return false
     }
-    const optionsDef = this._handlerManifest.options
+    const optionsDef = this._histories[-1].options
     for (const def of optionsDef) {
       if (def.config.required === true) {
         if (!(def.name in this.getArgs())) {
@@ -64,7 +73,7 @@ export class Context {
    * @example const name = context.getOptionValue('--name')
    */
   getOptionValue(name: string): string | null {
-    const option = this._handlerManifest.options.find((v) => v.name === name) ?? null
+    const option = this.getCurrentHandlerManifest().options.find((v) => v.name === name) ?? null
     if (option === null) {
       return null
     }
@@ -86,7 +95,7 @@ export class Context {
    * @example const name = context.getArgumentValue('name')
    */
   getArgumentValue(name: string): string | null {
-    const argumentIndex = this._handlerManifest.arguments.reduce((prev: number|null, v, i) => {
+    const argumentIndex = this.getCurrentHandlerManifest().arguments.reduce((prev: number|null, v, i) => {
       if (prev !== null) {
         return prev
       }

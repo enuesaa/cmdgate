@@ -7,7 +7,7 @@ const aaa = createHandler()
   .argument('name')
   .option('--aaa', 'aaa option')
   .description('aaa command.')
-  .handle((context, prompt) => {
+  .handle(({context, prompt}) => {
     // anything welcome here.
 
     if (!context.validate()) {
@@ -24,16 +24,16 @@ const global = createHandler()
     description: 'Print version information. ',
     alias: '-v',
   })
-  .handle((context, prompt) => {
+  .handle(({context, prompt, help, version}) => {
     if (!context.validate()) {
       prompt.exit(1)
     }
     if (context.hasOption('--help')) {
-      prompt.info(context.getHelpMessage())
+      prompt.info(help())
       return;
     }
     if (context.hasOption('--version')) {
-      prompt.info(context.getVersionMessage())
+      prompt.info(version())
       return;
     }
   })

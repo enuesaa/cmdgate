@@ -1,7 +1,15 @@
 import { Option, OptionConfig } from '@/fragments/option'
 import { Argument, ArgumentConfig } from '@/fragments/argument'
-import { HandleFn } from '@/handler/handlefn'
-import { type HandlerConfig } from '@/handler/config'
+import { type Context } from '@/context'
+import { type Prompt } from '@/prompt'
+
+export type HandlerConfig = {
+  description: string
+  arguments: Argument[]
+  options: Option[]
+  handlefn: HandleFn
+}
+export type HandleFn = (context: Context, prompt: Prompt) => void
 
 export class Handler {
   protected _description: string = ''

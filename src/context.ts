@@ -1,5 +1,5 @@
 import { CommandManifest } from '@/manifest'
-import { HandlerConfig } from '@/handler/config'
+import { HandlerConfig } from '@/handler'
 
 export class Context {
   protected _argv: string[] = []
@@ -109,30 +109,30 @@ export class Context {
     return args[argumentIndex]
   }
 
-  getHelpMessage(): string {
-    const commandDescription = this._commandManifest.description
-    const subcommands = Object.keys(this._commandManifest.handlers)
+//   getHelpMessage(): string {
+//     const commandDescription = this._commandManifest.description
+//     const subcommands = Object.keys(this._commandManifest.handlers)
 
-    const message = `
-${commandDescription}
+//     const message = `
+// ${commandDescription}
 
-Subcommands:
-${subcommands}
-`
+// Subcommands:
+// ${subcommands}
+// `
 
-    return message
-  }
+//     return message
+//   }
 
-  getVersionMessage(): string {
-    const commandName = this._commandManifest.name
-    const version = this._commandManifest.version
+//   getVersionMessage(): string {
+//     const commandName = this._commandManifest.name
+//     const version = this._commandManifest.version
 
-    const message = `
-${commandName}
+//     const message = `
+// ${commandName}
 
-${version}
-`
+// ${version}
+// `
 
-    return message
-  }
+//     return message
+//   }
 }

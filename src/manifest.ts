@@ -1,4 +1,4 @@
-import { Handler } from '@/handler/handler'
+import { Handler } from '@/handler'
 
 export type CommandManifest = {
   name: string

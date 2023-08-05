@@ -8,6 +8,7 @@ export const runner = (argv: string[], manifest: CommandManifest, prompt: Prompt
   for (const handler of manifest.middlewares) {
     const config = handler.describeManifest()
     context.pushHistory(config)
+
     const handlefn = config.handlefn
     handlefn(context, prompt)
   }
@@ -17,6 +18,7 @@ export const runner = (argv: string[], manifest: CommandManifest, prompt: Prompt
     if (route === handlerRoute) {
       const config = handler.describeManifest()
       context.pushHistory(config)
+
       const handlefn = config.handlefn
       handlefn(context, prompt)
       break

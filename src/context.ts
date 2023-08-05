@@ -13,15 +13,6 @@ export class Context {
     this._commandManifest = commandManifest
   }
 
-  pushHistory(handler: HandlerConfig) {
-    this._histories.push(handler)
-  }
-
-  // constructorの引数を変えたいのでわざと雑に書いている
-  getCurrentHandlerManifest(): HandlerConfig {
-    return this._histories[this._histories.length - 1]
-  }
-
   getArgv(): string[] {
     return this._argv
   }
@@ -32,9 +23,6 @@ export class Context {
   }
 
   /**
-   * そういえば gin の context にも validate というメソッドあるからいいか。
-   * 
-   * @example context.validate()
    * @todo more strict validation
    */
   validate(): boolean {
@@ -53,8 +41,16 @@ export class Context {
     return true
   }
 
+  pushHistory(handler: HandlerConfig) {
+    this._histories.push(handler)
+  }
+
+  // constructorの引数を変えたいのでわざと雑に書いている
+  getCurrentHandlerManifest(): HandlerConfig {
+    return this._histories[this._histories.length - 1]
+  }
+
   /**
-   * @example context.hasOption('--help')
    * @todo alias
    */
   hasOption(name: string): boolean {
@@ -71,9 +67,6 @@ export class Context {
     return false
   }
 
-  /**
-   * @example const name = context.getOptionValue('--name')
-   */
   getOptionValue(name: string): string | null {
     const option = this.getCurrentHandlerManifest().options.find((v) => v.name === name) ?? null
     if (option === null) {
@@ -93,9 +86,6 @@ export class Context {
     return null
   }
 
-  /**
-   * @example const name = context.getArgumentValue('name')
-   */
   getArgumentValue(name: string): string | null {
     const argumentIndex = this.getCurrentHandlerManifest().arguments.reduce((prev: number|null, v, i) => {
       if (prev !== null) {
@@ -119,9 +109,6 @@ export class Context {
     return args[argumentIndex]
   }
 
-  /**
-   * @todo middleware用とhandler用とで2つあったほうがいいかも
-   */
   getHelpMessage(): string {
     const commandDescription = this._commandManifest.description
     const subcommands = Object.keys(this._commandManifest.handlers)

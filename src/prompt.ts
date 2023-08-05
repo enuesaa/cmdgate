@@ -2,8 +2,7 @@ import process from 'node:process'
 import { promises as readline } from 'node:readline'
 import util from 'node:util'
 
-// deprecated. 
-// prompt の開発は重たいのでスコープアウトしたい
+// should implement interface to mock prompt.
 export class Prompt {
   readline: readline.Interface
 

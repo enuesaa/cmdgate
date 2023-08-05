@@ -2,10 +2,7 @@ import { Context } from '@/context'
 import { Prompt } from '@/prompt'
 import { CommandManifest } from '@/manifest'
 
-// ここを変えたいユースケースは何があるのだろう
-// これ command の中にあってもいいなあ
-export type Runner = (argv: string[], manifest: CommandManifest, prompt: Prompt) => number
-export const normalRunner: Runner = (argv, manifest, prompt) => {
+export const runner = (argv: string[], manifest: CommandManifest, prompt: Prompt) => {
   const context = new Context(argv, manifest)
 
   for (const handler of manifest.middlewares) {

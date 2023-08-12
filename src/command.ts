@@ -1,6 +1,6 @@
 import process from 'node:process'
 import { runner } from '@/runner'
-import { type CommandManifest } from '@/manifest'
+import { type CommandManifest } from '@/types/manifest'
 import { Handler } from '@/handler'
 import { Prompt } from '@/prompt'
 

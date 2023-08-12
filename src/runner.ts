@@ -1,6 +1,6 @@
 import { Context } from '@/context'
 import { Prompt } from '@/prompt'
-import { CommandManifest } from '@/manifest'
+import { CommandManifest } from '@/types/manifest'
 
 export const runner = (argv: string[], manifest: CommandManifest, prompt: Prompt) => {
   const context = new Context(argv, manifest)

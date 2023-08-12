@@ -50,7 +50,3 @@ cli.run()
 ## Memo
 ## http middleware のように層を重ねる感じにしたい
 [gin](https://github.com/gin-gonic/gin) のように handler を重ねられればベスト
-
-
-## TODO
-- Check tsconfig settings. Undefined variables like `window` are suggested in vscode.

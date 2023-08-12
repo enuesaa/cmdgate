@@ -1,4 +1,4 @@
-import { CommandManifest } from '@/manifest'
+import { CommandManifest } from '@/types/manifest'
 import { HandlerConfig } from '@/handler'
 
 export class Context {
@@ -24,10 +24,11 @@ export class Context {
 
   /**
    * @todo more strict validation
+   * なんだか即席なバリデーションだなあ。
    */
   validate(): boolean {
-    const argumentsDef = this._histories[-1].arguments
-    if (argumentsDef.length < this.getArgs().length) {
+    const argdef = this._histories[-1].arguments
+    if (argdef.length < this.getArgs().length) {
       return false
     }
     const optionsDef = this._histories[-1].options
@@ -108,31 +109,4 @@ export class Context {
 
     return args[argumentIndex]
   }
-
-//   getHelpMessage(): string {
-//     const commandDescription = this._commandManifest.description
-//     const subcommands = Object.keys(this._commandManifest.handlers)
-
-//     const message = `
-// ${commandDescription}
-
-// Subcommands:
-// ${subcommands}
-// `
-
-//     return message
-//   }
-
-//   getVersionMessage(): string {
-//     const commandName = this._commandManifest.name
-//     const version = this._commandManifest.version
-
-//     const message = `
-// ${commandName}
-
-// ${version}
-// `
-
-//     return message
-//   }
 }

@@ -1,5 +1,5 @@
-import { Option, OptionConfig } from '@/fragments/option'
-import { Argument, ArgumentConfig } from '@/fragments/argument'
+import { Option, OptionConfig } from '@/types/option'
+import { Argument, ArgumentConfig } from '@/types/argument'
 import { type Context } from '@/context'
 import { type Prompt } from '@/prompt'
 

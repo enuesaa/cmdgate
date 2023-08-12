@@ -45,4 +45,12 @@ export class Handler {
       handlefn: this._handlefn,
     }
   }
+
+  run(context: Context, prompt: Prompt) {
+    // const config = handler.describeManifest()
+    // context.pushHistory(config)
+
+    // const handlefn = config.handlefn
+    // handlefn(context, prompt)
+  }
 }

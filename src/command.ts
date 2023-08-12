@@ -1,8 +1,8 @@
 import process from 'node:process'
-import { runner } from '@/runner'
-import { type CommandManifest } from '@/types/manifest'
+import { type CommandManifest, type CommandConfig } from '@/types/manifest'
 import { Handler } from '@/handler'
 import { Prompt } from '@/prompt'
+import { Context } from './context'
 
 export class Command {
   private _name: string = ''
@@ -48,7 +48,21 @@ export class Command {
 
   run(argv: string[] = process.argv, prompt: Prompt = new Prompt()): number {
     const manifest = this.describeManifest()
+    const context = new Context(argv, manifest) // todo remove
 
-    return runner(argv, manifest, prompt)
+    for (const handler of this._middlewares) {
+      handler.run(context, prompt)
+    }
+  
+    const route = '' // todo parse route
+    for (const [handlerRoute, handler] of Object.entries(manifest.handlers)) {
+      if (route === handlerRoute) {
+        handler.run(context, prompt)
+        break
+      }
+    }
+    prompt.close()
+
+    return 1
   }
 }

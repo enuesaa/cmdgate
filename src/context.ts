@@ -2,14 +2,14 @@ import { type CommandConfig, type HandlerConfig } from '@/types/manifest'
 
 export class Context {
   protected _argv: string[] = []
-  protected _commandManifest: CommandConfig
+  protected _config: CommandConfig
   protected _histories: HandlerConfig[] = [];
   protected _state: null | string = null
   protected _isAborted: boolean = false
 
-  constructor(argv: string[], commandManifest: CommandConfig) {
+  constructor(argv: string[], config: CommandConfig) {
     this._argv = argv
-    this._commandManifest = commandManifest
+    this._config = config
   }
 
   getArgv(): string[] {
@@ -41,8 +41,8 @@ export class Context {
     return true
   }
 
-  pushHistory(handler: HandlerConfig) {
-    this._histories.push(handler)
+  push(config: HandlerConfig) {
+    this._histories.push(config)
   }
 
   // constructorの引数を変えたいのでわざと雑に書いている

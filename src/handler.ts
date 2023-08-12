@@ -40,10 +40,7 @@ export class Handler {
   }
 
   run(context: Context, prompt: Prompt) {
-    // const config = handler.describeManifest()
-    // context.pushHistory(config)
-
-    // const handlefn = config.handlefn
-    // handlefn(context, prompt)
+    context.push(this.describeConfig())
+    this._handlefn(context, prompt)
   }
 }

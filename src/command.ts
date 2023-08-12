@@ -2,7 +2,7 @@ import process from 'node:process'
 import { type CommandConfig } from '@/types/manifest'
 import { Handler } from '@/handler'
 import { Prompt } from '@/prompt'
-import { Context } from './context'
+import { Context } from '@/context'
 
 export class Command {
   private _name: string = ''
@@ -47,15 +47,15 @@ export class Command {
   }
 
   run(argv: string[] = process.argv, prompt: Prompt = new Prompt()): number {
-    const manifest = this.describeConfig()
-    const context = new Context(argv, manifest) // todo remove
+    const config = this.describeConfig()
+    const context = new Context(argv, config)
 
     for (const handler of this._middlewares) {
       handler.run(context, prompt)
     }
   
     const route = '' // todo parse route
-    for (const [handlerRoute, handler] of Object.entries(manifest.handlers)) {
+    for (const [handlerRoute, handler] of Object.entries(this._handlers)) {
       if (route === handlerRoute) {
         handler.run(context, prompt)
         break

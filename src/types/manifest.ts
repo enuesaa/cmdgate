@@ -1,6 +1,6 @@
 import { Handler } from '@/handler'
-import { Argument } from './argument'
-import { Option } from './option'
+import { Argument } from '@/types/argument'
+import { Option } from '@/types/option'
 import { Context } from '@/context'
 import { Prompt } from '@/prompt'
 

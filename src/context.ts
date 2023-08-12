@@ -1,14 +1,13 @@
-import { CommandManifest } from '@/types/manifest'
-import { HandlerConfig } from '@/handler'
+import { type CommandConfig, type HandlerConfig } from '@/types/manifest'
 
 export class Context {
   protected _argv: string[] = []
-  protected _commandManifest: CommandManifest
+  protected _commandManifest: CommandConfig
   protected _histories: HandlerConfig[] = [];
   protected _state: null | string = null
   protected _isAborted: boolean = false
 
-  constructor(argv: string[], commandManifest: CommandManifest) {
+  constructor(argv: string[], commandManifest: CommandConfig) {
     this._argv = argv
     this._commandManifest = commandManifest
   }

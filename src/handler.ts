@@ -2,14 +2,7 @@ import { Option, OptionConfig } from '@/types/option'
 import { Argument, ArgumentConfig } from '@/types/argument'
 import { type Context } from '@/context'
 import { type Prompt } from '@/prompt'
-
-export type HandlerConfig = {
-  description: string
-  arguments: Argument[]
-  options: Option[]
-  handlefn: HandleFn
-}
-export type HandleFn = (context: Context, prompt: Prompt) => void
+import { HandleFn, HandlerConfig } from './types/manifest'
 
 export class Handler {
   protected _description: string = ''
@@ -37,7 +30,7 @@ export class Handler {
     return this
   }
 
-  describeManifest(): HandlerConfig {
+  describeConfig(): HandlerConfig {
     return {
       description: this._description,
       arguments: this._arguments,

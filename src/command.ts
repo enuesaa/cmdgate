@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { type CommandManifest, type CommandConfig } from '@/types/manifest'
+import { type CommandConfig } from '@/types/manifest'
 import { Handler } from '@/handler'
 import { Prompt } from '@/prompt'
 import { Context } from './context'
@@ -36,7 +36,7 @@ export class Command {
     return this
   }
 
-  describeManifest(): CommandManifest {
+  describeConfig(): CommandConfig {
     return {
       name: this._name,
       description: this._description,
@@ -47,7 +47,7 @@ export class Command {
   }
 
   run(argv: string[] = process.argv, prompt: Prompt = new Prompt()): number {
-    const manifest = this.describeManifest()
+    const manifest = this.describeConfig()
     const context = new Context(argv, manifest) // todo remove
 
     for (const handler of this._middlewares) {

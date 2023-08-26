@@ -54,7 +54,8 @@ export class Command {
       handler.run(context, prompt)
     }
   
-    const route = '' // todo parse route
+    const route = argv.slice(2).join(' ')
+    console.log('route', route)
     for (const [handlerRoute, handler] of Object.entries(this._handlers)) {
       if (route === handlerRoute) {
         handler.run(context, prompt)

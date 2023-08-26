@@ -10,17 +10,18 @@ const global = createHandler()
     alias: '-v',
   })
   .handle((context, prompt) => {
+    console.log('a')
     // 後続のhandlerがあるためバリデーションが上手くいかない
     // if (!context.validate()) {
     //   prompt.exit(1)
     //   return;
     // }
     if (context.hasOption('--help')) {
-      prompt.info(context.getHelpMessage())
+      // prompt.info(context.getHelpMessage())
       return;
     }
     if (context.hasOption('--version')) {
-      prompt.info(context.getVersionMessage())
+      // prompt.info(context.getVersionMessage())
       return;
     }
   })
@@ -28,6 +29,7 @@ const global = createHandler()
 const rootCmd = createHandler()
   .argument('message', {})
   .handle((context, prompt) => {
+    console.log('b')
     if (!context.validate()) {
       prompt.info('something wrong with argments.')
       prompt.exit(1);

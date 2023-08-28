@@ -2,19 +2,14 @@ import process from 'node:process'
 import { promises as readline } from 'node:readline'
 import util from 'node:util'
 
-// should implement interface to mock prompt.
 export class Prompt {
   readline: readline.Interface
 
-  constructor() {
+  constructor(stdin = process.stdin, stdout = process.stdout) {
     this.readline = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+      input: stdin,
+      output: stdout,
     })
-  }
-
-  async question(value: string): Promise<string> {
-    return await this.readline.question(value)
   }
 
   println(value: any) {
@@ -29,15 +24,12 @@ export class Prompt {
     this.println(value)
   }
 
+  close() {
+    this.readline.close()
+  }
+
   exit(code: number): never {
     this.close()
     process.exit(code)
-  }
-
-  /**
-   * @todo refactor like deconstructor.
-   */
-  close() {
-    this.readline.close()
   }
 }

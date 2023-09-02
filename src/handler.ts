@@ -2,7 +2,7 @@ import { Option, OptionConfig } from '@/types/option'
 import { Argument, ArgumentConfig } from '@/types/argument'
 import { type Context } from '@/context'
 import { type Prompt } from '@/prompt'
-import { HandleFn, HandlerConfig } from './types/manifest'
+import { HandleFn, HandlerConfig } from './types/config'
 
 export class Handler {
   protected _description: string = ''
@@ -40,7 +40,6 @@ export class Handler {
   }
 
   run(context: Context, prompt: Prompt) {
-    context.push(this.describeConfig())
     this._handlefn(context, prompt)
   }
 }

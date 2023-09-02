@@ -1,4 +1,4 @@
-import { type CommandConfig, type HandlerConfig } from '@/types/manifest'
+import { type CommandConfig, type HandlerConfig } from '@/types/config'
 
 export class Context {
   protected _argv: string[] = []
@@ -26,27 +26,25 @@ export class Context {
    * なんだか即席なバリデーションだなあ。
    */
   validate(): boolean {
-    const argdef = this._histories[-1].arguments
-    if (argdef.length < this.getArgs().length) {
-      return false
-    }
-    const optionsDef = this._histories[-1].options
-    for (const def of optionsDef) {
-      if (def.config.required === true) {
-        if (!(def.name in this.getArgs())) {
-          return false
-        }
-      }
-    }
-    return true
+    // const argdef = this._histories[-1].arguments
+    // if (argdef.length < this.getArgs().length) {
+    //   return false
+    // }
+    // const optionsDef = this._histories[-1].options
+    // for (const def of optionsDef) {
+    //   if (def.config.required === true) {
+    //     if (!(def.name in this.getArgs())) {
+    //       return false
+    //     }
+    //   }
+    // }
+    return false
   }
 
-  push(config: HandlerConfig) {
-    this._histories.push(config)
-  }
-
-  // constructorの引数を変えたいのでわざと雑に書いている
-  getCurrentHandlerManifest(): HandlerConfig {
+  getCurrentHandlerConfig(): null|HandlerConfig {
+    if (this._histories.length === 0) {
+      return null
+    }
     return this._histories[this._histories.length - 1]
   }
 
@@ -68,7 +66,11 @@ export class Context {
   }
 
   getOptionValue(name: string): string | null {
-    const option = this.getCurrentHandlerManifest().options.find((v) => v.name === name) ?? null
+    const config = this.getCurrentHandlerConfig()
+    if (config === null) {
+      return null
+    }
+    const option = config.options.find((v) => v.name === name) ?? null
     if (option === null) {
       return null
     }
@@ -87,7 +89,11 @@ export class Context {
   }
 
   getArgumentValue(name: string): string | null {
-    const argumentIndex = this.getCurrentHandlerManifest().arguments.reduce((prev: number|null, v, i) => {
+    const config = this.getCurrentHandlerConfig()
+    if (config === null) {
+      return null
+    }
+    const argumentIndex = config.arguments.reduce((prev: number|null, v, i) => {
       if (prev !== null) {
         return prev
       }

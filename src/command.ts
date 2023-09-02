@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { type CommandConfig } from '@/types/manifest'
+import { type CommandConfig } from '@/types/config'
 import { Handler } from '@/handler'
 import { Prompt } from '@/prompt'
 import { Context } from '@/context'

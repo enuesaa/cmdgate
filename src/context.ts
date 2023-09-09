@@ -1,4 +1,5 @@
 import { type CommandConfig, type HandlerConfig } from '@/types/config'
+import { parseUserInput, type UserInput } from './parse'
 
 export class Context {
   protected _argv: string[] = []
@@ -6,25 +7,26 @@ export class Context {
   protected _histories: HandlerConfig[] = [];
   protected _state: null | string = null
   protected _isAborted: boolean = false
+  protected _userinput: UserInput;
 
   constructor(argv: string[], config: CommandConfig) {
     this._argv = argv
     this._config = config
+    this._userinput = parseUserInput(argv)
   }
 
   getArgv(): string[] {
     return this._argv
   }
 
+  /**
+   * @deprecated 
+   */
   getArgs(): string[] {
     const [_nodebin, _filename, ...args] = this._argv
     return args
   }
 
-  /**
-   * @todo more strict validation
-   * なんだか即席なバリデーションだなあ。
-   */
   validate(): boolean {
     // const argdef = this._histories[-1].arguments
     // if (argdef.length < this.getArgs().length) {

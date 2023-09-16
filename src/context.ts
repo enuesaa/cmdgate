@@ -28,21 +28,12 @@ export class Context {
   }
 
   validate(): boolean {
-    // const argdef = this._histories[-1].arguments
-    // if (argdef.length < this.getArgs().length) {
-    //   return false
-    // }
-    // const optionsDef = this._histories[-1].options
-    // for (const def of optionsDef) {
-    //   if (def.config.required === true) {
-    //     if (!(def.name in this.getArgs())) {
-    //       return false
-    //     }
-    //   }
-    // }
     return false
   }
 
+  /**
+   * @deprecated 
+   */
   getCurrentHandlerConfig(): null|HandlerConfig {
     if (this._histories.length === 0) {
       return null
@@ -50,70 +41,21 @@ export class Context {
     return this._histories[this._histories.length - 1]
   }
 
-  /**
-   * @todo alias
-   */
   hasOption(name: string): boolean {
-    let next = false
-    for (const arg of this.getArgs()) {
-      if (arg === name) {
-        next = true
-        continue
-      }
-      if (next === true && arg.length > 0) {
-        return true
-      }
-    }
-    return false
+    /**
+     * @todo check def 
+     */
+    return this._userinput.options.hasOwnProperty(name)
   }
 
-  getOptionValue(name: string): string | null {
-    const config = this.getCurrentHandlerConfig()
-    if (config === null) {
+  getOptionValue(name: string): string | boolean | null {
+    if (!this._userinput.options.hasOwnProperty(name)) {
       return null
     }
-    const option = config.options.find((v) => v.name === name) ?? null
-    if (option === null) {
-      return null
-    }
-
-    let next = false
-    for (const arg of this.getArgs()) {
-      if (arg === option.name || arg === option.config.alias) {
-        next = true
-        continue
-      }
-      if (next === true && arg.length > 0) {
-        return arg
-      }
-    }
-    return null
+    return this._userinput.options[name]
   }
 
   getArgumentValue(name: string): string | null {
-    const config = this.getCurrentHandlerConfig()
-    if (config === null) {
-      return null
-    }
-    const argumentIndex = config.arguments.reduce((prev: number|null, v, i) => {
-      if (prev !== null) {
-        return prev
-      }
-      if (v.name === name) {
-        return i
-      }
-      return null
-    }, null)
-
-    if (argumentIndex === null) {
-      return null
-    }
-
-    const args = this.getArgs()
-    if (args.length < argumentIndex) {
-      return null
-    }
-
-    return args[argumentIndex]
+    return null
   }
 }

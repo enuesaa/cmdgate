@@ -29,20 +29,32 @@ const extractOptions = (args: string[]): UserInputOptions => {
     if (prevHasOptionMarker) {
       options[prevValue] = value;
       prevHasOptionMarker = false
-    } else {
-      if (value.startsWith('-')) {
-        prevHasOptionMarker = true
-        options[prevValue] = true;
-      } else {
-        prevHasOptionMarker = false
-      }
+      continue;
     }
-    prevValue = value;
+    if (value.startsWith('-')) {
+      prevHasOptionMarker = true
+      prevValue = value;
+      options[prevValue] = true;
+    }
   }
 
   return options
 }
 
 const extractArguments = (args: string[]): string[] => {
-  return []
+  const values: string[] = []
+  let prevHasOptionMarker: boolean = false; // this means prev value has `-` or `--`
+  for (const value of args) {
+    if (prevHasOptionMarker) {
+      prevHasOptionMarker = false
+      continue;
+    }
+    if (value.startsWith('-')) {
+      prevHasOptionMarker = true
+      continue;
+    }
+    values.push(value)
+  }
+
+  return values
 }

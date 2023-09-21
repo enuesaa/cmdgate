@@ -1,44 +1,21 @@
-import { type CommandConfig, type HandlerConfig } from '@/types/config'
+import { type CommandConfig } from '@/types/config'
 import { parseUserInput, type UserInput } from './parse'
 
 export class Context {
-  protected _argv: string[] = []
   protected _config: CommandConfig
-  protected _histories: HandlerConfig[] = [];
-  protected _state: null | string = null
-  protected _isAborted: boolean = false
   protected _userinput: UserInput;
 
   constructor(argv: string[], config: CommandConfig) {
-    this._argv = argv
     this._config = config
     this._userinput = parseUserInput(argv)
   }
 
   getArgv(): string[] {
-    return this._argv
-  }
-
-  /**
-   * @deprecated 
-   */
-  getArgs(): string[] {
-    const [_nodebin, _filename, ...args] = this._argv
-    return args
+    return this._userinput.argv
   }
 
   validate(): boolean {
     return false
-  }
-
-  /**
-   * @deprecated 
-   */
-  getCurrentHandlerConfig(): null|HandlerConfig {
-    if (this._histories.length === 0) {
-      return null
-    }
-    return this._histories[this._histories.length - 1]
   }
 
   hasOption(name: string): boolean {

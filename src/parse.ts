@@ -1,6 +1,7 @@
 type UserInputOptions = Record<string, string|boolean>;
 
 export type UserInput = {
+  argv: string[];
   options: UserInputOptions;
   arguments: string[];
 }
@@ -9,6 +10,7 @@ export const parseUserInput = (argv: string[]): UserInput => {
   const [_nodebin, _filename, ...args] = argv
 
   const userinput = {
+    argv,
     options: extractOptions(args),
     arguments: extractArguments(args),
   }

@@ -48,14 +48,13 @@ export class Command {
 
   run(argv: string[] = process.argv, prompt: Prompt = new Prompt()): number {
     const config = this.describeConfig()
-    const context = new Context(argv, config)
+    const context = new Context(config, argv)
 
     for (const handler of this._middlewares) {
       handler.run(context, prompt)
     }
   
     const route = argv.slice(2).join(' ')
-    console.log('route', route)
     for (const [handlerRoute, handler] of Object.entries(this._handlers)) {
       if (route === handlerRoute) {
         handler.run(context, prompt)

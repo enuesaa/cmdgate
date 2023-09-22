@@ -1,18 +1,19 @@
 type UserInputOptions = Record<string, string|boolean>;
+type UserInputArgs = string[];
 
 export type UserInput = {
   argv: string[];
   options: UserInputOptions;
-  arguments: string[];
+  args: UserInputArgs;
 }
 
 export const parseUserInput = (argv: string[]): UserInput => {
-  const [_nodebin, _filename, ...args] = argv
+  const [_nodebin, _filename, ...rawArgs] = argv
 
   const userinput = {
     argv,
-    options: extractOptions(args),
-    arguments: extractArguments(args),
+    options: extractOptions(rawArgs),
+    args: extractArgs(rawArgs),
   }
 
   return userinput
@@ -41,8 +42,8 @@ const extractOptions = (args: string[]): UserInputOptions => {
   return options
 }
 
-const extractArguments = (args: string[]): string[] => {
-  const values: string[] = []
+const extractArgs = (args: string[]): UserInputArgs => {
+  const values: UserInputArgs = []
   let prevHasOptionMarker: boolean = false; // this means prev value has `-` or `--`
   for (const value of args) {
     if (prevHasOptionMarker) {

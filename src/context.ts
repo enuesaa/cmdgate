@@ -5,7 +5,7 @@ export class Context {
   protected _config: CommandConfig
   protected _userinput: UserInput;
 
-  constructor(argv: string[], config: CommandConfig) {
+  constructor( config: CommandConfig, argv: string[]) {
     this._config = config
     this._userinput = parseUserInput(argv)
   }
@@ -14,10 +14,22 @@ export class Context {
     return this._userinput.argv
   }
 
+  // TODO: JSON Schema ベースの方がいいな..
   validate(): boolean {
+    const optionKeys = Object.keys(this._userinput.options)
+
+    const middlewares = this._config.middlewares
+    for (const middleware of middlewares) {
+      const middlewareConfig = middleware.describeConfig()
+      middlewareConfig.options.map(o => {
+        
+      })
+    }
+
     return false
   }
 
+  // typed route と同じ課題感がある
   hasOption(name: string): boolean {
     /**
      * @todo check def 

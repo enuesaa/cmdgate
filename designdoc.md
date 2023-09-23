@@ -39,13 +39,37 @@ cli.run()
 
 ### Planning Usage
 ```ts
-import { createCommand, createHandler } from 'cmdgate'
+import { createCommand, createContext, createHandler } from 'cmdgate'
 
-const handler = createHandler()
-handler.option('--aa')
-handler.main((context, prompt) => {})
+const context = createContext(c => {
+  description: c.description(''),
+  aaa: c.flag('--aaa', 'aaa flag'),
+  name: c.argument('name'),
+})
+export const aaaHandler = createHandler(context, (context, prompt) => {
+  if (!context.validate()) {
+    prompt.exit(1)
+  }
+})
+
+const globalContext = createContext(c => {
+  help: c.flag('--help', {
+    description: 'Print help message. ',
+    alias: '-h',
+  }),
+})
+const globalHandler = createHandler(context, (context, prompt) => {
+  if (context.help) {
+    prompt.info(help())
+    return;
+  }
+  if (!context.validate()) {
+    prompt.exit(1)
+  }
+})
 
 const cli = createCommand()
+cli.use(globalHandler)
 cli.route("aaa", aaaHandler)
 cli.route("bbb", bbbHandler)
 cli.route("bbb cc", bbbCcHandler)

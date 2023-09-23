@@ -57,9 +57,18 @@ aaaHandler.option('--aa')
 aaaHandler.main((context, prompt) => {})
 export const aaaHandler
 
-const handler = createHandler()
-handler.option('--aa')
-hadnelr.argumet('aaa')
+export const aaaHandler = createHandler(c => {
+  c.description('aa')
+  const aa = c.option('--aa', {
+    required: true,
+  })
+  c.argument()
+  const hasHelpFlag = c.option('--help')
+  if (hasHelpFlag) {
+    return c.showHelpMessage()
+  }
+
+})
 
 const config = {
   usage: c.usage('aaa'),

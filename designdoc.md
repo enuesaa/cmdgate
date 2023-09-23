@@ -49,27 +49,28 @@ cli.run()
 
 ### Planning
 ```ts
-export const aaaHandler = (c, prompt, isHelp) => {
-  const aaaOption = c.option("--aaa")
-
-  if (isHelp) {
-    prompt.exit(1)
-  }
-
-  return "a"
-}
+import { createCommand, createHandler, createHandlerConfig } from './src/index'
 
 const aaaHandler = createHandler()
-aaaHandler.option("--aaa")
+aaaHandler.option('--aa')
 aaaHandler.main((context, prompt) => {
 
 })
 
+const config = {
+  description: description(''),
+  aaa: option('--aaa').required(),
+}
+export const aaaHandler = createHanlder(config, (context, prompt) => {
+
+})
 
 const cli = createCommand()
 cli.route("aaa", aaaHandler)
 cli.route("bbb", bbbHandler)
 cli.route("bbb cc", bbbCcHandler)
+
+cli.run()
 ```
 
 ## Memo

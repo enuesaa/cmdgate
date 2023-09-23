@@ -8,8 +8,6 @@ const aaa = createHandler()
   .option('--aaa', 'aaa option')
   .description('aaa command.')
   .handle(({context, prompt}) => {
-    // anything welcome here.
-
     if (!context.validate()) {
       prompt.exit(1)
     }
@@ -20,20 +18,12 @@ const global = createHandler()
     description: 'Print help message. ',
     alias: '-h',
   })
-  .option('--version', {
-    description: 'Print version information. ',
-    alias: '-v',
-  })
   .handle(({context, prompt, help, version}) => {
     if (!context.validate()) {
       prompt.exit(1)
     }
     if (context.hasOption('--help')) {
       prompt.info(help())
-      return;
-    }
-    if (context.hasOption('--version')) {
-      prompt.info(version())
       return;
     }
   })
@@ -51,34 +41,9 @@ cli.run()
 ```ts
 import { createCommand, createHandler } from 'cmdgate'
 
-
-const aaaHandler = createHandler()
-aaaHandler.option('--aa')
-aaaHandler.main((context, prompt) => {})
-export const aaaHandler
-
-export const aaaHandler = createHandler(c => {
-  c.description('aa')
-  const aa = c.option('--aa', {
-    required: true,
-  })
-  c.argument()
-  const hasHelpFlag = c.option('--help')
-  if (hasHelpFlag) {
-    return c.showHelpMessage()
-  }
-
-})
-
-const config = {
-  usage: c.usage('aaa'),
-  description: c.description(''),
-  aaa: c.option('--aaa').required(),
-  bbb: c.argument().required(),
-}
-export const aaaHandler = createHanlder(config, (context, prompt) => {
-
-})
+const handler = createHandler()
+handler.option('--aa')
+handler.main((context, prompt) => {})
 
 const cli = createCommand()
 cli.route("aaa", aaaHandler)

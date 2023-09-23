@@ -47,6 +47,31 @@ const cli = createCommand()
 cli.run()
 ~~~
 
+### Planning
+```ts
+export const aaaHandler = (c, prompt, isHelp) => {
+  const aaaOption = c.option("--aaa")
+
+  if (isHelp) {
+    prompt.exit(1)
+  }
+
+  return "a"
+}
+
+const aaaHandler = createHandler()
+aaaHandler.option("--aaa")
+aaaHandler.main((context, prompt) => {
+
+})
+
+
+const cli = createCommand()
+cli.route("aaa", aaaHandler)
+cli.route("bbb", bbbHandler)
+cli.route("bbb cc", bbbCcHandler)
+```
+
 ## Memo
 ## http middleware のように層を重ねる感じにしたい
 [gin](https://github.com/gin-gonic/gin) のように handler を重ねられればベスト

@@ -47,19 +47,25 @@ const cli = createCommand()
 cli.run()
 ~~~
 
-### Planning
+### Planning Usage
 ```ts
-import { createCommand, createHandler, createHandlerConfig } from './src/index'
+import { createCommand, createHandler } from 'cmdgate'
+
 
 const aaaHandler = createHandler()
 aaaHandler.option('--aa')
-aaaHandler.main((context, prompt) => {
+aaaHandler.main((context, prompt) => {})
+export const aaaHandler
 
-})
+const handler = createHandler()
+handler.option('--aa')
+hadnelr.argumet('aaa')
 
 const config = {
-  description: description(''),
-  aaa: option('--aaa').required(),
+  usage: c.usage('aaa'),
+  description: c.description(''),
+  aaa: c.option('--aaa').required(),
+  bbb: c.argument().required(),
 }
 export const aaaHandler = createHanlder(config, (context, prompt) => {
 
@@ -72,7 +78,3 @@ cli.route("bbb cc", bbbCcHandler)
 
 cli.run()
 ```
-
-## Memo
-## http middleware のように層を重ねる感じにしたい
-[gin](https://github.com/gin-gonic/gin) のように handler を重ねられればベスト

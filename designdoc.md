@@ -6,7 +6,11 @@ export const aaaHandelr = createHandler(c => {
   const aaaFlag = c.flag('--aaa', { alias: '-a', required: true })
   const bbbArg = c.argument('bbb')
 
+  if (c.isHelp()) {
+    return c.showHelp()
+  }
   if (!c.validate()) {
+    // or return c.showValidateErrorMessages()
     return c.showHelp()
   }
 

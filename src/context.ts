@@ -5,7 +5,7 @@ export class Context {
   protected _config: CommandConfig
   protected _userinput: UserInput;
 
-  constructor( config: CommandConfig, argv: string[]) {
+  constructor(config: CommandConfig, argv: string[]) {
     this._config = config
     this._userinput = parseUserInput(argv)
   }

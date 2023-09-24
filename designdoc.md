@@ -52,6 +52,13 @@ export const aaaHandler = createHandler(context, (context, prompt) => {
   }
 })
 
+const handler = createHandler()
+handler.description('aaa')
+handler.flag('--aa')
+handler.main((context, prompt) => {
+  
+})
+
 const globalContext = createContext(c => {
   help: c.flag('--help', {
     description: 'Print help message. ',

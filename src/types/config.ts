@@ -8,7 +8,6 @@ export type CommandConfig = {
   name: string
   description: string
   version: string
-  middlewares: Handler[]
   handlers: Record<string, Handler>
 }
 

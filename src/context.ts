@@ -18,14 +18,6 @@ export class Context {
   validate(): boolean {
     const optionKeys = Object.keys(this._userinput.options)
 
-    const middlewares = this._config.middlewares
-    for (const middleware of middlewares) {
-      const middlewareConfig = middleware.describeConfig()
-      middlewareConfig.options.map(o => {
-        
-      })
-    }
-
     return false
   }
 

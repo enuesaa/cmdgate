@@ -10,24 +10,20 @@ export class Handler {
   protected _options: Option[] = []
   protected _handlefn: HandleFn = () => {}
 
-  argument(name: string, config: Partial<ArgumentConfig>): this {
+  argument(name: string, config: Partial<ArgumentConfig>) {
     this._arguments.push({ name, config: { description: '', ...config } })
-    return this
   }
 
-  option(name: string, config: Partial<OptionConfig>): this {
+  option(name: string, config: Partial<OptionConfig>) {
     this._options.push({ name, config: { description: '', alias: null, required: false, ...config } })
-    return this
   }
 
-  description(description: string): this {
+  description(description: string) {
     this._description = description
-    return this
   }
 
-  handle(handlefn: HandleFn): this {
+  handle(handlefn: HandleFn) {
     this._handlefn = handlefn
-    return this
   }
 
   describeConfig(): HandlerConfig {

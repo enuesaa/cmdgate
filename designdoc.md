@@ -3,25 +3,16 @@
 ```ts
 export const aaaHandelr = createHandler(c => {
   c.description('aaa')
-  const aaaFlag = c.flag('--aaa', { alias: '-a', required: true })
+  const aaaFlag = c.flag('--aaa', { alias: '-a' })
   const bbbArg = c.argument('bbb')
 
-  if (c.isHelp()) {
-    return c.showHelp()
-  }
-  if (!c.validate()) {
-    // or return c.showValidateErrorMessages()
-    return c.showHelp()
-  }
-
-  something(aaaFlag, bbbArg)
+  c.on('validation', () => !aaaFlag.isNull())
 })
 
 export const globalHandler = createHandler(c => {
   const helpFlag = c.flag('--help')
-  if (helpFlag.value()) {
-    return c.showHelp()
-  }
+
+  c.on('validation', () => helpFlag.isNull())
 })
 
 const cli = createCommand()

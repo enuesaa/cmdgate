@@ -1,25 +1,18 @@
 # Designdoc
 ### Usage
 ```ts
-export const aaaHandelr = createHandler(c => {
+export const aaaHandelr = createCommand(c => {
   c.description('aaa')
-  const aaaFlag = c.flag('--aaa', { alias: '-a' })
-  const bbbArg = c.argument('bbb')
-
-  c.on('validation', () => !aaaFlag.isNull())
+  c.flag('--aaa', { alias: '-a', required: true })
+  c.argument('bbb')
+  c.main(() => {})
 })
 
-export const globalHandler = createHandler(c => {
-  const helpFlag = c.flag('--help')
-
-  c.on('validation', () => helpFlag.isNull())
+const cli = createCommand(c => {
+  c.route("aaa", aaaHandler)
+  c.route("bbb", bbbHandler)
+  c.route("bbb cc", bbbCcHandler)
 })
-
-const cli = createCommand()
-cli.use(globalHandler)
-cli.route("aaa", aaaHandler)
-cli.route("bbb", bbbHandler)
-cli.route("bbb cc", bbbCcHandler)
-
+cli.onhelp(() => {})
 cli.run()
 ```

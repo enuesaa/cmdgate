@@ -1,77 +1,22 @@
 # Designdoc
-## Usage
-~~~ts
-import { createCommand, createHandler } from './src/index'
-
-const aaa = createHandler()
-  .argument('name')
-  .option('--aaa', 'aaa option')
-  .description('aaa command.')
-  .handle(({context, prompt}) => {
-    if (!context.validate()) {
-      prompt.exit(1)
-    }
-  })
-
-const global = createHandler()
-  .option('--help', {
-    description: 'Print help message. ',
-    alias: '-h',
-  })
-  .handle(({context, prompt, help, version}) => {
-    if (!context.validate()) {
-      prompt.exit(1)
-    }
-    if (context.hasOption('--help')) {
-      prompt.info(help())
-      return;
-    }
-  })
-
-const cli = createCommand()
-  .name('sample')
-  .use(global)
-  .route('aaa', aaa)
-  .route('bbb cc', bbb)
-
-cli.run()
-~~~
-
-### Planning Usage
+### Usage
 ```ts
-import { createCommand, createContext, createHandler } from 'cmdgate'
+export const aaaHandelr = createHandler(c => {
+  c.description('aaa')
+  const aaaFlag = c.flag('--aaa', { alias: '-a', required: true })
+  const bbbArg = c.argument('bbb')
 
-const context = createContext(c => {
-  description: c.description(''),
-  aaa: c.flag('--aaa', 'aaa flag'),
-  name: c.argument('name'),
-})
-export const aaaHandler = createHandler(context, (context, prompt) => {
-  if (!context.validate()) {
-    prompt.exit(1)
+  if (!c.validate()) {
+    return c.showHelp()
   }
+
+  something(aaaFlag, bbbArg)
 })
 
-const handler = createHandler()
-handler.description('aaa')
-handler.flag('--aa')
-handler.main((context, prompt) => {
-  
-})
-
-const globalContext = createContext(c => {
-  help: c.flag('--help', {
-    description: 'Print help message. ',
-    alias: '-h',
-  }),
-})
-const globalHandler = createHandler(context, (context, prompt) => {
-  if (context.help) {
-    prompt.info(help())
-    return;
-  }
-  if (!context.validate()) {
-    prompt.exit(1)
+export const globalHandler = createHandler(c => {
+  const helpFlag = c.flag('--help')
+  if (helpFlag.value()) {
+    return c.showHelp()
   }
 })
 

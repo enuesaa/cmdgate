@@ -14,7 +14,7 @@ export class Handler {
     this._arguments.push({ name, config: { description: '', ...config } })
   }
 
-  option(name: string, config: Partial<OptionConfig>) {
+  flag(name: string, config: Partial<OptionConfig>) {
     this._options.push({ name, config: { description: '', alias: null, required: false, ...config } })
   }
 
@@ -22,7 +22,7 @@ export class Handler {
     this._description = description
   }
 
-  handle(handlefn: HandleFn) {
+  main(handlefn: HandleFn) {
     this._handlefn = handlefn
   }
 

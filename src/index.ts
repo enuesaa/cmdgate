@@ -1,6 +1,9 @@
 import { Command } from '@/command'
 
+/** @deprecated */
 export const createCommand = () => new Command()
-// export const createHandler = (fn: HandleFn) => fn;
-
 export { type HandleFn } from '@/types/config'
+
+// export const createGate = () => {}
+// export const createCli = () => {}
+// export const handle = () => {}

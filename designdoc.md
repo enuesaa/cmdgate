@@ -1,9 +1,6 @@
 # Designdoc
 ### Usage
 ```ts
-// 雑にはできるがコンテキストがないと心許ない
-const { flags, args } = parseArgv(process.argv)
-
 const helpGate = createGate()
 helpGate.boolFlag('--help', { alias: '-h' })
 

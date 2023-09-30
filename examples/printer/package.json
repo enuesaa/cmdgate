@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsx src/cli.ts",
+    "dev": "tsx src/main.ts",
     "build": "tsx build.ts"
   },
   "devDependencies": {

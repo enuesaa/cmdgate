@@ -1,11 +1,21 @@
-
-type BoolFlagOption = {
-  alias: string;
-}
+import { ArgumentConfig } from './types/argument'
+import { FlagConfig } from './types/flag'
 
 export class Gate {
-  boolFlag(name: string, option: undefined|BoolFlagOption) {
+  _description: string = ''
+  _arguments: Record<string, ArgumentConfig> = {}
+  _flags: Record<string, FlagConfig> = {}
 
+  description(description: string) {
+    this._description = description
+  }
+
+  argument(name: string, config: ArgumentConfig) {
+    this._arguments[name] = config
+  }
+
+  flag(name: string, config: FlagConfig) {
+    this._flags[name] = config
   }
 
   /**

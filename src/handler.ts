@@ -2,15 +2,15 @@ import { Gate } from './gate'
 import { Prompt } from './prompt'
 import { Context } from './context'
 
-export type Handlerfn = () => {}
+export type HandlerMainFn = (context: Context, prompt: Prompt) => {}
 
 export class Handler {
   _gate: Gate
-  _hanlderfn: Handlerfn
+  _mainFn: HandlerMainFn
 
-  constructor(gate: Gate, handlerfn: Handlerfn) {
+  constructor(gate: Gate, mainFn: HandlerMainFn) {
     this._gate = gate
-    this._hanlderfn = handlerfn
+    this._mainFn = mainFn
   }
 
   run(context: Context, prompt: Prompt) {

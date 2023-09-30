@@ -1,8 +1,14 @@
 import process from 'node:process'
-import { type CommandConfig } from './types/config'
 import { Handler } from './handler'
 import { Prompt } from './prompt'
 import { Context } from './context'
+
+export type CliConfig = {
+  name: string
+  description: string
+  version: string
+  handlers: Record<string, Handler>
+}
 
 export class Cli {
   private _name: string = ''
@@ -30,7 +36,7 @@ export class Cli {
     this._handlers[route] = handler
   }
 
-  describeConfig(): CommandConfig {
+  describeConfig(): CliConfig {
     return {
       name: this._name,
       description: this._description,
@@ -41,7 +47,7 @@ export class Cli {
 
   run(argv: string[] = process.argv, prompt: Prompt = new Prompt()): number {
     const config = this.describeConfig()
-    const context = new Context(config, argv)
+    const context = new Context()
   
     const route = argv.slice(2).join(' ')
     for (const [handlerRoute, handler] of Object.entries(this._handlers)) {

@@ -1,12 +1,19 @@
-import { UserInput } from './parse'
-import { ArgumentConfig } from './types/argument'
-import { FlagConfig } from './types/flag'
+import { Context } from './context'
+
+type ArgumentConfig = {
+  description: string
+}
+
+type FlagConfig = {
+  description: string
+  alias: null | string
+  required: boolean
+}
 
 export class Gate {
   private _description: string = ''
   private _arguments: Record<string, ArgumentConfig> = {}
   private _flags: Record<string, FlagConfig> = {}
-  private _userinput: UserInput = {argv: [], flags: {}, args: []}
 
   description(description: string) {
     this._description = description
@@ -20,18 +27,14 @@ export class Gate {
     this._flags[name] = config
   }
 
-  withUserinput(userinput: UserInput) {
-    this._userinput = userinput
-  }
-
   /**
    * should return parsed objects
    */
-  parse() {
+  parse(context: Context) {
     const parsed: Record<string, any> = {}
 
     Object.keys(this._flags).map(name => {
-      parsed[name] = this._userinput.flags[name]
+      parsed[name] = context.getFlag(name)
     })
 
     return parsed

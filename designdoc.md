@@ -5,7 +5,7 @@ const helpGate = createGate()
 helpGate.boolFlag('--help', { alias: '-h' })
 
 export const helpHandler = handle(helpGate, (context, prompt) => {
-  const { helpFlag } = helpGate.parse()
+  const { helpFlag } = helpGate.parse(context)
   if (helpFlag) {
 
     prompt.exit(0)

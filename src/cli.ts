@@ -45,9 +45,8 @@ export class Cli {
     }
   }
 
-  run(argv: string[] = process.argv, prompt: Prompt = new Prompt()): number {
-    const config = this.describeConfig()
-    const context = new Context()
+  run(argv: string[] = process.argv, prompt: Prompt = new Prompt()) {
+    const context = new Context(argv)
   
     const route = argv.slice(2).join(' ')
     for (const [handlerRoute, handler] of Object.entries(this._handlers)) {
@@ -60,7 +59,5 @@ export class Cli {
       }
     }
     prompt.close()
-
-    return 1
   }
 }

@@ -1,8 +1,8 @@
 import { Gate } from './gate'
-import { Prompt } from '@/prompt'
-import { Context } from '@/context'
+import { Prompt } from './prompt'
+import { Context } from './context'
 
-type Handlerfn = () => {}
+export type Handlerfn = () => {}
 
 export class Handler {
   _gate: Gate
@@ -18,6 +18,3 @@ export class Handler {
   }
 }
 
-export const handle = (gate: Gate, handlerfn: Handlerfn): Handler => {
-  return new Handler(gate, handlerfn)
-}

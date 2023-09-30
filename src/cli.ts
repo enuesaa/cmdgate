@@ -4,7 +4,7 @@ import { Handler } from '@/handler'
 import { Prompt } from '@/prompt'
 import { Context } from '@/context'
 
-export class Command {
+export class Cli {
   private _name: string = ''
   private _description: string = ''
   private _version: string = ''

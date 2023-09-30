@@ -1,10 +1,9 @@
-import { Command } from '@/command'
+import { Cli } from '@/cli'
+import { Handler, Handlerfn } from './handler'
+import { Gate } from '@/gate'
 
-/** @deprecated */
-export const createCommand = () => new Command()
-/** @deprecated */
-export { type HandleFn } from '@/types/config'
-
-export { createGate } from '@/gate'
-export const createCli = () => new Command()
-export { handle } from '@/handler'
+export const createCli = () => new Cli()
+export const createGate = () => new Gate()
+export const handle = (gate: Gate, handlerfn: Handlerfn): Handler => {
+  return new Handler(gate, handlerfn)
+}

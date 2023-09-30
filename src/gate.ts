@@ -7,6 +7,11 @@ export class Gate {
   boolFlag(name: string, option: undefined|BoolFlagOption) {
 
   }
-}
 
-export const createGate = () => new Gate()
+  /**
+   * should return parsed objects
+   */
+  parse() {
+
+  }
+}

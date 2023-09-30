@@ -1,4 +1,5 @@
 import { Context } from './context'
+import { Handler, Handlefn } from './handler'
 
 type ArgumentConfig = {
   description: string
@@ -25,6 +26,10 @@ export class Gate {
 
   flag(name: string, config: FlagConfig) {
     this._flags[name] = config
+  }
+
+  handle(handlefn: Handlefn): Handler {
+    return new Handler(this, handlefn)
   }
 
   /**

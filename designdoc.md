@@ -4,7 +4,7 @@
 const helpGate = createGate()
 helpGate.boolFlag('--help', { alias: '-h' })
 
-export const helpHandler = handle(helpGate, (context, prompt) => {
+export const helpHandler = helpGate.handle((context, prompt) => {
   const { helpFlag } = helpGate.parse(context)
   if (helpFlag) {
 
@@ -17,7 +17,7 @@ aaaGate.description('aaa')
 aaaGate.flag('--aaa', { alias: '-a', required: true })
 aaaGate.argument('bbb')
 
-export const aaaHandelr = handle(aaaGate, (context, prompt) => {
+export const aaaHandelr = aaaGate.handle((context, prompt) => {
   // trigger validate before here.
 })
 

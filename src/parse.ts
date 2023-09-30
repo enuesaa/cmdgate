@@ -1,9 +1,9 @@
-type UserInputOptions = Record<string, string|boolean>;
+type UserInputFlags = Record<string, string|boolean>;
 type UserInputArgs = string[];
 
 export type UserInput = {
   argv: string[];
-  options: UserInputOptions;
+  flags: UserInputFlags;
   args: UserInputArgs;
 }
 
@@ -12,7 +12,7 @@ export const parseUserInput = (argv: string[]): UserInput => {
 
   const userinput = {
     argv,
-    options: extractOptions(rawArgs),
+    flags: extractFlags(rawArgs),
     args: extractArgs(rawArgs),
   }
 
@@ -22,8 +22,8 @@ export const parseUserInput = (argv: string[]): UserInput => {
 /**
  * @todo refactor
  */
-const extractOptions = (args: string[]): UserInputOptions => {
-  const options: UserInputOptions = {}
+const extractFlags = (args: string[]): UserInputFlags => {
+  const options: UserInputFlags = {}
   let prevHasOptionMarker: boolean = false; // this means prev value has `-` or `--`
   let prevValue: string = '';
   for (const value of args) {

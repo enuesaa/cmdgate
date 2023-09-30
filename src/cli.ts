@@ -1,8 +1,8 @@
 import process from 'node:process'
-import { type CommandConfig } from '@/types/config'
-import { Handler } from '@/handler'
-import { Prompt } from '@/prompt'
-import { Context } from '@/context'
+import { type CommandConfig } from './types/config'
+import { Handler } from './handler'
+import { Prompt } from './prompt'
+import { Context } from './context'
 
 export class Cli {
   private _name: string = ''

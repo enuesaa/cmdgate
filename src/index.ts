@@ -1,6 +1,6 @@
-import { Cli } from '@/cli'
+import { Cli } from './cli'
 import { Handler, Handlerfn } from './handler'
-import { Gate } from '@/gate'
+import { Gate } from './gate'
 
 export const createCli = () => new Cli()
 export const createGate = () => new Gate()

@@ -1,12 +1,11 @@
-import { createGate } from '../../../dist'
+import { createHandler } from '../../../dist'
 
-const gate = createGate()
-gate.flag('--message', { required: true })
+export const mainHandler = createHandler()
+const messageFlag = mainHandler.flag('--message', { required: true })
 
-export const mainHandler = gate.handle((context, prompt) => {
-  const { messageFlag } = gate.parse(context)
+mainHandler.handle((context, prompt) => {
   if (messageFlag) {
-    prompt.info(messageFlag.generateHelpMessage())
+    prompt.info(context.generateHelpMessage())
     prompt.exit(0)
   }
 })

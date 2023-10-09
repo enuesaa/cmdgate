@@ -1,22 +1,22 @@
 # Designdoc
 ### Usage
 ```ts
-const helpGate = createGate()
-const helpFlag = helpGate.boolFlag('--help', { alias: '-h' })
+export const helpHandler = createHandler()
+const helpFlag = helpHandler.boolFlag('--help', { alias: '-h' })
 
-export const helpHandler = helpGate.handle((context, prompt) => {
+helpHandler.handle((context, prompt) => {
   if (helpFlag.has()) {
 
     prompt.exit(0)
   }
 })
 
-const aaaGate = createGate()
-aaaGate.description('aaa')
-aaaGate.flag('--aaa', { alias: '-a', required: true })
-aaaGate.argument('bbb')
+export const aaaHandler = createHandler()
+aaaHandler.description('aaa')
+const aaaFlag = aaaHandler.flag('--aaa', { alias: '-a', required: true })
+const bbbArg = aaaHandler.argument('bbb')
 
-export const aaaHandelr = aaaGate.handle((context, prompt) => {
+aaaHandler.handle((context, prompt) => {
   // trigger validate before here.
 })
 

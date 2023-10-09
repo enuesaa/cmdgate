@@ -1,12 +1,12 @@
-import { createGate } from '../../../dist'
+import { createHandler } from '../../../dist'
 
-const helpGate = createGate()
-helpGate.flag('--help', { alias: '-h', description: 'Print help message.' })
+export const helpHandler = createHandler()
 
-export const helpHandler = helpGate.handle((context, prompt) => {
-  const { helpFlag } = helpGate.parse(context)
-  if (helpFlag) {
-    prompt.info(helpGate.generateHelpMessage())
+const helpFlag = helpHandler.flag('--help', { alias: '-h', description: 'Print help message.' })
+
+helpHandler.handle((context, prompt) => {
+  if (helpFlag.has()) {
+    prompt.info(context.generateHelpMessage())
     prompt.exit(0)
   }
 })

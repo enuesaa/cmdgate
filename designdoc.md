@@ -5,6 +5,7 @@ const helpGate = createGate()
 helpGate.boolFlag('--help', { alias: '-h' })
 
 export const helpHandler = helpGate.handle((context, prompt) => {
+  // このパース曖昧な気がするな。
   const { helpFlag } = helpGate.parse(context)
   if (helpFlag) {
 

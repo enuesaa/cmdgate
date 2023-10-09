@@ -2,12 +2,10 @@
 ### Usage
 ```ts
 const helpGate = createGate()
-helpGate.boolFlag('--help', { alias: '-h' })
+const helpFlag = helpGate.boolFlag('--help', { alias: '-h' })
 
 export const helpHandler = helpGate.handle((context, prompt) => {
-  // このパース曖昧な気がするな。
-  const { helpFlag } = helpGate.parse(context)
-  if (helpFlag) {
+  if (helpFlag.has()) {
 
     prompt.exit(0)
   }

@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { promises as readline } from 'node:readline'
+import readline from 'node:readline/promises'
 import util from 'node:util'
 
 export class Prompt {
@@ -12,16 +12,16 @@ export class Prompt {
     })
   }
 
-  println(value: any) {
-    this.readline.write(util.format(value) + '\n')
+  println(message: string) {
+    this.readline.write(util.format(message) + '\n')
   }
 
-  info(value: any) {
-    this.println(value)
+  info(message: string) {
+    this.println(message)
   }
 
-  error(value: any) {
-    this.println(value)
+  error(message: string) {
+    this.println(message)
   }
 
   close() {

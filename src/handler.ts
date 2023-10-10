@@ -1,41 +1,37 @@
 import { Prompt } from './prompt'
 import { Context } from './context'
-
-type ArgumentConfig = {
-  description: string
-}
-
-type FlagConfig = {
-  description: string
-  alias: null | string
-  required: boolean
-}
+import { Argument, type ArgumentConfig } from './argument'
+import { Flag, type FlagConfig } from './flag'
 
 export type Handlefn = (context: Context, prompt: Prompt) => void
 
 export type HandlerConfig = {
   description: string
-  arguments: Record<string, ArgumentConfig>
-  flags: Record<string, FlagConfig>
+  arguments: Argument[]
+  flags: Flag[]
   handlefn: Handlefn
 }
 
 export class Handler {
   private _description: string = ''
-  private _arguments: Record<string, ArgumentConfig> = {}
-  private _flags: Record<string, FlagConfig> = {}
+  private _arguments: Argument[] = []
+  private _flags: Flag[] = []
   private _handlefn: Handlefn = (context, prompt) => {}
 
   description(description: string) {
     this._description = description
   }
 
-  argument(name: string, config: ArgumentConfig) {
-    this._arguments[name] = config
+  argument(name: string, config: ArgumentConfig): Argument {
+    const argument = new Argument(name, config)
+    this._arguments.push(argument)
+    return argument
   }
 
-  flag(name: string, config: FlagConfig) {
-    this._flags[name] = config
+  flag(name: string, config: FlagConfig): Flag {
+    const flag = new Flag(name, config)
+    this._flags.push(flag)
+    return flag
   }
 
   handle(handlefn: Handlefn) {
@@ -49,5 +45,12 @@ export class Handler {
       flags: this._flags,
       handlefn: this._handlefn,
     }
+  }
+
+  run(context: Context, prompt: Prompt) {
+    // pass value to argument 
+    // pass value to flag
+
+    // run handlefn
   }
 }

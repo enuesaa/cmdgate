@@ -1,19 +1,53 @@
-import { Gate } from './gate'
 import { Prompt } from './prompt'
 import { Context } from './context'
 
-export type Handlefn = (context: Context, prompt: Prompt) => {}
+type ArgumentConfig = {
+  description: string
+}
+
+type FlagConfig = {
+  description: string
+  alias: null | string
+  required: boolean
+}
+
+export type Handlefn = (context: Context, prompt: Prompt) => void
+
+export type HandlerConfig = {
+  description: string
+  arguments: Record<string, ArgumentConfig>
+  flags: Record<string, FlagConfig>
+  handlefn: Handlefn
+}
 
 export class Handler {
-  private _gate: Gate
-  private _handlefn: Handlefn
+  private _description: string = ''
+  private _arguments: Record<string, ArgumentConfig> = {}
+  private _flags: Record<string, FlagConfig> = {}
+  private _handlefn: Handlefn = (context, prompt) => {}
 
-  constructor(gate: Gate, handlefn: Handlefn) {
-    this._gate = gate
+  description(description: string) {
+    this._description = description
+  }
+
+  argument(name: string, config: ArgumentConfig) {
+    this._arguments[name] = config
+  }
+
+  flag(name: string, config: FlagConfig) {
+    this._flags[name] = config
+  }
+
+  handle(handlefn: Handlefn) {
     this._handlefn = handlefn
   }
 
-  run(context: Context, prompt: Prompt) {
-
+  describeConfig(): HandlerConfig {
+    return {
+      description: this._description,
+      arguments: this._arguments,
+      flags: this._flags,
+      handlefn: this._handlefn,
+    }
   }
 }

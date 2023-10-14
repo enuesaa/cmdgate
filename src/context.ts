@@ -15,6 +15,9 @@ export class Context {
     this._args = this.extractArgs(rawArgs)
   }
 
+  /**
+   * @deprecated 
+   */
   extractFlags(args: string[]) {
     const options: UserInputFlags = {}
     let prevHasOptionMarker: boolean = false; // this means prev value has `-` or `--`
@@ -35,6 +38,9 @@ export class Context {
     return options
   }
 
+  /**
+   * @deprecated 
+   */
   extractArgs(args: string[]) {
     const values: UserInputArgs = []
     let prevHasOptionMarker: boolean = false; // this means prev value has `-` or `--`

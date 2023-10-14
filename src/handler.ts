@@ -48,8 +48,15 @@ export class Handler {
   }
 
   run(context: Context, prompt: Prompt) {
-    // pass value to argument 
+    // pass value to argument
+    for (const argument of this._arguments) {
+      argument.apply(context)
+    }
+
     // pass value to flag
+    for (const flag of this._flags) {
+      flag.apply(context)
+    }
 
     // run handlefn
   }

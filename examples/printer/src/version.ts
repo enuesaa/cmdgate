@@ -1,12 +1,11 @@
-import { createGate } from '../../../dist'
+import { createHandler } from '../../../dist'
 
-const versionGate = createGate()
-versionGate.flag('--version', { alias: '-h', description: 'Print version information.' })
+export const versionHandler = createHandler()
+const versionFlag = versionHandler.flag('--version', { alias: '-v', description: 'Print version information.', required: false })
 
-export const versionHandler = versionGate.handle((context, prompt) => {
-  const { versionFlag } = versionGate.parse(context)
-  if (versionFlag) {
-    prompt.info(versionGate.generateHelpMessage())
+versionHandler.handle((context, prompt) => {
+  if (versionFlag.has()) {
+    prompt.info('version flag passed.')
     prompt.exit(0)
   }
 })

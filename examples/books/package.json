@@ -1,5 +1,5 @@
 {
-  "name": "printer",
+  "name": "books",
   "version": "0.1.0",
   "license": "MIT",
   "type": "module",
@@ -19,6 +19,6 @@
     "typescript": "^5.0.4"
   },
   "bin": {
-    "printer": "bin/printer.js"
+    "books": "bin/books.js"
   }
 }

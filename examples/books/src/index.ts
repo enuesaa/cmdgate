@@ -4,7 +4,7 @@ import { versionHandler } from './version'
 import { mainHandler } from './main'
 
 const cli = createCli()
-cli.name('printer')
+cli.name('books')
 cli.description('sample command')
 cli.use(helpHandler)
 cli.use(versionHandler)

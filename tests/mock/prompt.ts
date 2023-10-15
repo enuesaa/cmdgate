@@ -1,4 +1,4 @@
-import { Prompt } from '@/prompt'
+import { Prompt } from '../../src/prompt'
 
 export let mockPromptPrintln: jest.SpyInstance
 

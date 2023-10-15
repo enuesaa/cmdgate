@@ -4,7 +4,7 @@
 export const helpHandler = createHandler()
 const helpFlag = helpHandler.boolFlag('--help', { alias: '-h' })
 
-helpHandler.handle((context, prompt) => {
+helpHandler.main((context, prompt) => {
   if (helpFlag.has()) {
 
     prompt.exit(0)
@@ -16,7 +16,7 @@ aaaHandler.description('aaa')
 const aaaFlag = aaaHandler.flag('--aaa', { alias: '-a', required: true })
 const bbbArg = aaaHandler.argument('bbb')
 
-aaaHandler.handle((context, prompt) => {
+aaaHandler.main((context, prompt) => {
   // trigger validate before here.
 })
 

@@ -1,11 +1,11 @@
 import { createHandler } from '../../../dist'
 
 export const mainHandler = createHandler()
-const messageFlag = mainHandler.flag('--message', { alias: '', description: '', required: true })
+const messageFlag = mainHandler.flag('--message', { description: '', required: true })
 
-mainHandler.handle((context, prompt) => {
+mainHandler.main((context, prompt) => {
   if (messageFlag.has()) {
-    prompt.info('message flag passed')
+    prompt.info(`message flag passed ${messageFlag.getValue()}`)
     prompt.exit(0)
   }
 })

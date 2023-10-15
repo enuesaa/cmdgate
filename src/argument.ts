@@ -1,5 +1,3 @@
-import { Context } from "./context"
-
 export type ArgumentConfig = {
   description: string
 }
@@ -15,6 +13,14 @@ export class Argument {
     this._config = config
     this._has = false
     this._value = null
+  }
+
+  getName(): string {
+    return this._name
+  }
+
+  getValue(): string {
+    return this._value ?? ''
   }
 
   has(): boolean {

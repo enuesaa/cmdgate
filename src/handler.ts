@@ -34,7 +34,7 @@ export class Handler {
     return flag
   }
 
-  handle(handlefn: Handlefn) {
+  main(handlefn: Handlefn) {
     this._handlefn = handlefn
   }
 

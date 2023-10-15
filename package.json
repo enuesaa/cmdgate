@@ -1,6 +1,6 @@
 {
-  "name": "cmdgate",
-  "version": "0.1.0",
+  "name": "@enuesaa/cmdgate",
+  "version": "0.0.1",
   "license": "MIT",
   "type": "module",
   "exports": "./dist/index.js",
@@ -9,10 +9,10 @@
     "dist"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "tsx build.ts && tsc && tsc-alias",
+    "build": "tsx build.ts && tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "jest"
   },
@@ -24,7 +24,6 @@
     "prettier": "^2.8.8",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "tsc-alias": "^1.8.6",
     "tsx": "^3.12.7",
     "typescript": "^5.0.4"
   }

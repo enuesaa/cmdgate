@@ -53,13 +53,13 @@ export class Cli {
   run(argv: string[] = process.argv, prompt: Prompt = new Prompt()) {
     const context = new Context(argv)
   
-    const provided = argv.slice(2).join(' ')
-    for (const handleroute of this._routes) {
-      if (handleroute.route === '') {
-        handleroute.handler.run(context, prompt)
+    const route = argv.slice(2).join(' ')
+    for (const handleRoute of this._routes) {
+      if (handleRoute.route === '') {
+        handleRoute.handler.run(context, prompt)
       }
-      if (handleroute.route === provided) {
-        handleroute.handler.run(context, prompt)
+      if (handleRoute.route === route) {
+        handleRoute.handler.run(context, prompt)
         break
       }
     }

@@ -24,8 +24,7 @@ export class Flag {
   }
 
   apply(context: Context) {
-    const args: string[] = context.getArgs()
-    if (args.some(v => v === this._name)) {
+    if (context.args.some(v => v === this._name)) {
       this._has = true;
       // extract value here.
     } else {

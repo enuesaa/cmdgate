@@ -3,7 +3,7 @@ import readline from 'node:readline/promises'
 import util from 'node:util'
 
 export class Prompt {
-  readline: readline.Interface
+  private readline: readline.Interface
 
   constructor(stdin = process.stdin, stdout = process.stdout) {
     this.readline = readline.createInterface({

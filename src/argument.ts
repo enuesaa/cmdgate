@@ -22,6 +22,5 @@ export class Argument {
   }
 
   apply(context: Context) {
-    const args: string[] = context.getArgs()
   }
 }

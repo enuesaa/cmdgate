@@ -10,7 +10,7 @@ export class Flag {
   private _name: string
   private _config: FlagConfig
   private _has: boolean;
-  private _value: null|string;
+  private _value: null|string[];
 
   constructor(name: string, config: FlagConfig) {
     this._name = name
@@ -19,16 +19,16 @@ export class Flag {
     this._value = null;
   }
 
+  getName(): string {
+    return this._name
+  }
+
   has(): boolean {
     return this._has;
   }
 
-  apply(context: Context) {
-    if (context.args.some(v => v === this._name)) {
-      this._has = true;
-      // extract value here.
-    } else {
-      this._has = false;
-    }
+  setValue(value: string[]) {
+    this._has = true
+    this._value = value
   }
 }

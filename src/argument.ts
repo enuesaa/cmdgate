@@ -21,6 +21,8 @@ export class Argument {
     return this._has
   }
 
-  apply(context: Context) {
+  setValue(value: string) {
+    this._has = true
+    this._value = value
   }
 }

@@ -3,23 +3,20 @@ import { Handler } from './handler'
 import { Prompt } from './prompt'
 import { Context } from './context'
 
-type HandleRoute = {
-  route: string;
-  handler: Handler;
-}
-
 export type CliConfig = {
   name: string
   description: string
   version: string
-  routes: HandleRoute[]
+  middlewares: Handler[]
+  handlers: Record<string, Handler>
 }
 
 export class Cli {
   private _name: string = ''
   private _description: string = ''
   private _version: string = ''
-  private _routes: HandleRoute[] = []
+  private _middlewares: Handler[] = []
+  private _handlers: Record<string, Handler> = {}
 
   name(name: string) {
     this._name = name
@@ -34,11 +31,11 @@ export class Cli {
   }
 
   use(handler: Handler) {
-    this._routes.push({ route: '', handler })
+    this._middlewares.push(handler)
   }
 
   route(route: string, handler: Handler) {
-    this._routes.push({ route, handler })
+    this._handlers[route] = handler
   }
 
   describeConfig(): CliConfig {
@@ -46,23 +43,26 @@ export class Cli {
       name: this._name,
       description: this._description,
       version: this._version,
-      routes: this._routes,
+      middlewares: this._middlewares,
+      handlers: this._handlers,
     }
   }
 
   run(argv: string[] = process.argv, prompt: Prompt = new Prompt()) {
     const context = new Context(argv)
-  
-    const route = argv.slice(2).join(' ')
-    for (const handleRoute of this._routes) {
-      if (handleRoute.route === '') {
-        handleRoute.handler.run(context, prompt)
-      }
-      if (handleRoute.route === route) {
-        handleRoute.handler.run(context, prompt)
+
+    for (const handler of this._middlewares) {
+      handler.run(context, prompt)
+    }
+
+    for (const route of context.getRoutes()) {
+      if (this._handlers.hasOwnProperty(route)) {
+        const handler = this._handlers[route]
+        handler.run(context, prompt)
         break
       }
     }
+  
     prompt.close()
   }
 }

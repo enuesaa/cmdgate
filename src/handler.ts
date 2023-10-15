@@ -48,14 +48,24 @@ export class Handler {
   }
 
   run(context: Context, prompt: Prompt) {
-    // parse flags here
+    const positionals = context.getPositionals()
     for (const argument of this._arguments) {
-      argument.apply(context)
-    }
-    for (const flag of this._flags) {
-      flag.apply(context)
+      if (positionals.length > 0) {
+        argument.setValue(positionals[0])
+        positionals.shift()
+      }
     }
 
-    // run handlefn
+    const rawflags = context.getRawFlags()
+    for (const flag of this._flags) {
+      const flagname = flag.getName()
+      if (rawflags.hasOwnProperty(flagname)) {
+        flag.setValue(rawflags[flagname])
+      } else {
+        // flag not defined.
+      }
+    }
+
+    this._handlefn(context, prompt)
   }
 }

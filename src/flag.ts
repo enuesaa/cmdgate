@@ -10,15 +10,19 @@ export class Flag {
   private _has: boolean;
   private _value: string[];
 
-  constructor(name: string, config: FlagConfig) {
+  constructor(name: string, config?: FlagConfig) {
     this._name = name
-    this._config = config
+    this._config = config ?? { description: '', required: false }
     this._has = false;
     this._value = [];
   }
 
   getName(): string {
     return this._name
+  }
+
+  getConfig(): FlagConfig {
+    return this._config
   }
 
   getValue(): string {

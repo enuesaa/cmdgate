@@ -1,5 +1,5 @@
 export type ArgumentConfig = {
-  description: string
+  description?: string
 }
 
 export class Argument {
@@ -8,15 +8,19 @@ export class Argument {
   private _has: boolean;
   private _value: null|string
 
-  constructor(name: string, config: ArgumentConfig) {
+  constructor(name: string, config?: ArgumentConfig) {
     this._name = name
-    this._config = config
+    this._config = config ?? { description: '' }
     this._has = false
     this._value = null
   }
 
   getName(): string {
     return this._name
+  }
+
+  getConfig(): ArgumentConfig {
+    return this._config
   }
 
   getValue(): string {

@@ -14,25 +14,25 @@ export class Context {
   }
 
   getArgv(): string[] {
-    return this._argv
+    return structuredClone(this._argv)
   }
 
   getRawArgs(): string[] {
-    return this._rawArgs
+    return structuredClone(this._rawArgs)
   }
 
   getRawPositionals(): string[] {
-    return this._rawPositionals
+    return structuredClone(this._rawPositionals)
   }
 
   getRawFlags(): Record<string, string[]> {
-    return this._rawFlags
+    return structuredClone(this._rawFlags)
   }
 
   getRoutes(): string[] {
     const list = []
     let lastValue = ''
-    for (const value of this._rawPositionals) {
+    for (const value of structuredClone(this._rawPositionals)) {
       lastValue = `${lastValue}${value}`
       list.push(lastValue)
       lastValue = `${lastValue} `
@@ -45,7 +45,7 @@ export class Context {
   }
 
   getPositionals(): string[] {
-    const list = this._rawPositionals
+    const list = structuredClone(this._rawPositionals)
     for (const _ of this._matchedRoute.split(' ')) {
       list.shift()
     }

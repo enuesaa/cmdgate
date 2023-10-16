@@ -3,7 +3,7 @@ import { Context } from './context'
 import { Argument, type ArgumentConfig } from './argument'
 import { Flag, type FlagConfig } from './flag'
 
-export type Handlefn = (context: Context, prompt: Prompt) => void
+export type Handlefn = (prompt: Prompt) => void
 
 export type HandlerConfig = {
   description: string
@@ -16,7 +16,7 @@ export class Handler {
   private _description: string = ''
   private _arguments: Argument[] = []
   private _flags: Flag[] = []
-  private _handlefn: Handlefn = (context, prompt) => {}
+  private _handlefn: Handlefn = (prompt) => {}
 
   description(description: string) {
     this._description = description
@@ -66,6 +66,6 @@ export class Handler {
       }
     }
 
-    this._handlefn(context, prompt)
+    this._handlefn(prompt)
   }
 }

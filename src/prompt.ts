@@ -1,19 +1,17 @@
 import process from 'node:process'
-import readline from 'node:readline/promises'
 import util from 'node:util'
 
 export class Prompt {
-  private readline: readline.Interface
+  private input: NodeJS.ReadableStream
+  private output: NodeJS.WritableStream
 
-  constructor(stdin = process.stdin, stdout = process.stdout) {
-    this.readline = readline.createInterface({
-      input: stdin,
-      output: stdout,
-    })
+  constructor(input = process.stdin, output = process.stdout) {
+    this.input = input
+    this.output = output
   }
 
   println(message: string) {
-    this.readline.write(util.format(message) + '\n')
+    this.output.write(util.format(message) + '\n')
   }
 
   info(message: string) {
@@ -24,12 +22,7 @@ export class Prompt {
     this.println(message)
   }
 
-  close() {
-    this.readline.close()
-  }
-
   exit(code: number): never {
-    this.close()
     process.exit(code)
   }
 }

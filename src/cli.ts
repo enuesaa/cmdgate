@@ -62,7 +62,5 @@ export class Cli {
         break
       }
     }
-  
-    prompt.close()
   }
 }

@@ -7,7 +7,7 @@ describe('context', () => {
   rootHander.argument('content', { description: '' })
   rootHander.flag('--filename', { required: true })
   rootHander.flag('--format', { alias: '-f' })
-  rootHander.main((context, prompt) => {})
+  rootHander.main(prompt => {})
 
   it('context.getArgv should return argv', () => {
     const context = new Context(normalArgv)

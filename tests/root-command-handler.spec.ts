@@ -5,7 +5,7 @@ describe('root command handler', () => {
   it('execute handler', () => {
 
     const rootHandler = createHandler()
-    rootHandler.main((context, prompt) => {
+    rootHandler.main(prompt => {
       prompt.info('a')
     })
 

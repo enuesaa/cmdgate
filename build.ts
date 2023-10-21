@@ -7,5 +7,5 @@ await esbuild.build({
   ],
   outdir: './dist',
   platform: 'node',
-  format: 'cjs',
+  format: 'esm',
 })

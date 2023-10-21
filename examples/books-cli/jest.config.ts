@@ -1,10 +1,9 @@
 import { type Config }  from 'jest'
 
 const config: Config = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  preset: 'ts-jest/presets/js-with-ts-esm',
   transform: {
-    '^.+\\.ts$': ['ts-jest', {'tsconfig': 'tsconfig.json'}]
+    '^.+\\.ts$': ['ts-jest', {}]
   },
 }
 

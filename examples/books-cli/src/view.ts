@@ -1,4 +1,4 @@
-import { createHandler } from '../../../dist'
+import { createHandler } from '@enuesaa/cmdgate'
 
 export const viewhandler = createHandler()
 const namearg = viewhandler.argument('name', { required: true })

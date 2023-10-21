@@ -1,4 +1,4 @@
-import { createHandler } from '../../../dist'
+import { createHandler } from '@enuesaa/cmdgate'
 import { books } from './books'
 
 export const lshandler = createHandler()

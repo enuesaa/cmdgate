@@ -1,9 +1,9 @@
-import { Prompt } from './prompt'
+import { type PromptInterface } from './prompt'
 import { Context } from './context'
 import { Argument, type ArgumentConfig } from './argument'
 import { Flag, type FlagConfig } from './flag'
 
-export type Handlefn = (prompt: Prompt) => void
+export type Handlefn = (prompt: PromptInterface) => void
 
 export type HandlerConfig = {
   description: string
@@ -47,7 +47,7 @@ export class Handler {
     }
   }
 
-  run(context: Context, prompt: Prompt) {
+  run(context: Context, prompt: PromptInterface) {
     const positionals = context.getPositionals()
     for (const argument of this._arguments) {
       if (positionals.length > 0) {

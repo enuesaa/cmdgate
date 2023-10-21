@@ -1,6 +1,6 @@
 import process from 'node:process'
 import { Handler } from './handler'
-import { Prompt } from './prompt'
+import { Prompt, type PromptInterface } from './prompt'
 import { Context } from './context'
 
 export type CliConfig = {
@@ -48,7 +48,7 @@ export class Cli {
     }
   }
 
-  run(argv: string[] = process.argv, prompt: Prompt = new Prompt()) {
+  run(argv: string[] = process.argv, prompt: PromptInterface = new Prompt()) {
     const context = new Context(argv)
 
     for (const handler of this._middlewares) {

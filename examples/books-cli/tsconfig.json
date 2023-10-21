@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "es2022",
     "target": "es2022",
     "esModuleInterop": true,
+    "moduleResolution": "bundler",
     "outDir": "./dist",
     "strict": true,
     "allowJs": true,

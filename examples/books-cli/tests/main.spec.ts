@@ -7,4 +7,9 @@ describe('books cli', () => {
     cli.run(['node', '/workspace/books.js', '--help'], prompt)
     expect(prompt.out).toStrictEqual('help flag passed.\n')
   })
+  it('no flag passed', () => {
+    const prompt = new PromptMock()
+    cli.run(['node', '/workspace/books.js', ''], prompt)
+    expect(prompt.out).toStrictEqual('')
+  })
 })

@@ -32,6 +32,11 @@ export class Argument {
     return this._has
   }
 
+  setNotDefined() {
+    this._has = false;
+    this._value = null;
+  }
+
   setValue(value: string) {
     this._has = true
     this._value = value

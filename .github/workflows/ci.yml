@@ -18,3 +18,18 @@ jobs:
           version: 8
       - run: pnpm install
       - run: pnpm test
+
+  test-example:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+        working-directory: ./exmaples/books-cli
+      - run: pnpm test
+        working-directory: ./exmaples/books-cli

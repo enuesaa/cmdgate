@@ -15,4 +15,5 @@ lshandler.main(prompt => {
     }
     prompt.info(`${book.name}`)
   }
+  prompt.exit(0)
 })

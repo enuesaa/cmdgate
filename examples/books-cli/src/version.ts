@@ -5,7 +5,7 @@ const versionFlag = versionHandler.flag('--version', { description: 'Print versi
 
 versionHandler.main(prompt => {
   if (versionFlag.has()) {
-    prompt.info('version flag passed.')
+    prompt.info('books-cli version 0.1.0.')
     prompt.exit(0)
   }
 })

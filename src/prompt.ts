@@ -36,7 +36,7 @@ export class Prompt implements PromptInterface {
 
 export class PromptMock implements PromptInterface {
   public out: string = ''
-  private code: number = -1
+  public code: number = -1
 
   println(message: string) {
     this.out += util.format(message) + '\n'

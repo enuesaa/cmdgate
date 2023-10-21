@@ -6,7 +6,7 @@ import { viewhandler } from './view'
 
 export const cli = createCli()
 cli.name('books')
-cli.description('sample command')
+cli.description('books command.')
 cli.use(helpHandler)
 cli.use(versionHandler)
 cli.route('ls', lshandler)

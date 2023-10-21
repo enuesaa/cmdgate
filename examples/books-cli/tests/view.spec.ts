@@ -1,8 +1,8 @@
 import { cli } from '../src/index'
 import { PromptMock } from '@enuesaa/cmdgate'
 
-describe('ls command', () => {
-  it('ls command lists book names', () => {
+describe('subcommand view', () => {
+  it('subcommand view looks up with book name', () => {
     const prompt = new PromptMock()
     cli.run(['node', '/workspace/books.js', 'view', 'Explore Paris'], prompt)
     expect(prompt.out).toStrictEqual(`name: Explore Paris
@@ -10,5 +10,12 @@ summary: Discover the beauty and culture of the City of Love.
 pageCount: 200
 published: 2022-03-15
 `)
+    expect(prompt.code).toStrictEqual(0)
   })
+  
+  it('subcommand view exits 1 when the book does not exist.', () => {
+  const prompt = new PromptMock()
+  cli.run(['node', '/workspace/books.js', 'view', 'not-exists-book-name'], prompt)
+  expect(prompt.code).toStrictEqual(1)
+})
 })

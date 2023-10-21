@@ -15,4 +15,5 @@ viewhandler.main(prompt => {
   prompt.info(`summary: ${book.summary}`)
   prompt.info(`pageCount: ${book.pageCount}`)
   prompt.info(`published: ${book.published}`)
+  prompt.exit(0)
 })

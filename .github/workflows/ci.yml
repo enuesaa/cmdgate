@@ -30,6 +30,6 @@ jobs:
         with:
           version: 8
       - run: pnpm install
-        working-directory: ./exmaples/books-cli
+        working-directory: examples/books-cli
       - run: pnpm test
-        working-directory: ./exmaples/books-cli
+        working-directory: examples/books-cli

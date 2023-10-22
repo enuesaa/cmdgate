@@ -5,13 +5,6 @@ import { Flag, type FlagConfig } from './flag'
 
 export type Handlefn = (prompt: PromptInterface) => void
 
-export type HandlerConfig = {
-  description: string
-  arguments: Argument[]
-  flags: Flag[]
-  handlefn: Handlefn
-}
-
 export class Handler {
   private _description: string = ''
   private _arguments: Argument[] = []
@@ -36,15 +29,6 @@ export class Handler {
 
   main(handlefn: Handlefn) {
     this._handlefn = handlefn
-  }
-
-  describeConfig(): HandlerConfig {
-    return {
-      description: this._description,
-      arguments: this._arguments,
-      flags: this._flags,
-      handlefn: this._handlefn,
-    }
   }
 
   run(context: Context, prompt: PromptInterface) {

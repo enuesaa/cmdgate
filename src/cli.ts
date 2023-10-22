@@ -1,15 +1,6 @@
-import process from 'node:process'
 import { Handler } from './handler'
 import { Prompt, type PromptInterface } from './prompt'
 import { Context } from './context'
-
-export type CliConfig = {
-  name: string
-  description: string
-  version: string
-  middlewares: Handler[]
-  handlers: Record<string, Handler>
-}
 
 export class Cli {
   private _name: string = ''
@@ -36,16 +27,6 @@ export class Cli {
 
   route(route: string, handler: Handler) {
     this._handlers[route] = handler
-  }
-
-  describeConfig(): CliConfig {
-    return {
-      name: this._name,
-      description: this._description,
-      version: this._version,
-      middlewares: this._middlewares,
-      handlers: this._handlers,
-    }
   }
 
   run(prompt: PromptInterface = new Prompt()) {

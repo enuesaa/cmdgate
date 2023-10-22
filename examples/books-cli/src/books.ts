@@ -1,4 +1,3 @@
-
 type Book = {
   name: string;
   summary: string;
@@ -70,4 +69,4 @@ export const books: Book[] = [
     pageCount: 155,
     published: '2021-10-09'
   }
-];
+]

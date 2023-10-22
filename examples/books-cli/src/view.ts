@@ -1,14 +1,19 @@
 import { createHandler } from '@enuesaa/cmdgate'
 import { books } from './books'
 
-export const viewhandler = createHandler()
-const namearg = viewhandler.argument('name', { required: true })
+export const viewHandler = createHandler()
 
-viewhandler.main(prompt => {
-  const bookname = namearg.getValue()
-  const book = books.find((b, i) => b.name === bookname)
+const nameArg = viewHandler.argument('name', {
+  required: true,
+})
+
+viewHandler.main(prompt => {
+  const bookname = nameArg.getValue()
+  const book = books.find(b => b.name === bookname)
   if (typeof book === 'undefined') {
-    return prompt.exit(1)
+    prompt.error(`book name ${bookname} not found.`)
+    prompt.exit(1)
+    return
   }
 
   prompt.info(`name: ${book.name}`)

@@ -1,8 +1,8 @@
 import { cli } from '../src/index'
 import { PromptMock } from '@enuesaa/cmdgate'
 
-describe('subcommand ls', () => {
-  it('subcommand ls lists book names', () => {
+describe('subcommand `ls`', () => {
+  it('`ls` lists book names', () => {
     const prompt = new PromptMock()
     cli.run(['node', '/workspace/books.js', 'ls'], prompt)
     expect(prompt.out).toStrictEqual(`Explore Paris

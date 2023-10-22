@@ -2,6 +2,7 @@ import process from 'node:process'
 import util from 'node:util'
 
 export interface PromptInterface {
+  getArgv(): string[]
   println(message: string): void
   info(message: string): void
   error(message: string): void
@@ -9,12 +10,16 @@ export interface PromptInterface {
 }
 
 export class Prompt implements PromptInterface {
-  private input: NodeJS.ReadableStream
-  private output: NodeJS.WritableStream
+  private argv: string[]
+  private input: NodeJS.ReadableStream = process.stdin
+  private output: NodeJS.WritableStream = process.stdout
 
-  constructor(input = process.stdin, output = process.stdout) {
-    this.input = input
-    this.output = output
+  constructor(argv = process.argv) {
+    this.argv = argv
+  }
+
+  getArgv(): string[] {
+    return this.argv
   }
 
   println(message: string) {
@@ -35,8 +40,17 @@ export class Prompt implements PromptInterface {
 }
 
 export class PromptMock implements PromptInterface {
+  private argv: string[]
   public out: string = ''
   public code: number = -1
+
+  constructor(argv: string[]) {
+    this.argv = argv
+  }
+
+  getArgv(): string[] {
+    return this.argv
+  }
 
   println(message: string) {
     this.out += util.format(message) + '\n'

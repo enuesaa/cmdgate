@@ -3,8 +3,8 @@ import { PromptMock } from '@enuesaa/cmdgate'
 
 describe('subcommand `view`', () => {
   it('`view` looks up with book name', () => {
-    const prompt = new PromptMock()
-    cli.run(['node', '/workspace/books.js', 'view', 'Explore Paris'], prompt)
+    const prompt = new PromptMock(['node', '/workspace/books.js', 'view', 'Explore Paris'])
+    cli.run(prompt)
     expect(prompt.out).toStrictEqual(`name: Explore Paris
 summary: Discover the beauty and culture of the City of Love.
 pageCount: 200
@@ -14,8 +14,8 @@ published: 2022-03-15
   })
 
   it('`view` exits 1 when the book does not exist.', () => {
-    const prompt = new PromptMock()
-    cli.run(['node', '/workspace/books.js', 'view', 'not-exists-book-name'], prompt)
+    const prompt = new PromptMock(['node', '/workspace/books.js', 'view', 'not-exists-book-name'])
+    cli.run(prompt)
     expect(prompt.code).toStrictEqual(1)
   })
 })

@@ -14,7 +14,7 @@ describe('root command handler', () => {
     cli.description('sample command for test')
     cli.use(rootHandler);
  
-    cli.run(['node', 'cli.js']) // nothing passed. this means calling root command.
+    cli.run() // nothing passed. this means calling root command.
   
     expect(mockPromptPrintln.mock.calls[0][0]).toBe('a')
   })

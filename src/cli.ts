@@ -48,8 +48,8 @@ export class Cli {
     }
   }
 
-  run(argv: string[] = process.argv, prompt: PromptInterface = new Prompt()) {
-    const context = new Context(argv)
+  run(prompt: PromptInterface = new Prompt()) {
+    const context = new Context(prompt.getArgv())
 
     for (const handler of this._middlewares) {
       handler.run(context, prompt)

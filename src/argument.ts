@@ -16,15 +16,15 @@ export class Argument {
     this._value = null
   }
 
-  getName(): string {
-    return this._name
+  get name(): string {
+    return this.name
   }
 
-  getConfig(): ArgumentConfig {
+  get config(): ArgumentConfig {
     return this._config
   }
 
-  getValue(): string {
+  get value(): string {
     return this._value ?? ''
   }
 
@@ -37,6 +37,7 @@ export class Argument {
     this._value = null;
   }
 
+  // internal method
   setValue(value: string) {
     this._has = true
     this._value = value

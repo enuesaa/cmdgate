@@ -17,15 +17,15 @@ export class Flag {
     this._value = [];
   }
 
-  getName(): string {
+  get name(): string {
     return this._name
   }
 
-  getConfig(): FlagConfig {
+  get config(): FlagConfig {
     return this._config
   }
 
-  getValue(): string {
+  get value(): string {
     return this._value.length > 0 ? this._value[0] : ''
   }
 

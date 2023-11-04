@@ -44,9 +44,8 @@ export class Handler {
     const rawflags = context.getRawFlags()
     for (const flag of this._flags) {
       flag.setNotDefined()
-      const flagname = flag.getName()
-      if (rawflags.hasOwnProperty(flagname)) {
-        flag.setValue(rawflags[flagname])
+      if (rawflags.hasOwnProperty(flag.name)) {
+        flag.setValue(rawflags[flag.name])
       }
     }
 

@@ -13,23 +13,23 @@ export class Context {
     this._parseRawArgs()
   }
 
-  getArgv(): string[] {
+  get argv(): string[] {
     return structuredClone(this._argv)
   }
 
-  getRawArgs(): string[] {
+  get rawArgs(): string[] {
     return structuredClone(this._rawArgs)
   }
 
-  getRawPositionals(): string[] {
+  get rawPositionals(): string[] {
     return structuredClone(this._rawPositionals)
   }
 
-  getRawFlags(): Record<string, string[]> {
+  get rawFlags(): Record<string, string[]> {
     return structuredClone(this._rawFlags)
   }
 
-  getRoutes(): string[] {
+  get routes(): string[] {
     const list = []
     let lastValue = ''
     for (const value of structuredClone(this._rawPositionals)) {
@@ -44,7 +44,7 @@ export class Context {
     this._matchedRoute = route
   }
 
-  getPositionals(): string[] {
+  get positionals(): string[] {
     const list = structuredClone(this._rawPositionals)
     for (const _ of this._matchedRoute.split(' ')) {
       list.shift()

@@ -17,7 +17,7 @@ export class Argument {
   }
 
   get name(): string {
-    return this.name
+    return this._name
   }
 
   get config(): ArgumentConfig {
@@ -32,13 +32,14 @@ export class Argument {
     return this._has
   }
 
-  setNotDefined() {
+  // internal method
+  _setNotDefined() {
     this._has = false;
     this._value = null;
   }
 
   // internal method
-  setValue(value: string) {
+  _setValue(value: string) {
     this._has = true
     this._value = value
   }

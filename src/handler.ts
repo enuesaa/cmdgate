@@ -32,20 +32,20 @@ export class Handler {
   }
 
   run(context: Context, prompt: PromptInterface) {
-    const positionals = context.getPositionals()
+    const positionals = context.positionals
     for (const argument of this._arguments) {
-      argument.setNotDefined()
+      argument._setNotDefined()
       if (positionals.length > 0) {
-        argument.setValue(positionals[0])
+        argument._setValue(positionals[0])
         positionals.shift()
       }
     }
 
-    const rawflags = context.getRawFlags()
+    const rawflags = context.rawFlags
     for (const flag of this._flags) {
-      flag.setNotDefined()
+      flag._setNotDefined()
       if (rawflags.hasOwnProperty(flag.name)) {
-        flag.setValue(rawflags[flag.name])
+        flag._setValue(rawflags[flag.name])
       }
     }
 

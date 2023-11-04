@@ -33,12 +33,14 @@ export class Flag {
     return this._has;
   }
 
-  setNotDefined() {
+  // internal method
+  _setNotDefined() {
     this._has = false
     this._value = []
   }
 
-  setValue(value: string[]) {
+  // internal method
+  _setValue(value: string[]) {
     this._has = true
     this._value = value
   }

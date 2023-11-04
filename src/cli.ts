@@ -29,6 +29,14 @@ export class Cli {
     this._handlers[route] = handler
   }
 
+  describe() {
+    return {
+      name: this._name,
+      description: this._description,
+      version: this._version,
+    }
+  }
+
   run(prompt: PromptInterface = new Prompt()) {
     const context = new Context(prompt.getArgv())
 
@@ -36,7 +44,7 @@ export class Cli {
       handler.run(context, prompt)
     }
 
-    for (const route of context.getRoutes()) {
+    for (const route of context.routes) {
       if (this._handlers.hasOwnProperty(route)) {
         const handler = this._handlers[route]
         handler.run(context, prompt)

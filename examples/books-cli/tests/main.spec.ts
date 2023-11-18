@@ -18,7 +18,7 @@ describe('books cli', () => {
   it('version flag passed', () => {
     const prompt = new PromptMock(['node', '/workspace/books.js', '--version'])
     cli.run(prompt)
-    expect(prompt.out).toStrictEqual('books-cli version 0.1.0.\n')
+    expect(prompt.out).toStrictEqual('books-cli version 0.0.1.\n')
     expect(prompt.code).toStrictEqual(0)
   })
 })

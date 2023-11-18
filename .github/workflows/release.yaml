@@ -1,0 +1,25 @@
+name: release
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: |
+          cat <<'EOF' | envsubst > release.md
+          # cmdgate ${TAG_NAME}
+          EOF
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          body_path: release.md

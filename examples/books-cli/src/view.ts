@@ -8,7 +8,7 @@ const nameArg = viewHandler.argument('name', {
 })
 
 viewHandler.main(prompt => {
-  const bookname = nameArg.getValue()
+  const bookname = nameArg.value
   const book = books.find(b => b.name === bookname)
   if (typeof book === 'undefined') {
     prompt.error(`book name ${bookname} not found.`)

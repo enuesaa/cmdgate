@@ -9,7 +9,7 @@ const searchFlag = lsHandler.flag('--search', {
 })
 
 lsHandler.main(prompt => {
-  const searchValue = searchFlag.has() ? searchFlag.getValue() : null
+  const searchValue = searchFlag.has() ? searchFlag.value : null
 
   for (const book of books) {
     if (searchValue !== null && !book.name.startsWith(searchValue)) {

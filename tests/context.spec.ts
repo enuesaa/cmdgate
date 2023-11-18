@@ -11,21 +11,21 @@ describe('context', () => {
 
   it('context.getArgv should return argv', () => {
     const context = new Context(normalArgv)
-    expect(context.getArgv()).toStrictEqual(['node', 'main.js', 'thisiscontent', '--filename', 'aa.json', '-f', 'json'])
+    expect(context.argv).toStrictEqual(['node', 'main.js', 'thisiscontent', '--filename', 'aa.json', '-f', 'json'])
   })
 
   it('context.getRawArgs should return argv without nodebin or filename', () => {
     const context = new Context(normalArgv)
-    expect(context.getRawArgs()).toStrictEqual(['thisiscontent', '--filename', 'aa.json', '-f', 'json'])
+    expect(context.rawArgs).toStrictEqual(['thisiscontent', '--filename', 'aa.json', '-f', 'json'])
   })
 
   it('context.getRawPositionals should return positional arguments', () => {
     const context = new Context(normalArgv)
-    expect(context.getRawPositionals()).toStrictEqual(['thisiscontent'])
+    expect(context.rawPositionals).toStrictEqual(['thisiscontent'])
   })
 
   it('context.getRawFlags should return flags.', () => {
     const context = new Context(normalArgv)
-    expect(context.getRawFlags()['--filename']).toStrictEqual(['aa.json'])
+    expect(context.rawFlags['--filename']).toStrictEqual(['aa.json'])
   })
 })

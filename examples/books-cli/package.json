@@ -28,6 +28,6 @@
     "books": "bin/books.js"
   },
   "dependencies": {
-    "@enuesaa/cmdgate": "link:../.."
+    "@enuesaa/cmdgate": "0.0.1"
   }
 }

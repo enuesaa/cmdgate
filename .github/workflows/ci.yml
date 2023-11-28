@@ -22,18 +22,17 @@ jobs:
   test-example:
     needs: test
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: examples/books-cli
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 20
+          registry-url: https://npm.pkg.github.com
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-      # build cmdgate here because example packages look at local files.. not npm.
       - run: pnpm install
-      - run: pnpm build
-      - run: pnpm install
-        working-directory: examples/books-cli
       - run: pnpm test
-        working-directory: examples/books-cli

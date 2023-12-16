@@ -5,6 +5,7 @@ const config: Config = {
   transform: {
     '^.+\\.ts$': ['ts-jest', {}]
   },
+  transformIgnorePatterns: ["/node_modules/.pnpm/@enuesaa+cmdgate@0.0.1"],
 }
 
 export default config

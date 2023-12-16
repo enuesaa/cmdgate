@@ -38,3 +38,5 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: pnpm test
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

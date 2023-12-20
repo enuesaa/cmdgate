@@ -1,7 +1,7 @@
 # Designdoc
 ### Usage
 ```ts
-const helpGate = createRoute()
+const helpGate = createGate()
 const helpFlag = helpGate.boolFlag('--help', { alias: '-h' })
 export const helpHandler = helpGate.handle(prompt => {
   if (helpFlag.has()) {

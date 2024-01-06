@@ -10,10 +10,8 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "baseUrl": "./",
-    "paths": {},
-    "types": ["vitest/globals"]
+    "baseUrl": "./"
   },
-  "include": ["**/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules"]
 }

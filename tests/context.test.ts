@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { createHandler } from '../src/index'
 import { Context } from '../src/context'
 

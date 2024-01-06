@@ -1,3 +1,4 @@
+import { beforeEach, afterEach } from 'vitest'
 import { Prompt } from '../../src/prompt'
 import { vi, type MockInstance } from 'vitest'
 

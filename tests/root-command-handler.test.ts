@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { createCli, createHandler } from '../src'
 import { mockPromptPrintln } from './mock/prompt'
 

@@ -1,9 +1,10 @@
 import { Prompt } from '../../src/prompt'
+import { vi, type MockInstance } from 'vitest'
 
-export let mockPromptPrintln: jest.SpyInstance
+export let mockPromptPrintln: MockInstance
 
 beforeEach(() => {
-  mockPromptPrintln = jest.spyOn(Prompt.prototype, 'println').mockImplementation()
+  mockPromptPrintln = vi.spyOn(Prompt.prototype, 'println').mockImplementation(v => v)
 })
 
 afterEach(() => {

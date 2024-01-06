@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { cli } from '../src/index'
 import { PromptMock } from '@enuesaa/cmdgate'
 

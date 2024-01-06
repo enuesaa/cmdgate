@@ -11,8 +11,7 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "baseUrl": "./",
-    "paths": {}
+    "baseUrl": "./"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules"]

@@ -3,6 +3,9 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [],
   test: {
-    include: ['tests/**/*.test.ts'],
+    include: [
+      'src/**/*.test.ts',
+      'tests/**/*.test.ts',
+    ],
   },
 })

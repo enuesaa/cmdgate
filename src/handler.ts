@@ -11,12 +11,8 @@ export class Handler {
   private _flags: Flag[] = []
   private _handlefn: Handlefn = (prompt) => {}
 
-  setDescription(description: string) {
+  description(description: string) {
     this._description = description
-  }
-
-  description(): string {
-    return this._description
   }
 
   argument(name: string, config: ArgumentConfig): Argument {
@@ -33,6 +29,12 @@ export class Handler {
 
   handle(handlefn: Handlefn) {
     this._handlefn = handlefn
+  }
+
+  describeHandler(): { description: string } {
+    return {
+      description: this._description,
+    }
   }
 
   /**

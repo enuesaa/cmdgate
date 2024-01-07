@@ -2,7 +2,9 @@
 ### Usage
 ```ts
 const helpGate = createGate()
+helpGate.description('this is help')
 const helpFlag = helpGate.boolFlag('--help', { alias: '-h' })
+
 export const helpHandler = helpGate.handle(prompt => {
   if (helpFlag.has()) {
 

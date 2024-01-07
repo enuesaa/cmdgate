@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { createCli, createHandler } from '../src'
-import { mockPromptPrintln } from './mock/prompt'
+import { PromptMock } from './promptmock'
+import { createCli, createHandler } from './index'
 
 describe('root command handler', () => {
   it('execute handler', () => {
+
+    const prompt = new PromptMock()
 
     const rootHandler = createHandler()
     rootHandler.handle(prompt => {
@@ -13,10 +15,10 @@ describe('root command handler', () => {
     const cli = createCli()
     cli.name('sample')
     cli.description('sample command for test')
-    cli.use(rootHandler);
- 
-    cli.run() // nothing passed. this means calling root command.
-  
-    expect(mockPromptPrintln.mock.calls[0][0]).toBe('a')
+    cli.use(rootHandler)
+    cli.prompt(prompt)
+    cli.run()
+
+    expect(prompt.out).toBe('a\n')
   })
 })

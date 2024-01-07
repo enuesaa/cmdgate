@@ -8,6 +8,8 @@ export class Cli {
   private _version: string = ''
   private _middlewares: Handler[] = []
   private _handlers: Record<string, Handler> = {}
+  private _prompt: PromptInterface = new Prompt()
+  private _args: string[] = []
 
   name(name: string) {
     this._name = name
@@ -37,17 +39,25 @@ export class Cli {
     }
   }
 
-  run(prompt: PromptInterface = new Prompt()) {
-    const context = new Context(prompt.getArgv())
+  prompt(prompt: PromptInterface) {
+    this._prompt = prompt
+  }
+
+  args(args: string[]) {
+    this._args = args
+  }
+
+  run() {
+    const context = new Context(this._args)
 
     for (const handler of this._middlewares) {
-      handler.run(context, prompt)
+      handler.run(context, this._prompt)
     }
 
     for (const route of context.routes) {
       if (this._handlers.hasOwnProperty(route)) {
         const handler = this._handlers[route]
-        handler.run(context, prompt)
+        handler.run(context, this._prompt)
         break
       }
     }

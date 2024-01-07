@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { createHandler } from '../src/index'
-import { Context } from '../src/context'
+import { createHandler } from './index'
+import { Context } from './context'
 
 describe('context', () => {
   const normalArgv = ['node', 'main.js', 'thisiscontent', '--filename', 'aa.json', '-f', 'json']

@@ -11,8 +11,12 @@ export class Handler {
   private _flags: Flag[] = []
   private _handlefn: Handlefn = (prompt) => {}
 
-  description(description: string) {
+  setDescription(description: string) {
     this._description = description
+  }
+
+  description(): string {
+    return this._description
   }
 
   argument(name: string, config: ArgumentConfig): Argument {
@@ -27,10 +31,13 @@ export class Handler {
     return flag
   }
 
-  main(handlefn: Handlefn) {
+  handle(handlefn: Handlefn) {
     this._handlefn = handlefn
   }
 
+  /**
+   * @deprecated
+   */
   run(context: Context, prompt: PromptInterface) {
     const positionals = context.positionals
     for (const argument of this._arguments) {

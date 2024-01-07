@@ -11,7 +11,6 @@ export interface PromptInterface {
 
 export class Prompt implements PromptInterface {
   private argv: string[]
-  private input: NodeJS.ReadableStream = process.stdin
   private output: NodeJS.WritableStream = process.stdout
 
   constructor(argv = process.argv) {

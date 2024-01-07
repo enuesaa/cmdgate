@@ -2,25 +2,28 @@ import { Handler } from './handler'
 import { Prompt, type PromptInterface } from './prompt'
 import { Context } from './context'
 
+export type CliConfig = {
+  name: string
+  version: string
+  description: string
+}
 export class Cli {
-  private _name: string = ''
-  private _description: string = ''
-  private _version: string = ''
-  private _middlewares: Handler[] = []
-  private _handlers: Record<string, Handler> = {}
-  private _prompt: PromptInterface = new Prompt()
-  private _args: string[] = []
+  protected _config: CliConfig
+  protected _middlewares: Handler[] = []
+  protected _handlers: Record<string, Handler> = {}
+  protected _prompt: PromptInterface = new Prompt()
 
-  name(name: string) {
-    this._name = name
+  constructor(config: Partial<CliConfig> = {}) {
+    this._config = {
+      name: '',
+      version: '',
+      description: '',
+      ...config,
+    }
   }
 
-  description(description: string) {
-    this._description = description
-  }
-
-  version(version: string) {
-    this._version = version
+  getConfig() {
+    return this._config
   }
 
   use(handler: Handler) {
@@ -31,24 +34,12 @@ export class Cli {
     this._handlers[route] = handler
   }
 
-  describe() {
-    return {
-      name: this._name,
-      description: this._description,
-      version: this._version,
-    }
-  }
-
   prompt(prompt: PromptInterface) {
     this._prompt = prompt
   }
 
-  args(args: string[]) {
-    this._args = args
-  }
-
-  run() {
-    const context = new Context(this._args)
+  run(args: string[] = process.argv) {
+    const context = new Context(args)
 
     for (const handler of this._middlewares) {
       handler.run(context, this._prompt)

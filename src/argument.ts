@@ -32,13 +32,17 @@ export class Argument {
     return this._has
   }
 
-  // internal method
+  /**
+   * @deprecated
+   */
   _setNotDefined() {
     this._has = false;
     this._value = null;
   }
 
-  // internal method
+  /**
+   * @deprecated
+   */
   _setValue(value: string) {
     this._has = true
     this._value = value

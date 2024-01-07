@@ -9,10 +9,12 @@ export interface PromptInterface {
 }
 
 export class Prompt implements PromptInterface {
+  // TODO: consider how to override.
   private output: NodeJS.WritableStream = process.stdout
 
   println(message: string) {
-    this.output.write(util.format(message) + '\n')
+    const text = util.format(message) + '\n'
+    this.output.write(text)
   }
 
   info(message: string) {

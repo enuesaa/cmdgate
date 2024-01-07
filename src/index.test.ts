@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { PromptMock } from './promptmock'
-import { createCli, createHandler } from './index'
+import { createCli, createHandler, PromptMock } from './index'
 
 describe('root command handler', () => {
   it('execute handler', () => {

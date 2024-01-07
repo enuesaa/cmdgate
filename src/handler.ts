@@ -1,5 +1,4 @@
 import { type PromptInterface } from './prompt'
-import { Context } from './context'
 import { Gate } from './gate'
 
 export type Handlefn = (prompt: PromptInterface) => void
@@ -13,7 +12,7 @@ export class Handler {
     this._handlefn = handlefn
   }
 
-  run(context: Context, prompt: PromptInterface) {
+  run(args: string[], prompt: PromptInterface) {
     // const positionals = context.positionals
     // for (const argument of this._gate.positionals) {
     //   argument._setNotDefined()

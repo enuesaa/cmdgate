@@ -1,6 +1,5 @@
 import { Handler } from './handler'
 import { Prompt, type PromptInterface } from './prompt'
-import { Context } from './context'
 
 export type CliConfig = {
   name: string
@@ -9,8 +8,8 @@ export type CliConfig = {
 }
 export class Cli {
   protected _config: CliConfig
-  protected _middlewares: Handler[] = []
-  protected _handlers: Record<string, Handler> = {}
+  protected _layers: Handler[] = []
+  protected _routes: Record<string, Handler> = {}
   protected _prompt: PromptInterface = new Prompt()
 
   constructor(config: Partial<CliConfig> = {}) {
@@ -27,30 +26,23 @@ export class Cli {
   }
 
   use(handler: Handler) {
-    this._middlewares.push(handler)
+    this._layers.push(handler)
   }
 
   route(route: string, handler: Handler) {
-    this._handlers[route] = handler
+    this._routes[route] = handler
   }
 
-  prompt(prompt: PromptInterface) {
-    this._prompt = prompt
-  }
-
-  run(args: string[] = process.argv) {
-    const context = new Context(args)
-
-    for (const handler of this._middlewares) {
-      handler.run(context, this._prompt)
+  run(args: string[] = process.argv, prompt: PromptInterface = new Prompt()) {
+    for (const handler of this._layers) {
+      handler.run(args, prompt)
     }
 
-    for (const route of context.routes) {
-      if (this._handlers.hasOwnProperty(route)) {
-        const handler = this._handlers[route]
-        handler.run(context, this._prompt)
-        break
-      }
+    // todo remove positional argument
+    const cmdRoute = args.join(' ')
+    if (this._routes.hasOwnProperty(cmdRoute)) {
+      const handler = this._routes[cmdRoute]
+      handler.run(args, prompt)
     }
   }
 }

@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export class Context {
   private _argv: string[] = []
   private _rawArgs: string[] = []

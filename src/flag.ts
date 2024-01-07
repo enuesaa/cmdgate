@@ -1,31 +1,31 @@
 export type FlagConfig = {
-  description?: string
-  alias?: string
-  required?: boolean
+  description: string
+  alias: string|null
+  required: boolean
 }
-
 export class Flag {
   private _name: string
   private _config: FlagConfig
   private _has: boolean;
   private _value: string[];
 
-  constructor(name: string, config?: FlagConfig) {
+  constructor(name: string, config: Partial<FlagConfig> = {}) {
     this._name = name
-    this._config = config ?? { description: '', required: false }
+    this._config = {
+      description: '',
+      alias: null,
+      required: false,
+      ...config,
+    }
     this._has = false;
     this._value = [];
   }
 
-  get name(): string {
-    return this._name
-  }
-
-  get config(): FlagConfig {
+  getConfig(): FlagConfig {
     return this._config
   }
 
-  get value(): string {
+  getValue(): string {
     return this._value.length > 0 ? this._value[0] : ''
   }
 
@@ -33,13 +33,17 @@ export class Flag {
     return this._has;
   }
 
-  // internal method
+  /**
+   * @deprecated
+   */
   _setNotDefined() {
     this._has = false
     this._value = []
   }
 
-  // internal method
+  /**
+   * @deprecated
+   */
   _setValue(value: string[]) {
     this._has = true
     this._value = value

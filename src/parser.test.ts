@@ -28,4 +28,18 @@ describe('parser normal test', () => {
     const parser = new Parser(argv)
     expect(parser.getFlagValue('--filename')).toStrictEqual('aa.json')
   })
+
+  it('parser listMatchableRoutes', () => {
+    const parser = new Parser(argv)
+    expect(parser.listMatchableRoutes()).toStrictEqual(['thisiscontent'])
+  })
+})
+
+describe('parser complex', () => {
+  const argv = ['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use']
+
+  it('parser listMatchableRoutes', () => {
+    const parser = new Parser(argv)
+    expect(parser.listMatchableRoutes()).toStrictEqual(['thisiscontent', 'thisiscontent thismaypositional'])
+  })
 })

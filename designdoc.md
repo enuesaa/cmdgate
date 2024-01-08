@@ -22,8 +22,8 @@ export const aaaHandler = aaaGate.handle(prompt => {
 })
 
 const cli = createCli()
-cli.use(helpHanlder) // call every time
-cli.use(versionHandler) // call every time
+cli.every(helpHanlder) // call every time
+cli.every(versionHandler) // call every time
 cli.route("aaa", aaaHandler)
 cli.route("bbb", bbbHandler)
 cli.route("bbb cc", bbbCcHandler)

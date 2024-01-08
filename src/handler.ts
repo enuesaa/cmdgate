@@ -1,5 +1,6 @@
 import { type PromptInterface } from './prompt'
 import { Gate } from './gate'
+import { Parser } from './parser'
 
 export type Handlefn = (prompt: PromptInterface) => void
 
@@ -12,5 +13,8 @@ export class Handler {
     this._handlefn = handlefn
   }
 
-  run(args: string[], prompt: PromptInterface) {}
+  run(parser: Parser, prompt: PromptInterface) {
+    // parse flag and arguments of gate class here.
+    this._handlefn(prompt)
+  }
 }

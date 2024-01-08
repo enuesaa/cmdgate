@@ -15,8 +15,9 @@ describe('root command handler', () => {
       name: 'sample',
       description: 'sample command for test',
     })
-    cli.use(rootHandler)
-    cli.prompt(prompt)
+
+    cli.every(rootHandler)
+    cli.usePrompt(prompt)
     cli.run()
 
     expect(prompt.out).toBe('a\n')

@@ -32,19 +32,5 @@ export class Argument {
     return this._has
   }
 
-  /**
-   * @deprecated
-   */
-  _setNotDefined() {
-    this._has = false;
-    this._value = null;
-  }
-
-  /**
-   * @deprecated
-   */
-  _setValue(value: string) {
-    this._has = true
-    this._value = value
-  }
+  parse() {}
 }

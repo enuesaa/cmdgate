@@ -32,21 +32,6 @@ export class Context {
     return structuredClone(this._rawFlags)
   }
 
-  get routes(): string[] {
-    const list = []
-    let lastValue = ''
-    for (const value of structuredClone(this._rawPositionals)) {
-      lastValue = `${lastValue}${value}`
-      list.push(lastValue)
-      lastValue = `${lastValue} `
-    }
-    return list.reverse()
-  }
-
-  setMatchedRoute(route: string) {
-    this._matchedRoute = route
-  }
-
   get positionals(): string[] {
     const list = structuredClone(this._rawPositionals)
     for (const _ of this._matchedRoute.split(' ')) {
@@ -54,34 +39,5 @@ export class Context {
     }
 
     return list
-  }
-
-  private _parseRawArgs() {
-    let status: 'POSITIONAL'|'FLAGS' = 'POSITIONAL'
-    let flagname = ''
-
-    for (const value of this._rawArgs) {
-      if (status === 'POSITIONAL') {
-        if (value.startsWith('-')) {
-          status = 'FLAGS'
-          flagname = value
-          this._rawFlags[flagname] = []
-          continue
-        }
-
-        this._rawPositionals.push(value)
-        continue
-      }
-
-      if (status === 'FLAGS') {
-        if (value.startsWith('-')) {
-          flagname = value
-          this._rawFlags[flagname] = []
-          continue
-        }
-
-        this._rawFlags[flagname].push(value)
-      }
-    }
   }
 }

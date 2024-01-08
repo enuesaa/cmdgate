@@ -12,22 +12,5 @@ export class Handler {
     this._handlefn = handlefn
   }
 
-  run(args: string[], prompt: PromptInterface) {
-    // const positionals = context.positionals
-    // for (const argument of this._gate.positionals) {
-    //   argument._setNotDefined()
-    //   if (positionals.length > 0) {
-    //     argument._setValue(positionals[0])
-    //     positionals.shift()
-    //   }
-    // }
-
-    // const rawflags = context.rawFlags
-    // for (const flag of this._flags) {
-    //   flag._setNotDefined()
-    //   if (rawflags.hasOwnProperty(flag.name)) {
-    //     flag._setValue(rawflags[flag.name])
-    //   }
-    // }
-  }
+  run(args: string[], prompt: PromptInterface) {}
 }

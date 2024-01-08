@@ -33,19 +33,5 @@ export class Flag {
     return this._has;
   }
 
-  /**
-   * @deprecated
-   */
-  _setNotDefined() {
-    this._has = false
-    this._value = []
-  }
-
-  /**
-   * @deprecated
-   */
-  _setValue(value: string[]) {
-    this._has = true
-    this._value = value
-  }
+  parse() {}
 }

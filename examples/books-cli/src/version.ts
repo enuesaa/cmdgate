@@ -1,14 +1,14 @@
-import { createHandler } from '@enuesaa/cmdgate'
+import { createGate } from '@enuesaa/cmdgate'
 
-export const versionHandler = createHandler()
+const versionGate = createGate()
 
-const versionFlag = versionHandler.flag('--version', {
+const versionFlag = versionGate.flag('--version', {
   description: 'Print version information.',
   required: false,
 })
 
-versionHandler.main(prompt => {
-  if (versionFlag.has()) {
+export const versionHandler = versionGate.handle(prompt => {
+  if (versionFlag.has) {
     prompt.info('books-cli version 0.0.1.')
     prompt.exit(0)
   }

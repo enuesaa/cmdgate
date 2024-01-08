@@ -17,13 +17,13 @@ export class Gate {
     }
   }
 
-  positional(name: string, config: ArgumentConfig): Argument {
+  positional(name: string, config: Partial<ArgumentConfig> = {}): Argument {
     const positional = new Argument(name, config)
     this._positionals.push(positional)
     return positional
   }
 
-  flag(name: string, config: FlagConfig): Flag {
+  flag(name: string, config: Partial<FlagConfig> = {}): Flag {
     const flag = new Flag(name, config)
     this._flags.push(flag)
     return flag

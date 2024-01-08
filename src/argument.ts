@@ -1,4 +1,3 @@
-
 export type ArgumentConfig = {
   description: string;
   required: boolean;
@@ -20,15 +19,11 @@ export class Argument {
     this._value = null
   }
 
-  getConfig(): ArgumentConfig {
-    return this._config
-  }
-
   get value(): string {
     return this._value ?? ''
   }
 
-  has(): boolean {
+  get has(): boolean {
     return this._has
   }
 

@@ -9,7 +9,7 @@ const helpFlag = helpGate.flag('--help', {
 })
 
 export const helpHandler = helpGate.handle(prompt => {
-  if (helpFlag.has()) {
+  if (helpFlag.has) {
     prompt.info('help flag passed.')
     prompt.exit(0)
   }

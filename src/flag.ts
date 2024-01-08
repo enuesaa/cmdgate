@@ -21,15 +21,11 @@ export class Flag {
     this._value = [];
   }
 
-  getConfig(): FlagConfig {
-    return this._config
-  }
-
-  getValue(): string {
+  get value(): string {
     return this._value.length > 0 ? this._value[0] : ''
   }
 
-  has(): boolean {
+  get has(): boolean {
     return this._has;
   }
 

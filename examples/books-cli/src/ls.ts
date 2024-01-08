@@ -1,14 +1,14 @@
-import { createHandler } from '@enuesaa/cmdgate'
+import { createGate } from '@enuesaa/cmdgate'
 import { books } from './books'
 
-export const lsHandler = createHandler()
-
-const searchFlag = lsHandler.flag('--search', {
+const lsGate = createGate()
+const searchFlag = lsGate.flag('--search', {
+  alias: null,
   description: 'search books with name prefix',
   required: false,
 })
 
-lsHandler.main(prompt => {
+export const lsHandler = lsGate.handle(prompt => {
   const searchValue = searchFlag.has() ? searchFlag.value : null
 
   for (const book of books) {

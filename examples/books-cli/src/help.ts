@@ -1,14 +1,14 @@
-import { createHandler } from '@enuesaa/cmdgate'
+import { createGate } from '@enuesaa/cmdgate'
 
-export const helpHandler = createHandler()
+const helpGate = createGate()
 
-const helpFlag = helpHandler.flag('--help', {
+const helpFlag = helpGate.flag('--help', {
   alias: '-h',
   description: 'Print help message.',
   required: false,
 })
 
-helpHandler.main(prompt => {
+export const helpHandler = helpGate.handle(prompt => {
   if (helpFlag.has()) {
     prompt.info('help flag passed.')
     prompt.exit(0)

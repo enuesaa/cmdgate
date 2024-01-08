@@ -4,10 +4,11 @@ import { versionHandler } from './version'
 import { lsHandler } from './ls'
 import { viewHandler } from './view'
 
-export const cli = createCli()
-cli.name('books')
-cli.description('books command.')
-cli.use(helpHandler)
-cli.use(versionHandler)
+export const cli = createCli({
+  name: 'books',
+  description: 'books command.',
+})
+cli.every(helpHandler)
+cli.every(versionHandler)
 cli.route('ls', lsHandler)
 cli.route('view', viewHandler)

@@ -1,4 +1,4 @@
-import { Argument, type ArgumentConfig } from './argument'
+import { Positional, type PositionalConfig } from './positional'
 import { Flag, type FlagConfig } from './flag'
 import { type Handlefn, Handler } from './handler'
 
@@ -7,7 +7,7 @@ export type GateConfig = {
 }
 export class Gate {
   protected _config: GateConfig 
-  protected _positionals: Argument[] = []
+  protected _positionals: Positional[] = []
   protected _flags: Flag[] = []
 
   constructor(config: Partial<GateConfig> = {}) {
@@ -17,8 +17,8 @@ export class Gate {
     }
   }
 
-  positional(name: string, config: Partial<ArgumentConfig> = {}): Argument {
-    const positional = new Argument(name, config)
+  positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
+    const positional = new Positional(name, config)
     this._positionals.push(positional)
     return positional
   }
@@ -44,7 +44,7 @@ export class Gate {
     return this._flags
   }
 
-  getPositionals(): Argument[] {
+  getPositionals(): Positional[] {
     return this._positionals
   }
 }

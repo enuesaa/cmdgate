@@ -1,15 +1,15 @@
 import { Parser } from './parser';
 
-export type ArgumentConfig = {
+export type PositionalConfig = {
   description: string;
   required: boolean;
 }
-export class Argument {
+export class Positional {
   protected _name: string
-  protected _config: ArgumentConfig
+  protected _config: PositionalConfig
   protected _parser: Parser|null
 
-  constructor(name: string, config: Partial<ArgumentConfig> = {}) {
+  constructor(name: string, config: Partial<PositionalConfig> = {}) {
     this._name = name
     this._config = {
       description: '',

@@ -38,13 +38,14 @@ export class Cli {
     const prompt = this.prompt ?? new Prompt()
 
     for (const handler of this._layers) {
-      handler.run(parser, prompt)
+      handler.run(parser, prompt, '')
     }
 
     for (const route of parser.listMatchableRoutes()) {
       if (this._routes.hasOwnProperty(route)) {
+        // TODO fix 循環
         const handler = this._routes[route]
-        handler.run(parser, prompt)
+        handler.run(parser, prompt, route)
       }
     }
   }

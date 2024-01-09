@@ -6,6 +6,6 @@ describe('gate', () => {
     const gate = new Gate({
       description: 'this is handler',
     })
-    expect(gate.getConfig().description).toStrictEqual('this is handler')
+    expect(gate.config.description).toStrictEqual('this is handler')
   })
 })

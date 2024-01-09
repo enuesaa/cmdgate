@@ -6,7 +6,7 @@ describe('parser normal test', () => {
 
   it('parser getArgv', () => {
     const parser = new Parser(argv)
-    expect(parser.getArgv()).toStrictEqual(argv)
+    expect(parser.argv).toStrictEqual(argv)
   })
 
   it('parser getRawArgs', () => {

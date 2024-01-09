@@ -1,21 +1,17 @@
 export class Parser {
-  protected _argv: string[]
+  public argv: string[]
 
   constructor(argv: string[]) {
-    this._argv = argv
-  }
-
-  getArgv(): string[] {
-    return this._argv
+    this.argv = argv
   }
 
   getRawArgs(): string[] {
-    const [_nodebin, _filename, ...rawArgs] = this._argv
+    const [_nodebin, _filename, ...rawArgs] = this.argv
     return rawArgs
   }
 
   hasFlag(name: string): boolean {
-    return this._argv.includes(name)
+    return this.argv.includes(name)
   }
 
   getFlagValue(name: string): string {

@@ -13,7 +13,7 @@ export class Handler {
     this._handlefn = handlefn
   }
 
-  run(parser: Parser, prompt: PromptInterface) {
+  run(parser: Parser, prompt: PromptInterface, route: string) {
     // parse flag and arguments of gate class here.
 
     const flags = this._gate.getFlags()

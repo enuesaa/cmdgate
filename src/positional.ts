@@ -1,17 +1,18 @@
-import { Parser } from './parser';
+import { Parser } from './parser'
 
 export type PositionalConfig = {
-  description: string;
-  required: boolean;
+  description: string
+  required: boolean
 }
+
 export class Positional {
   protected _name: string
-  protected _config: PositionalConfig
-  protected _parser: Parser|null
+  public config: PositionalConfig
+  protected _parser: Parser | null
 
   constructor(name: string, config: Partial<PositionalConfig> = {}) {
     this._name = name
-    this._config = {
+    this.config = {
       description: '',
       required: false,
       ...config,

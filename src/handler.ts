@@ -18,7 +18,7 @@ export class Handler {
 
     const flags = this._gate.getFlags()
     const positionals = this._gate.getPositionals()
-  
+
     this._handlefn(prompt)
   }
 }

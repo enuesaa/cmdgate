@@ -8,17 +8,17 @@ describe('parser normal test', () => {
     const parser = new Parser(argv)
     expect(parser.getArgv()).toStrictEqual(argv)
   })
-  
+
   it('parser getRawArgs', () => {
     const parser = new Parser(argv)
     expect(parser.getRawArgs()).toStrictEqual(['thisiscontent', '--filename', 'aa.json'])
   })
-  
+
   it('parser hasFlag true', () => {
     const parser = new Parser(argv)
     expect(parser.hasFlag('--filename')).toStrictEqual(true)
   })
-  
+
   it('parser hasFlag false', () => {
     const parser = new Parser(argv)
     expect(parser.hasFlag('--not-exist')).toStrictEqual(false)

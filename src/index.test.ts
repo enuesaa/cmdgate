@@ -3,11 +3,10 @@ import { createCli, createGate, PromptMock } from './index'
 
 describe('root command handler', () => {
   it('execute handler', () => {
-
     const prompt = new PromptMock()
 
     const rootGate = createGate()
-    const rootHandler = rootGate.handle(prompt => {
+    const rootHandler = rootGate.handle((prompt) => {
       prompt.info('a')
     })
 
@@ -17,7 +16,7 @@ describe('root command handler', () => {
     })
 
     cli.every(rootHandler)
-    cli.usePrompt(prompt)
+    cli.prompt = prompt
     cli.run()
 
     expect(prompt.out).toBe('a\n')

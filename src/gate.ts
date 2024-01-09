@@ -5,13 +5,14 @@ import { type Handlefn, Handler } from './handler'
 export type GateConfig = {
   description: string
 }
+
 export class Gate {
-  protected _config: GateConfig 
+  public config: GateConfig
   protected _positionals: Positional[] = []
   protected _flags: Flag[] = []
 
   constructor(config: Partial<GateConfig> = {}) {
-    this._config = {
+    this.config = {
       description: '',
       ...config,
     }
@@ -31,13 +32,6 @@ export class Gate {
 
   handle(handlefn: Handlefn): Handler {
     return new Handler(this, handlefn)
-  }
-
-  /**
-   * @experimental may change method name.
-   */
-  getConfig(): GateConfig {
-    return this._config
   }
 
   getFlags(): Flag[] {

@@ -7,24 +7,21 @@ export type CliConfig = {
   version: string
   description: string
 }
+
 export class Cli {
-  protected _config: CliConfig
+  public config: CliConfig
   protected _layers: Handler[] = []
   protected _routes: Record<string, Handler> = {}
-  protected _argv: null|string[] = null
-  protected _prompt: null|PromptInterface = null
+  public argv?: string[]
+  public prompt?: PromptInterface
 
   constructor(config: Partial<CliConfig> = {}) {
-    this._config = {
+    this.config = {
       name: '',
       version: '',
       description: '',
       ...config,
     }
-  }
-
-  getConfig() {
-    return this._config
   }
 
   every(handler: Handler) {
@@ -35,18 +32,10 @@ export class Cli {
     this._routes[route] = handler
   }
 
-  useArgv(argv: string[]) {
-    this._argv = argv
-  }
-
-  usePrompt(prompt: PromptInterface) {
-    this._prompt = prompt
-  }
-
   run() {
-    const argv = this._argv ?? process.argv
+    const argv = this.argv ?? process.argv
     const parser = new Parser(argv)
-    const prompt = this._prompt ?? new Prompt()
+    const prompt = this.prompt ?? new Prompt()
 
     for (const handler of this._layers) {
       handler.run(parser, prompt)

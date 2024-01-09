@@ -55,6 +55,6 @@ export class Parser {
       list.push(lastRoute)
     }
 
-    return list.map(v => v.join(' '))
+    return list.map((v) => v.join(' '))
   }
 }

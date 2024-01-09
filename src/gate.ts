@@ -39,4 +39,12 @@ export class Gate {
   getConfig(): GateConfig {
     return this._config
   }
+
+  getFlags(): Flag[] {
+    return this._flags
+  }
+
+  getPositionals(): Argument[] {
+    return this._positionals
+  }
 }

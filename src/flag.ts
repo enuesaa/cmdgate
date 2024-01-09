@@ -1,13 +1,14 @@
+import { Parser } from './parser'
+
 export type FlagConfig = {
   description: string
   alias: string|null
   required: boolean
 }
 export class Flag {
-  private _name: string
-  private _config: FlagConfig
-  private _has: boolean;
-  private _value: string[];
+  protected _name: string
+  protected _config: FlagConfig
+  protected _parser: Parser|null
 
   constructor(name: string, config: Partial<FlagConfig> = {}) {
     this._name = name
@@ -17,17 +18,24 @@ export class Flag {
       required: false,
       ...config,
     }
-    this._has = false;
-    this._value = [];
+    this._parser = null
   }
 
   get value(): string {
-    return this._value.length > 0 ? this._value[0] : ''
+    if (this._parser === null) {
+      return ''
+    }
+    return this._parser.getFlagValue(this._name)
   }
 
   get has(): boolean {
-    return this._has;
+    if (this._parser === null) {
+      return false
+    }
+    return this._parser.hasFlag(this._name)
   }
 
-  parse() {}
+  bind(parser: Parser) {
+    parser.hasFlag(this._name)
+  }
 }

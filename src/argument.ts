@@ -1,12 +1,13 @@
+import { Parser } from './parser';
+
 export type ArgumentConfig = {
   description: string;
   required: boolean;
 }
 export class Argument {
-  private _name: string
-  private _config: ArgumentConfig
-  private _has: boolean;
-  private _value: null|string
+  protected _name: string
+  protected _config: ArgumentConfig
+  protected _parser: Parser|null
 
   constructor(name: string, config: Partial<ArgumentConfig> = {}) {
     this._name = name
@@ -15,17 +16,27 @@ export class Argument {
       required: false,
       ...config,
     }
-    this._has = false
-    this._value = null
+    this._parser = null
   }
 
   get value(): string {
-    return this._value ?? ''
+    if (this._parser === null) {
+      return ''
+    }
+    // todo
+    // const args = this._parser.getRawArgs()
+    return ''
   }
 
   get has(): boolean {
-    return this._has
+    if (this._parser === null) {
+      return false
+    }
+    // todo
+    return false
   }
 
-  parse() {}
+  bind(parser: Parser) {
+    parser.hasFlag(this._name)
+  }
 }

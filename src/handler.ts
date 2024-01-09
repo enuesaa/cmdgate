@@ -15,6 +15,10 @@ export class Handler {
 
   run(parser: Parser, prompt: PromptInterface) {
     // parse flag and arguments of gate class here.
+
+    const flags = this._gate.getFlags()
+    const positionals = this._gate.getPositionals()
+  
     this._handlefn(prompt)
   }
 }

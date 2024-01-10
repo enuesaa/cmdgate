@@ -1,29 +1,22 @@
 # Designdoc
 ### Usage
 ```ts
-const helpGate = createGate({
-  description: 'this is help',
-})
-const helpFlag = helpGate.boolFlag('--help', { alias: '-h' })
-export const helpHandler = helpGate.handle(prompt => {
-  if (helpFlag.has()) {
-
-    prompt.exit(0)
-  }
+const helpFlag = createFlag('--help', { alias: '-h' })
+export const helpHandler = helpFlag.onGiven(prompt => {
+  // helpFlag
 })
 
-export const aaaCmd = createCommand({
-  name: 'aaa',
+export const aaaCmd = createCmd({
   description: 'aaa',
 })
-const aaaFlag = aaaCmd.flag('--aaa', { alias: '-a', required: true })
-const bbbArg = aaaCmd.argument('bbb')
-aaaCmd.handle(prompt => {
-  // trigger validate before here.
+const aaaFlag = createFlag('--aaa', { alias: '-a', required: true })
+const bbbArg = createPositional('bbb')
+export const aaaCmd = createHandler(prompt => {
+
 })
 
-const cli = createCli()
-cli.every(helpHanlder) // call every time
+const cli = createCmd()
+cli.every(helpHandler) // call every time
 cli.every(versionHandler) // call every time
 cli.route(aaaCmd)
 cli.route("bbb", bbbHandler)

@@ -12,19 +12,20 @@ export const helpHandler = helpGate.handle(prompt => {
   }
 })
 
-const aaaGate = createGate({
+export const aaaCmd = createCommand({
+  name: 'aaa',
   description: 'aaa',
 })
-const aaaFlag = aaaGate.flag('--aaa', { alias: '-a', required: true })
-const bbbArg = aaaGate.argument('bbb')
-export const aaaHandler = aaaGate.handle(prompt => {
+const aaaFlag = aaaCmd.flag('--aaa', { alias: '-a', required: true })
+const bbbArg = aaaCmd.argument('bbb')
+aaaCmd.handle(prompt => {
   // trigger validate before here.
 })
 
 const cli = createCli()
 cli.every(helpHanlder) // call every time
 cli.every(versionHandler) // call every time
-cli.route("aaa", aaaHandler)
+cli.route(aaaCmd)
 cli.route("bbb", bbbHandler)
 cli.route("bbb cc", bbbCcHandler)
 cli.run()

@@ -5,7 +5,7 @@ export const aaaCmd = createCmd({
   description: 'aaa',
 })
 const aaaFlag = aaaCmd.flag('--aaa', { alias: '-a', required: true })
-const bbbArg = aaaCmd.Positional('bbb')
+const bbbArg = aaaCmd.positional('bbb')
 aaaCmd.handle(() => {})
 
 const cli = createCmd()

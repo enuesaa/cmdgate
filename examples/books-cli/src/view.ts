@@ -1,13 +1,12 @@
-import { createGate } from '@enuesaa/cmdgate'
+import { createCmd } from '@enuesaa/cmdgate'
 import { books } from './books'
 
-const viewGate = createGate()
+export const viewCmd = createCmd()
 
-const nameArg = viewGate.positional('name', {
+const nameArg = viewCmd.positional('name', {
   required: true,
 })
-
-export const viewHandler = viewGate.handle(prompt => {
+viewCmd.handle(prompt => {
   const bookname = nameArg.value
   const book = books.find(b => b.name === bookname)
   if (typeof book === 'undefined') {

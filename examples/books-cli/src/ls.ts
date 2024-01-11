@@ -1,14 +1,13 @@
-import { createGate } from '@enuesaa/cmdgate'
+import { createCmd } from '@enuesaa/cmdgate'
 import { books } from './books'
 
-const lsGate = createGate()
+export const lsCmd = createCmd()
 
-const searchFlag = lsGate.flag('--search', {
+const searchFlag = lsCmd.flag('--search', {
   description: 'search books with name prefix',
   required: false,
 })
-
-export const lsHandler = lsGate.handle(prompt => {
+lsCmd.handle(prompt => {
   const searchValue = searchFlag.has ? searchFlag.value : null
 
   for (const book of books) {

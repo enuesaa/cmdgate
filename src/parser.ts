@@ -1,8 +1,10 @@
 export class Parser {
   public argv: string[]
+  public baseRoute: string
 
-  constructor(argv: string[]) {
+  constructor(argv: string[], baseRoute: string) {
     this.argv = argv
+    this.baseRoute = baseRoute
   }
 
   getRawArgs(): string[] {

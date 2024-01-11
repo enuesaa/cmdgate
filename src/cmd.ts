@@ -1,5 +1,5 @@
 import { Flag, FlagConfig } from './flag'
-import { Handlefn, Handler } from './handler'
+import { Handlefn } from './handler'
 import { Parser } from './parser'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
@@ -12,8 +12,12 @@ export type CmdConfig = {
 
 export class Cmd {
   public config: CmdConfig
+  protected _positionals: Positional[] = []
+  protected _flags: Flag[] = []
+  protected _handlers: Handlefn[] = []
   protected _routes: Record<string, Cmd> = {}
   public argv?: string[]
+  public baseRoute: string = ''
   public prompt?: PromptInterface
 
   constructor(config: Partial<CmdConfig> = {}) {
@@ -37,7 +41,9 @@ export class Cmd {
     return flag
   }
 
-  handle(handlefn: Handlefn) {}
+  handle(handlefn: Handlefn) {
+    this._handlers.push(handlefn)
+  }
 
   route(route: string, cmd: Cmd) {
     this._routes[route] = cmd
@@ -45,14 +51,20 @@ export class Cmd {
 
   run() {
     const argv = this.argv ?? process.argv
-    const parser = new Parser(argv)
+    const parser = new Parser(argv, this.baseRoute)
     const prompt = this.prompt ?? new Prompt()
+
+    for (const handler of this._handlers) {
+      handler(prompt)
+    }
 
     for (const route of parser.listMatchableRoutes()) {
       if (this._routes.hasOwnProperty(route)) {
-        // TODO fix 循環
-        const handler = this._routes[route]
-        // handler.run(parser, prompt, route)
+        const cmd = this._routes[route]
+        cmd.argv = this.argv
+        cmd.baseRoute = route
+        cmd.prompt = prompt
+        cmd.run()
       }
     }
   }

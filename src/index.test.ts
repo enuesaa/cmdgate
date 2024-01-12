@@ -10,7 +10,7 @@ describe('root command handler', () => {
     })
     cli.prompt = prompt
 
-    cli.handle(prompt => {
+    cli.handle((prompt) => {
       prompt.info('a')
     })
     cli.run()

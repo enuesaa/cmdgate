@@ -58,7 +58,6 @@ export class Cmd {
       return this._routes.hasOwnProperty(route)
     })
 
-
     for (const positional of this._positionals) {
       positional.bind(parser, matchedRoute)
     }
@@ -66,7 +65,7 @@ export class Cmd {
     for (const flag of this._flags) {
       flag.bind(parser)
     }
-  
+
     for (const handler of this._handlers) {
       handler(prompt)
     }

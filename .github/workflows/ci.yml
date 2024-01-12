@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - '**'
-  workflow_dispatch:
 
 jobs:
   test:
@@ -23,9 +22,6 @@ jobs:
   test-example:
     needs: test
     runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: examples/books-cli
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -35,8 +31,10 @@ jobs:
         with:
           version: 8
       - run: pnpm install
-        env:
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: pnpm build
+      - run: pnpm install
+        working-directory: examples/books-cli
+      - run: pnpm build
+        working-directory: examples/books-cli
       - run: pnpm test
-        env:
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: examples/books-cli

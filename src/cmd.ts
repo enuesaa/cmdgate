@@ -31,13 +31,13 @@ export class Cmd {
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
     const positional = new Positional(name, config)
-    // this._positionals.push(positional)
+    this._positionals.push(positional)
     return positional
   }
 
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
     const flag = new Flag(name, config)
-    // this._flags.push(flag)
+    this._flags.push(flag)
     return flag
   }
 
@@ -54,6 +54,14 @@ export class Cmd {
     const parser = new Parser(argv, this.baseRoute)
     const prompt = this.prompt ?? new Prompt()
 
+    for (const positional of this._positionals) {
+      positional.bind(parser)
+    }
+
+    for (const flag of this._flags) {
+      flag.bind(parser)
+    }
+
     for (const handler of this._handlers) {
       handler(prompt)
     }
@@ -65,6 +73,7 @@ export class Cmd {
         cmd.baseRoute = route
         cmd.prompt = prompt
         cmd.run()
+        break
       }
     }
   }

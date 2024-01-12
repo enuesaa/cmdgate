@@ -4,8 +4,10 @@ import { PromptMock } from '@enuesaa/cmdgate'
 
 describe('subcommand `ls`', () => {
   it('`ls` lists book names', () => {
-    const prompt = new PromptMock(['node', '/workspace/books.js', 'ls'])
-    cli.run(prompt)
+    cli.argv = ['node', '/workspace/books.js', 'ls']
+    const prompt = new PromptMock()
+    cli.prompt = prompt
+    cli.run()
     expect(prompt.out).toStrictEqual(`Explore Paris
 Journey to the Grand Canyon
 Adventures in Rome

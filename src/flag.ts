@@ -36,6 +36,6 @@ export class Flag {
   }
 
   bind(parser: Parser) {
-    parser.hasFlag(this._name)
+    this._parser = parser
   }
 }

@@ -54,27 +54,30 @@ export class Cmd {
     const parser = new Parser(argv, this.baseRoute)
     const prompt = this.prompt ?? new Prompt()
 
+    const matchedRoute = parser.listMatchableRoutes().find((route) => {
+      return this._routes.hasOwnProperty(route)
+    })
+
+
     for (const positional of this._positionals) {
-      positional.bind(parser)
+      positional.bind(parser, matchedRoute)
     }
 
     for (const flag of this._flags) {
       flag.bind(parser)
     }
-
+  
     for (const handler of this._handlers) {
       handler(prompt)
     }
 
-    for (const route of parser.listMatchableRoutes()) {
-      if (this._routes.hasOwnProperty(route)) {
-        const cmd = this._routes[route]
-        cmd.argv = this.argv
-        cmd.baseRoute = route
-        cmd.prompt = prompt
-        cmd.run()
-        break
-      }
+    if (typeof matchedRoute === 'undefined') {
+      return
     }
+    const cmd = this._routes[matchedRoute]
+    cmd.argv = this.argv
+    cmd.baseRoute = matchedRoute
+    cmd.prompt = prompt
+    cmd.run()
   }
 }

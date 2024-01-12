@@ -9,6 +9,7 @@ export class Positional {
   protected _name: string
   public config: PositionalConfig
   protected _parser: Parser | null
+  protected _route?: string
 
   constructor(name: string, config: Partial<PositionalConfig> = {}) {
     this._name = name
@@ -37,7 +38,8 @@ export class Positional {
     return false
   }
 
-  bind(parser: Parser) {
-    parser.hasFlag(this._name)
+  bind(parser: Parser, route?: string) {
+    this._parser = parser
+    this._route = route
   }
 }

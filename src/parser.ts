@@ -16,6 +16,13 @@ export class Parser {
     return this.argv.includes(name)
   }
 
+  getPositionals(): string[] {
+    const rawargs = this.getRawArgs()
+
+    const baseRouteSplitted = this.baseRoute.split(' ')
+    return rawargs.slice(baseRouteSplitted.length)
+  }
+
   getFlagValue(name: string): string {
     if (!this.hasFlag(name)) {
       return ''

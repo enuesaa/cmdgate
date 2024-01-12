@@ -26,8 +26,8 @@ export class Positional {
       return ''
     }
     // todo
-    // const args = this._parser.getRawArgs()
-    return ''
+    const positionals = this._parser.getPositionals()
+    return positionals[0]
   }
 
   get has(): boolean {
@@ -35,7 +35,7 @@ export class Positional {
       return false
     }
     // todo
-    return false
+    return this._parser.getPositionals().length > 0
   }
 
   bind(parser: Parser, route?: string) {

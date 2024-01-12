@@ -1,8 +1,9 @@
 import { Flag, FlagConfig } from './flag'
-import { Handlefn } from './handler'
 import { Parser } from './parser'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
+
+export type Handlefn = (prompt: PromptInterface) => void
 
 export type CmdConfig = {
   name: string

@@ -1,5 +1,5 @@
 # cmdgate
 NodeJS cli helper.
 
-> **Note**
+> [!Note]
 > Work in progress.. `cmdgate` is currently under development.

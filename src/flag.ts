@@ -8,12 +8,12 @@ export type FlagConfig = {
 
 export class Flag {
   protected _name: string
-  protected _config: FlagConfig
+  public config: FlagConfig
   protected _parser?: Parser
 
   constructor(name: string, config: Partial<FlagConfig> = {}) {
     this._name = name
-    this._config = {
+    this.config = {
       description: '',
       alias: null,
       required: false,

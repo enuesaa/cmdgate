@@ -80,4 +80,13 @@ export class Cmd {
     cmd.prompt = prompt
     cmd.run()
   }
+
+  describeCmd() {
+    return {
+      positionals: this._positionals,
+      flags: this._flags,
+      handlers: this._handlers,
+      routes: this._routes,
+    }
+  }
 }

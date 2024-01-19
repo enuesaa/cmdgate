@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { Cmd } from './cmd'
+import { PromptMock } from './promptmock'
 
 describe('cmd', () => {
   it('set description', () => {
@@ -20,4 +21,33 @@ describe('cmd', () => {
     const positional = cmd.positional('name')
     expect(cmd.describeCmd().positionals[0]).toStrictEqual(positional)
   })
+  
+  it('cmd call handler', () => {
+    const cmd = new Cmd()
+    cmd.prompt = new PromptMock()
+    cmd.argv = ['node', 'test.js']
+    let called = false
+    cmd.handle(prompt => {
+      called = true
+    })
+    cmd.run()
+    expect(called).toStrictEqual(true)
+  })
+  
+  it('cmd call sub command', () => {
+    let called = false
+    const subcommand = new Cmd()
+    subcommand.handle(prompt => {
+      called = true
+    })
+  
+    const cmd = new Cmd()
+    cmd.prompt = new PromptMock()
+    cmd.argv = ['node', 'test.js', 'aaa']
+    cmd.route('aaa', subcommand)
+    cmd.run()
+    expect(called).toStrictEqual(true)
+  })
+
+
 })

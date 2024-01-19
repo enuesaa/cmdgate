@@ -6,8 +6,6 @@ import { Prompt, type PromptInterface } from './prompt'
 export type Handlefn = (prompt: PromptInterface) => void
 
 export type CmdConfig = {
-  name: string
-  version: string
   description: string
 }
 
@@ -23,8 +21,6 @@ export class Cmd {
 
   constructor(config: Partial<CmdConfig> = {}) {
     this.config = {
-      name: '',
-      version: '',
       description: '',
       ...config,
     }
@@ -59,10 +55,9 @@ export class Cmd {
       return this._routes.hasOwnProperty(route)
     })
 
-    for (const positional of this._positionals) {
-      positional.bind(parser, matchedRoute)
+    for (const [i, positional] of this._positionals.entries()) {
+      positional.bind(parser, i, matchedRoute)
     }
-
     for (const flag of this._flags) {
       flag.bind(parser)
     }
@@ -74,6 +69,7 @@ export class Cmd {
     if (typeof matchedRoute === 'undefined') {
       return
     }
+
     const cmd = this._routes[matchedRoute]
     cmd.argv = this.argv
     cmd.baseRoute = matchedRoute

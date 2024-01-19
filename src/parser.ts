@@ -16,13 +16,6 @@ export class Parser {
     return this.argv.includes(name)
   }
 
-  getPositionals(): string[] {
-    const rawargs = this.getRawArgs()
-
-    const baseRouteSplitted = this.baseRoute.split(' ')
-    return rawargs.slice(baseRouteSplitted.length)
-  }
-
   getFlagValue(name: string): string {
     if (!this.hasFlag(name)) {
       return ''
@@ -38,6 +31,34 @@ export class Parser {
       }
     }
     return ''
+  }
+
+  // TODO rename to something.
+  getArgs(): string[] {
+    const rawargs = this.getRawArgs()
+
+    const baseRouteSplitted = this.baseRoute.split(' ').filter(v => v !== '')
+    return rawargs.slice(baseRouteSplitted.length)
+  }
+
+  // positional matched below.
+  // - aaa --flag flagvalue positional
+  // - aaa positional --flag flagvalue
+  getPositionals(): string[] {
+    const list: string[] = []
+    let nextIsFlagValue: boolean = false
+    for (const arg of this.getArgs()) {
+      if (arg.startsWith('-')) {
+        nextIsFlagValue = true
+        continue
+      }
+      if (nextIsFlagValue) {
+        nextIsFlagValue = false
+        continue
+      }
+      list.push(arg)
+    }
+    return list
   }
 
   listMatchableRoutes(): string[] {

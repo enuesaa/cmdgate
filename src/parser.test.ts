@@ -29,6 +29,16 @@ describe('parser normal test', () => {
     expect(parser.getFlagValue('--filename')).toStrictEqual('aa.json')
   })
 
+  it('parser.getArgs()', () => {
+    const parser = new Parser(argv, '')
+    expect(parser.getArgs()).toStrictEqual(['thisiscontent', '--filename', 'aa.json'])
+  })
+
+  it('parser.getPositionals() filter flags', () => {
+    const parser = new Parser(argv, '')
+    expect(parser.getPositionals()).toStrictEqual(['thisiscontent'])
+  })
+
   it('parser.listMatchableRoutes()', () => {
     const parser = new Parser(argv, '')
     expect(parser.listMatchableRoutes()).toStrictEqual(['thisiscontent'])

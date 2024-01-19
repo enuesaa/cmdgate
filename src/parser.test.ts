@@ -34,7 +34,7 @@ describe('parser normal test', () => {
     expect(parser.getArgs()).toStrictEqual(['thisiscontent', '--filename', 'aa.json'])
   })
 
-  it('parser.getPositionals() filter flags', () => {
+  it('parser.getPositionals() remove flags', () => {
     const parser = new Parser(argv, '')
     expect(parser.getPositionals()).toStrictEqual(['thisiscontent'])
   })
@@ -51,5 +51,10 @@ describe('parser complex', () => {
   it('parser.listMatchableRoutes()', () => {
     const parser = new Parser(argv, '')
     expect(parser.listMatchableRoutes()).toStrictEqual(['thisiscontent', 'thisiscontent thismaypositional'])
+  })
+
+  it('parser.getPositionals() remove flags', () => {
+    const parser = new Parser(argv, '')
+    expect(parser.getPositionals()).toStrictEqual(['thisiscontent', 'thismaypositional'])
   })
 })

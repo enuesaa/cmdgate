@@ -21,6 +21,10 @@ export class Flag {
     }
   }
 
+  get name(): string {
+    return this._name
+  }
+
   get value(): string {
     if (typeof this._parser === 'undefined') {
       return ''

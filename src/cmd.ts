@@ -90,4 +90,28 @@ export class Cmd {
       routes: this._routes,
     }
   }
+
+  getHelpMessage(): string {
+    // TODO refactor
+    const argv = this.argv ?? process.argv
+    const parser = new Parser(argv, this.baseRoute)
+    const matchedRoute = parser.listMatchableRoutes().find((route) => {
+      return this._routes.hasOwnProperty(route)
+    })
+    if (typeof matchedRoute === 'undefined') {
+      return ""
+    }
+    const cmd = this._routes[matchedRoute]
+    
+    let helpMessage = `${this.config.description}\n`
+    helpMessage += '\n'
+    if (cmd.describeCmd().flags.length > 0) {
+      helpMessage += 'Flags:\n'
+      for (const flag of cmd.describeCmd().flags) {
+        helpMessage += `  ${flag.name}: ${flag.config.description}`
+      }
+    }
+
+    return helpMessage
+  }
 }

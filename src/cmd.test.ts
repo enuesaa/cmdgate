@@ -48,6 +48,18 @@ describe('cmd', () => {
     cmd.run()
     expect(called).toStrictEqual(true)
   })
+})
 
-
+describe('sub cmd', () => {
+  it('inherit flag', () => {
+    const subcommand = new Cmd()
+  
+    const cmd = new Cmd()
+    cmd.prompt = new PromptMock()
+    cmd.argv = ['node', 'test.js', 'aaa']
+    const fileFlag = cmd.flag('--file')
+    cmd.route('aaa', subcommand)
+    cmd.run()
+    expect(subcommand.inheritFlags).toStrictEqual([fileFlag])
+  })
 })

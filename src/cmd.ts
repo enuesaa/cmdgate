@@ -17,6 +17,7 @@ export class Cmd {
   protected _routes: Record<string, Cmd> = {}
   public argv?: string[]
   public baseRoute: string = ''
+  public inheritFlags: Flag[] = []
   public prompt?: PromptInterface
 
   constructor(config: Partial<CmdConfig> = {}) {
@@ -58,6 +59,9 @@ export class Cmd {
     for (const [i, positional] of this._positionals.entries()) {
       positional.bind(parser, i, matchedRoute)
     }
+    for (const flag of this.inheritFlags) {
+      flag.bind(parser)
+    }
     for (const flag of this._flags) {
       flag.bind(parser)
     }
@@ -74,6 +78,7 @@ export class Cmd {
     cmd.argv = this.argv
     cmd.baseRoute = matchedRoute
     cmd.prompt = prompt
+    cmd.inheritFlags = this._flags
     cmd.run()
   }
 

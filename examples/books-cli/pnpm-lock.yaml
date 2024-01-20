@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@enuesaa/cmdgate':
-    specifier: file:../..
-    version: file:../..
+    specifier: ^0.0.1
+    version: 0.0.1
 
 devDependencies:
   '@types/node':
@@ -37,6 +37,11 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
+
+  /@enuesaa/cmdgate@0.0.1:
+    resolution: {integrity: sha512-lGF/yQQkTBWuVdN3s5c3pIAOpLoFmsAWORGb4DE6moIzpRRMefcQZlWICco+7uS4lkOMly+BqOKI3n3sg3y5VQ==}
+    engines: {node: '>=20.0.0'}
+    dev: false
 
   /@esbuild/aix-ppc64@0.19.11:
     resolution: {integrity: sha512-FnzU0LyE3ySQk7UntJO4+qIiQgI7KoODnZg5xzXIrFJlKd2P2gwHsHY4927xj9y5PJmJSzULiUCWmv7iWnNa7g==}
@@ -1041,9 +1046,3 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
-
-  file:../..:
-    resolution: {directory: ../.., type: directory}
-    name: '@enuesaa/cmdgate'
-    engines: {node: '>=20.0.0'}
-    dev: false

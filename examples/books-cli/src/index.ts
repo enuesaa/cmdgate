@@ -13,7 +13,7 @@ const helpFlag = cli.flag('--help', {
 })
 cli.handle(prompt => {
   if (helpFlag.has) {
-    prompt.info('help flag passed.')
+    prompt.info(cli.getHelpMessage())
     prompt.exit(0)
   }
 })

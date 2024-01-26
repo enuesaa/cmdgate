@@ -15,8 +15,8 @@
     "test": "vitest --run"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "esbuild": "^0.19.11",
+    "@types/node": "^20.11.7",
+    "esbuild": "^0.19.12",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
@@ -26,6 +26,6 @@
     "books": "bin/books.js"
   },
   "dependencies": {
-    "@enuesaa/cmdgate": "^0.0.1"
+    "@enuesaa/cmdgate": "file:../../dist"
   }
 }

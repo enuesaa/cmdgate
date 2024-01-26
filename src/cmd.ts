@@ -19,6 +19,7 @@ export class Cmd {
   public baseRoute: string = ''
   public inheritFlags: Flag[] = []
   public prompt?: PromptInterface
+  protected matchedRoute?: string
 
   constructor(config: Partial<CmdConfig> = {}) {
     this.config = {
@@ -52,12 +53,12 @@ export class Cmd {
     const parser = new Parser(argv, this.baseRoute)
     const prompt = this.prompt ?? new Prompt()
 
-    const matchedRoute = parser.listMatchableRoutes().find((route) => {
+    this.matchedRoute = parser.listMatchableRoutes().find((route) => {
       return this._routes.hasOwnProperty(route)
     })
 
     for (const [i, positional] of this._positionals.entries()) {
-      positional.bind(parser, i, matchedRoute)
+      positional.bind(parser, i, this.matchedRoute)
     }
     for (const flag of this.inheritFlags) {
       flag.bind(parser)
@@ -70,13 +71,13 @@ export class Cmd {
       handler(prompt)
     }
 
-    if (typeof matchedRoute === 'undefined') {
+    if (typeof this.matchedRoute === 'undefined') {
       return
     }
 
-    const cmd = this._routes[matchedRoute]
+    const cmd = this._routes[this.matchedRoute]
     cmd.argv = this.argv
-    cmd.baseRoute = matchedRoute
+    cmd.baseRoute = this.matchedRoute //
     cmd.prompt = prompt
     cmd.inheritFlags = this._flags
     cmd.run()
@@ -92,16 +93,10 @@ export class Cmd {
   }
 
   getHelpMessage(): string {
-    // TODO refactor
-    const argv = this.argv ?? process.argv
-    const parser = new Parser(argv, this.baseRoute)
-    const matchedRoute = parser.listMatchableRoutes().find((route) => {
-      return this._routes.hasOwnProperty(route)
-    })
-    if (typeof matchedRoute === 'undefined') {
+    if (typeof this.matchedRoute === 'undefined') {
       return ""
     }
-    const cmd = this._routes[matchedRoute]
+    const cmd = this._routes[this.matchedRoute]
     
     let helpMessage = `${this.config.description}\n`
     helpMessage += '\n'

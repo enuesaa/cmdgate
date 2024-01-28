@@ -11,6 +11,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
+    "dev": "tsx dev.ts",
     "build": "tsx build.ts",
     "test": "vitest --run"
   },

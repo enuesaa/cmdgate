@@ -1,5 +1,5 @@
 import { createCmd } from '@enuesaa/cmdgate'
-import { books } from './books'
+import { books } from './data'
 
 export const lsCmd = createCmd()
 
@@ -8,14 +8,17 @@ const searchFlag = lsCmd.flag('--search', {
   required: false,
 })
 lsCmd.handle(prompt => {
-  const searchValue = searchFlag.has ? searchFlag.value : null
-
-  for (const book of books) {
-    if (searchValue !== null && !book.name.startsWith(searchValue)) {
-      continue
+  if (searchFlag.has) {
+    for (const book of books) {
+      if (!book.name.startsWith(searchFlag.value)) {
+        continue
+      }
+      prompt.info(`${book.name}`)
     }
-    prompt.info(`${book.name}`)
+    return
   }
 
-  prompt.exit(0)
+  for (const book of books) {
+    prompt.info(`${book.name}`)
+  }
 })

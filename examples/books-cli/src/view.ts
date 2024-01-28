@@ -1,5 +1,5 @@
 import { createCmd } from '@enuesaa/cmdgate'
-import { books } from './books'
+import { books } from './data'
 
 export const viewCmd = createCmd()
 

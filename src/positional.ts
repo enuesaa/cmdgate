@@ -2,7 +2,6 @@ import { Parser } from './parser'
 
 export type PositionalConfig = {
   description: string
-  required: boolean
 }
 
 export class Positional {
@@ -16,7 +15,6 @@ export class Positional {
     this._name = name
     this.config = {
       description: '',
-      required: false,
       ...config,
     }
     this._parser = null

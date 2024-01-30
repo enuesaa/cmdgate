@@ -3,7 +3,6 @@ import { Parser } from './parser'
 export type FlagConfig = {
   description: string
   alias: string | null
-  required: boolean
 }
 
 export class Flag {
@@ -16,7 +15,6 @@ export class Flag {
     this.config = {
       description: '',
       alias: null,
-      required: false,
       ...config,
     }
   }

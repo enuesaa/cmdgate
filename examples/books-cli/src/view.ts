@@ -3,10 +3,14 @@ import { books } from './data'
 
 export const viewCmd = createCmd()
 
-const nameArg = viewCmd.positional('name', {
-  required: true,
-})
+const nameArg = viewCmd.positional('name')
+
 viewCmd.handle(prompt => {
+  if (!nameArg.has) {
+    prompt.info('<name> is required')
+    return;
+  }
+
   const bookname = nameArg.value
   const book = books.find(b => b.name === bookname)
   if (typeof book === 'undefined') {

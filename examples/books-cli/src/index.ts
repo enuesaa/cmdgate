@@ -10,11 +10,9 @@ export const cli = createCmd({
 const helpFlag = cli.flag('--help', {
   alias: '-h',
   description: 'Print help message.',
-  required: false,
 })
 const versionFlag = cli.flag('--version', {
   description: 'Print version information.',
-  required: false,
 })
 cli.handle(prompt => {
   if (helpFlag.has) {

@@ -5,7 +5,6 @@ export const lsCmd = createCmd()
 
 const searchFlag = lsCmd.flag('--search', {
   description: 'search books with name prefix',
-  required: false,
 })
 lsCmd.handle(prompt => {
   if (searchFlag.has) {

@@ -11,14 +11,25 @@ describe('books cli', () => {
     expect(prompt.out).toStrictEqual('')
   })
 
-  // it('help flag passed', () => {
-  //   cli.argv = ['node', '/workspace/books.js', '--help']
-  //   const prompt = new PromptMock()
-  //   cli.prompt = prompt
-  //   cli.run()
-  //   expect(prompt.out).toStrictEqual('help flag passed.\n')
-  //   expect(prompt.code).toStrictEqual(0)
-  // })
+  it('help flag passed', () => {
+    cli.argv = ['node', '/workspace/books.js', '--help']
+    const prompt = new PromptMock()
+    cli.prompt = prompt
+    cli.run()
+    expect(prompt.out).toStrictEqual(`books command.
+
+Commands:
+  ls
+  view
+  add
+
+Flags:
+  --help: Print help message.
+  --version: Print version information.
+
+`)
+    expect(prompt.code).toStrictEqual(0)
+  })
 
   it('version flag passed', () => {
     cli.argv = ['node', '/workspace/books.js', '--version']

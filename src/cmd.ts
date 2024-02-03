@@ -94,17 +94,23 @@ export class Cmd {
   }
 
   getHelpMessage(): string {
-    if (typeof this.matchedRoute === 'undefined') {
-      return ""
-    }
-    const cmd = this._routes[this.matchedRoute]
-    
+    const cmd = this.matchedRoute === undefined ? this : this._routes[this.matchedRoute]
+
     let helpMessage = `${this.config.description}\n`
     helpMessage += '\n'
+
+    if (Object.keys(cmd.describeCmd().routes).length > 0) {
+      helpMessage += 'Commands:\n'
+      for (const route of Object.keys(cmd.describeCmd().routes)) {
+        helpMessage += `  ${route}\n`
+      }
+      helpMessage += '\n'
+    }
+
     if (cmd.describeCmd().flags.length > 0) {
       helpMessage += 'Flags:\n'
       for (const flag of cmd.describeCmd().flags) {
-        helpMessage += `  ${flag.name}: ${flag.config.description}`
+        helpMessage += `  ${flag.name}: ${flag.config.description}\n`
       }
     }
 

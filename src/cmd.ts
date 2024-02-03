@@ -72,6 +72,7 @@ export class Cmd {
     }
 
     if (typeof this.matchedRoute === 'undefined') {
+      prompt.exit(0)
       return
     }
 

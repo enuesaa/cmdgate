@@ -11,7 +11,8 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "cd ../../ && pnpm build && cd examples/books-cli && pnpm install && tsx dev.ts",
+    "dev": "tsx dev.ts",
+    "build:all": "cd ../../ && pnpm build && cd examples/books-cli && pnpm install",
     "build": "tsx build.ts",
     "test": "vitest --run"
   },

@@ -8,14 +8,14 @@ const descriptionArg = addCmd.positional('description')
 addCmd.handle(prompt => {
   if (!nameArg.has) {
     prompt.info('<name> is required')
-    return;
+    return
   }
   if (!descriptionArg.has) {
     prompt.info('<description> is required')
-    return;
+    return
   }
+  prompt.info(`Note: this command is mock.`)
+  prompt.info('')
   prompt.info(`name: ${nameArg.value}`)
   prompt.info(`description: ${descriptionArg.value}`)
-
-  // this command is mock
 })

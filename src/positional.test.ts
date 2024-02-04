@@ -36,6 +36,13 @@ describe('multiple position', () => {
     positional.bind(parser, 1, '')
     expect(positional.value).toStrictEqual('bbb')
   })
+  
+  it('positional.value return value in that position', () => {
+    const positional = new Positional('name')
+    const parser = new Parser(['node', 'test.js', 'aaa', 'bbb', 'ccc', 'ddd'], '')
+    positional.bind(parser, 2, '')
+    expect(positional.value).toStrictEqual('ccc')
+  })
 
   it('positional.value return empty value if value does not exist in expected position', () => {
     const positional = new Positional('name')

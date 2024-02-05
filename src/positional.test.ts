@@ -36,7 +36,7 @@ describe('multiple position', () => {
     positional.bind(parser, 1, '')
     expect(positional.value).toStrictEqual('bbb')
   })
-  
+
   it('positional.value return value in that position', () => {
     const positional = new Positional('name')
     const parser = new Parser(['node', 'test.js', 'aaa', 'bbb', 'ccc', 'ddd'], '')

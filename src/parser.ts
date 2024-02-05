@@ -37,7 +37,7 @@ export class Parser {
   getArgs(): string[] {
     const rawargs = this.getRawArgs()
 
-    const baseRouteSplitted = this.baseRoute.split(' ').filter(v => v !== '')
+    const baseRouteSplitted = this.baseRoute.split(' ').filter((v) => v !== '')
     return rawargs.slice(baseRouteSplitted.length)
   }
 

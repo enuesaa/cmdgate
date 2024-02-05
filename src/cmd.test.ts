@@ -21,26 +21,26 @@ describe('cmd', () => {
     const positional = cmd.positional('name')
     expect(cmd.describeCmd().positionals[0]).toStrictEqual(positional)
   })
-  
+
   it('cmd call handler', () => {
     const cmd = new Cmd()
     cmd.prompt = new PromptMock()
     cmd.argv = ['node', 'test.js']
     let called = false
-    cmd.handle(prompt => {
+    cmd.handle((prompt) => {
       called = true
     })
     cmd.run()
     expect(called).toStrictEqual(true)
   })
-  
+
   it('cmd call sub command', () => {
     let called = false
     const subcommand = new Cmd()
-    subcommand.handle(prompt => {
+    subcommand.handle((prompt) => {
       called = true
     })
-  
+
     const cmd = new Cmd()
     cmd.prompt = new PromptMock()
     cmd.argv = ['node', 'test.js', 'aaa']
@@ -53,7 +53,7 @@ describe('cmd', () => {
 describe('sub cmd', () => {
   it('inherit flag', () => {
     const subcommand = new Cmd()
-  
+
     const cmd = new Cmd()
     cmd.prompt = new PromptMock()
     cmd.argv = ['node', 'test.js', 'aaa']

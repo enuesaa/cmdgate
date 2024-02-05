@@ -78,7 +78,7 @@ export class Cmd {
 
     const cmd = this._routes[this.matchedRoute]
     cmd.argv = this.argv
-    cmd.baseRoute = this.matchedRoute //
+    cmd.baseRoute = this.matchedRoute
     cmd.prompt = prompt
     cmd.inheritFlags = this._flags
     cmd.run()

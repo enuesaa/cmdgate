@@ -19,7 +19,7 @@ jobs:
       - run: pnpm install
       - run: pnpm test
 
-  test-example:
+  test-example-books-cli:
     needs: test
     runs-on: ubuntu-20.04
     steps:
@@ -32,9 +32,20 @@ jobs:
           version: 8
       - run: pnpm install
       - run: pnpm build
-      - run: pnpm install
-        working-directory: examples/books-cli
-      - run: pnpm build
-        working-directory: examples/books-cli
-      - run: pnpm test
-        working-directory: examples/books-cli
+      - working-directory: examples/books-cli
+        run: pnpm install
+      - working-directory: examples/books-cli
+        run: pnpm build
+      - working-directory: examples/books-cli
+        run: pnpm test
+
+  test-example-deno-simple:
+    needs: test
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.41
+      - working-directory: examples/deno-simple
+        run: deno test

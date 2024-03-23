@@ -69,6 +69,9 @@ export class Cmd {
 
     for (const handler of this._handlers) {
       handler(prompt)
+      if (prompt.isExited()) {
+        return
+      }
     }
 
     if (typeof this.matchedRoute === 'undefined') {

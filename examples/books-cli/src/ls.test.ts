@@ -12,6 +12,7 @@ describe('subcommand `ls`', () => {
 
 Flags:
   --search: search books with name prefix
+
 `)
   })
 

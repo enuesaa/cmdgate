@@ -25,4 +25,8 @@ export class PromptMock implements PromptInterface {
     }
     this.code = code
   }
+
+  isExited(): boolean {
+    return this.code !== -1
+  }
 }

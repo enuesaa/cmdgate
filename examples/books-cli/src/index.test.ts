@@ -26,7 +26,6 @@ Commands:
 Flags:
   --help: Print help message.
   --version: Print version information.
-
 `)
     expect(prompt.code).toStrictEqual(0)
   })

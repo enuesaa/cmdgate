@@ -51,7 +51,9 @@ export class Cmd {
   run() {
     const argv = this.argv ?? process.argv
     const parser = new Parser(argv, this.baseRoute)
-    const prompt = this.prompt ?? new Prompt()
+    if (this.prompt === undefined) {
+      this.prompt = new Prompt()
+    }
 
     this.matchedRoute = parser.listMatchableRoutes().find((route) => {
       return this._routes.hasOwnProperty(route)
@@ -68,21 +70,23 @@ export class Cmd {
     }
 
     for (const handler of this._handlers) {
-      handler(prompt)
-      if (prompt.isExited()) {
+      handler(this.prompt)
+      if (this.prompt.isExited()) {
         return
       }
     }
 
     if (typeof this.matchedRoute === 'undefined') {
-      prompt.exit(0)
+      // TODO: This should be configrued inside handle function
+      // this.printHelpMessage()
+      this.prompt.exit(0)
       return
     }
 
     const cmd = this._routes[this.matchedRoute]
     cmd.argv = this.argv
     cmd.baseRoute = this.matchedRoute
-    cmd.prompt = prompt
+    cmd.prompt = this.prompt
     cmd.inheritFlags = this._flags
     cmd.run()
   }
@@ -102,19 +106,18 @@ export class Cmd {
 
   getHelpMessage(): string {
     const cmd = this.getMatchedCmd()
-
     let helpMessage = `${cmd.config.description}\n`
-    helpMessage += '\n'
 
     if (Object.keys(cmd.describeCmd().routes).length > 0) {
+      helpMessage += '\n'
       helpMessage += 'Commands:\n'
       for (const route of Object.keys(cmd.describeCmd().routes)) {
         helpMessage += `  ${route}\n`
       }
-      helpMessage += '\n'
     }
 
     if (cmd.describeCmd().flags.length > 0) {
+      helpMessage += '\n'
       helpMessage += 'Flags:\n'
       for (const flag of cmd.describeCmd().flags) {
         helpMessage += `  ${flag.name}: ${flag.config.description}\n`
@@ -122,5 +125,13 @@ export class Cmd {
     }
 
     return helpMessage
+  }
+
+  printHelpMessage() {
+    // TODO: refactor
+    if (this.prompt === undefined) {
+      this.prompt = new Prompt()
+    }
+    this.prompt.print(this.getHelpMessage())
   }
 }

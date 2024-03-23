@@ -8,7 +8,7 @@ describe('add', () => {
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
-    expect(prompt.out).toStrictEqual('create new book\n\n\n')
+    expect(prompt.out).toStrictEqual('create new book\n')
   })
 
   it('name is required', () => {

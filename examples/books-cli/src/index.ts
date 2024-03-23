@@ -16,7 +16,7 @@ const versionFlag = cli.flag('--version', {
 })
 cli.handle(prompt => {
   if (helpFlag.has) {
-    prompt.info(cli.getHelpMessage())
+    cli.printHelpMessage()
     prompt.exit(0)
   }
   if (versionFlag.has) {

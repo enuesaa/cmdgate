@@ -5,17 +5,17 @@ export class PromptMock implements PromptInterface {
   public out: string = ''
   public code: number = -1
 
-  println(message: string) {
-    const text = util.format(message) + '\n'
+  print(message: string) {
+    const text = util.format(message)
     this.out += text
   }
 
   info(message: string) {
-    this.println(message)
+    this.print(message + `\n`)
   }
 
   error(message: string) {
-    this.println(message)
+    this.print(message + `\n`)
   }
 
   exit(code: number) {

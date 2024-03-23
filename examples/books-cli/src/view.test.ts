@@ -8,7 +8,7 @@ describe('subcommand `view`', () => {
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
-    expect(prompt.out).toStrictEqual('lookup the book\n\n\n')
+    expect(prompt.out).toStrictEqual('lookup the book\n')
   })
 
   it('`view` looks up with book name', () => {

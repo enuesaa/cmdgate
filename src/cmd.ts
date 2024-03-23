@@ -93,10 +93,14 @@ export class Cmd {
     }
   }
 
-  getHelpMessage(): string {
-    const cmd = this.matchedRoute === undefined ? this : this._routes[this.matchedRoute]
+  getMatchedCmd(): Cmd {
+    return this.matchedRoute === undefined ? this : this._routes[this.matchedRoute]
+  }
 
-    let helpMessage = `${this.config.description}\n`
+  getHelpMessage(): string {
+    const cmd = this.getMatchedCmd()
+
+    let helpMessage = `${cmd.config.description}\n`
     helpMessage += '\n'
 
     if (Object.keys(cmd.describeCmd().routes).length > 0) {

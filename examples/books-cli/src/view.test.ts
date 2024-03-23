@@ -3,6 +3,14 @@ import { cli } from './index'
 import { PromptMock } from '@enuesaa/cmdgate'
 
 describe('subcommand `view`', () => {
+  it('--help', () => {
+    cli.argv = ['node', '/workspace/books.js', 'view', '--help']
+    const prompt = new PromptMock()
+    cli.prompt = prompt
+    cli.run()
+    expect(prompt.out).toStrictEqual('lookup the book\n\n\n')
+  })
+
   it('`view` looks up with book name', () => {
     cli.argv = ['node', '/workspace/books.js', 'view', 'Explore Paris']
     const prompt = new PromptMock()

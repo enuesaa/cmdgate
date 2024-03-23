@@ -1,6 +1,8 @@
 import { createCmd } from '@enuesaa/cmdgate'
 
-export const addCmd = createCmd()
+export const addCmd = createCmd({
+  description: 'create new book',
+})
 
 const nameArg = addCmd.positional('name')
 const descriptionArg = addCmd.positional('description')

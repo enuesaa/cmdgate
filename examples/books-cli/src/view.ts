@@ -1,7 +1,9 @@
 import { createCmd } from '@enuesaa/cmdgate'
 import { books } from './data'
 
-export const viewCmd = createCmd()
+export const viewCmd = createCmd({
+  description: 'lookup the book',
+})
 
 const nameArg = viewCmd.positional('name')
 

@@ -1,7 +1,9 @@
 import { createCmd } from '@enuesaa/cmdgate'
 import { books } from './data'
 
-export const lsCmd = createCmd()
+export const lsCmd = createCmd({
+  description: 'list books',
+})
 
 const searchFlag = lsCmd.flag('--search', {
   description: 'search books with name prefix',

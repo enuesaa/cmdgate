@@ -1,6 +1,6 @@
 {
   "name": "@enuesaa/cmdgate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "type": "module",
   "exports": "./dist/index.js",
@@ -17,11 +17,11 @@
     "test": "vitest --run"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "esbuild": "^0.19.11",
-    "prettier": "^3.2.4",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3",
-    "vitest": "^1.2.1"
+    "@types/node": "^20.11.30",
+    "esbuild": "^0.19.12",
+    "prettier": "^3.2.5",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3",
+    "vitest": "^1.4.0"
   }
 }

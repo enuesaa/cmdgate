@@ -5,6 +5,7 @@ export type PositionalConfig = {
 }
 
 export class Positional {
+  // TODO: make them readonly
   protected _name: string
   public config: PositionalConfig
   protected _parser: Parser | null

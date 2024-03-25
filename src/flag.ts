@@ -6,6 +6,7 @@ export type FlagConfig = {
 }
 
 export class Flag {
+  // TODO: make them readonly
   protected _name: string
   public config: FlagConfig
   protected _parser?: Parser

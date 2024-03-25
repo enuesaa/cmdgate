@@ -3,7 +3,7 @@ import { Parser } from './parser'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 
-export type Handlefn = (prompt: PromptInterface) => void
+export type Handler = (prompt: PromptInterface) => void
 
 export type CmdConfig = {
   description: string
@@ -11,10 +11,10 @@ export type CmdConfig = {
 
 export class Cmd {
   public config: CmdConfig
-  protected _positionals: Positional[] = []
-  protected _flags: Flag[] = []
-  protected _handlers: Handlefn[] = []
-  protected _routes: Record<string, Cmd> = {}
+  readonly positionals: Positional[] = []
+  readonly flags: Flag[] = []
+  readonly handlers: Handler[] = []
+  readonly routes: Record<string, Cmd> = {}
   public argv?: string[]
   public baseRoute: string = ''
   public inheritFlags: Flag[] = []
@@ -30,22 +30,22 @@ export class Cmd {
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
     const positional = new Positional(name, config)
-    this._positionals.push(positional)
+    this.positionals.push(positional)
     return positional
   }
 
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
     const flag = new Flag(name, config)
-    this._flags.push(flag)
+    this.flags.push(flag)
     return flag
   }
 
-  handle(handlefn: Handlefn) {
-    this._handlers.push(handlefn)
+  handle(handler: Handler) {
+    this.handlers.push(handler)
   }
 
   route(route: string, cmd: Cmd) {
-    this._routes[route] = cmd
+    this.routes[route] = cmd
   }
 
   run() {
@@ -53,20 +53,20 @@ export class Cmd {
     const parser = new Parser(argv, this.baseRoute)
 
     this.matchedRoute = parser.listMatchableRoutes().find((route) => {
-      return this._routes.hasOwnProperty(route)
+      return this.routes.hasOwnProperty(route)
     })
 
-    for (const [i, positional] of this._positionals.entries()) {
+    for (const [i, positional] of this.positionals.entries()) {
       positional.bind(parser, i, this.matchedRoute)
     }
     for (const flag of this.inheritFlags) {
       flag.bind(parser)
     }
-    for (const flag of this._flags) {
+    for (const flag of this.flags) {
       flag.bind(parser)
     }
 
-    for (const handler of this._handlers) {
+    for (const handler of this.handlers) {
       handler(this.prompt)
       if (this.prompt.isExited()) {
         return
@@ -80,43 +80,36 @@ export class Cmd {
       return
     }
 
-    const cmd = this._routes[this.matchedRoute]
+    const cmd = this.routes[this.matchedRoute]
     cmd.argv = this.argv
     cmd.baseRoute = this.matchedRoute
     cmd.prompt = this.prompt
-    cmd.inheritFlags = this._flags
+    cmd.inheritFlags = this.flags
     cmd.run()
   }
 
-  describeCmd() {
-    return {
-      positionals: this._positionals,
-      flags: this._flags,
-      handlers: this._handlers,
-      routes: this._routes,
-    }
-  }
-
+  // TODO: refactor
+  // this def is so ambiguous as compared to `matchedRoute` above.
   getMatchedCmd(): Cmd {
-    return this.matchedRoute === undefined ? this : this._routes[this.matchedRoute]
+    return this.matchedRoute === undefined ? this : this.routes[this.matchedRoute]
   }
 
   getHelpMessage(): string {
     const cmd = this.getMatchedCmd()
     let helpMessage = `${cmd.config.description}\n`
 
-    if (Object.keys(cmd.describeCmd().routes).length > 0) {
+    if (Object.keys(this.routes).length > 0) {
       helpMessage += '\n'
       helpMessage += 'Commands:\n'
-      for (const route of Object.keys(cmd.describeCmd().routes)) {
+      for (const route of Object.keys(this.routes)) {
         helpMessage += `  ${route}\n`
       }
     }
 
-    if (cmd.describeCmd().flags.length > 0) {
+    if (this.flags.length > 0) {
       helpMessage += '\n'
       helpMessage += 'Flags:\n'
-      for (const flag of cmd.describeCmd().flags) {
+      for (const flag of this.flags) {
         helpMessage += `  ${flag.name}: ${flag.config.description}\n`
       }
     }

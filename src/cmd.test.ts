@@ -13,13 +13,13 @@ describe('cmd', () => {
   it('add flag', () => {
     const cmd = new Cmd()
     const fileFlag = cmd.flag('--file')
-    expect(cmd.describeCmd().flags[0]).toStrictEqual(fileFlag)
+    expect(cmd.flags[0]).toStrictEqual(fileFlag)
   })
 
   it('add positional', () => {
     const cmd = new Cmd()
     const positional = cmd.positional('name')
-    expect(cmd.describeCmd().positionals[0]).toStrictEqual(positional)
+    expect(cmd.positionals[0]).toStrictEqual(positional)
   })
 
   it('cmd call handler', () => {

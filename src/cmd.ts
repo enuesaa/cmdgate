@@ -18,7 +18,7 @@ export class Cmd {
   public argv?: string[]
   public baseRoute: string = ''
   public inheritFlags: Flag[] = []
-  public prompt?: PromptInterface
+  public prompt: PromptInterface = new Prompt()
   protected matchedRoute?: string
 
   constructor(config: Partial<CmdConfig> = {}) {
@@ -51,9 +51,6 @@ export class Cmd {
   run() {
     const argv = this.argv ?? process.argv
     const parser = new Parser(argv, this.baseRoute)
-    if (this.prompt === undefined) {
-      this.prompt = new Prompt()
-    }
 
     this.matchedRoute = parser.listMatchableRoutes().find((route) => {
       return this._routes.hasOwnProperty(route)
@@ -128,10 +125,6 @@ export class Cmd {
   }
 
   printHelpMessage() {
-    // TODO: refactor
-    if (this.prompt === undefined) {
-      this.prompt = new Prompt()
-    }
     this.prompt.print(this.getHelpMessage())
   }
 }

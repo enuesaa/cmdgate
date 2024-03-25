@@ -123,8 +123,4 @@ export class Cmd {
 
     return helpMessage
   }
-
-  printHelpMessage() {
-    this.prompt.print(this.getHelpMessage())
-  }
 }

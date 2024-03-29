@@ -5,15 +5,14 @@ export type PositionalConfig = {
 }
 
 export class Positional {
-  // TODO: make them readonly
-  protected _name: string
+  readonly name: string
   public config: PositionalConfig
+  public position: number = 0
   protected _parser: Parser | null
   protected _route?: string
-  protected _position: number = 0
 
   constructor(name: string, config: Partial<PositionalConfig> = {}) {
-    this._name = name
+    this.name = name
     this.config = {
       description: '',
       ...config,
@@ -26,8 +25,8 @@ export class Positional {
       return ''
     }
     const positionals = this._parser.getPositionals()
-    if (positionals.length > this._position) {
-      return positionals[this._position]
+    if (positionals.length > this.position) {
+      return positionals[this.position]
     }
     return ''
   }
@@ -36,12 +35,12 @@ export class Positional {
     if (this._parser === null) {
       return false
     }
-    return this._parser.getPositionals().length > this._position
+    return this._parser.getPositionals().length > this.position
   }
 
   bind(parser: Parser, position: number, route?: string) {
     this._parser = parser
-    this._position = position
+    this.position = position
     this._route = route
   }
 }

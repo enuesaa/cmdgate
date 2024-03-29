@@ -25,6 +25,6 @@ cli.handle(prompt => {
   }
 })
 
-cli.route('ls', lsCmd)
-cli.route('view', viewCmd)
-cli.route('add', addCmd)
+cli.cmd('ls', lsCmd)
+cli.cmd('view', viewCmd)
+cli.cmd('add', addCmd)

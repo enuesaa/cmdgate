@@ -44,7 +44,7 @@ export class Cmd {
     this.handlers.push(handler)
   }
 
-  route(route: string, cmd: Cmd) {
+  cmd(route: string, cmd: Cmd) {
     this.routes[route] = cmd
   }
 

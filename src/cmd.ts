@@ -98,18 +98,18 @@ export class Cmd {
     const cmd = this.getMatchedCmd()
     let helpMessage = `${cmd.config.description}\n`
 
-    if (Object.keys(this.routes).length > 0) {
+    if (Object.keys(cmd.routes).length > 0) {
       helpMessage += '\n'
       helpMessage += 'Commands:\n'
-      for (const route of Object.keys(this.routes)) {
+      for (const route of Object.keys(cmd.routes)) {
         helpMessage += `  ${route}\n`
       }
     }
 
-    if (this.flags.length > 0) {
+    if (cmd.flags.length > 0) {
       helpMessage += '\n'
       helpMessage += 'Flags:\n'
-      for (const flag of this.flags) {
+      for (const flag of cmd.flags) {
         helpMessage += `  ${flag.name}: ${flag.config.description}\n`
       }
     }

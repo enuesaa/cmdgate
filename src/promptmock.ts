@@ -18,6 +18,9 @@ export class PromptMock implements PromptInterface {
     this.print(message + `\n`)
   }
 
+  /**
+   * @deprecated
+   */
   exit(code: number) {
     // TODO: this method should be `never`. try os exit here not to override code.
     if (this.code !== -1) {
@@ -26,6 +29,9 @@ export class PromptMock implements PromptInterface {
     this.code = code
   }
 
+  /**
+   * @deprecated
+   */
   isExited(): boolean {
     return this.code !== -1
   }

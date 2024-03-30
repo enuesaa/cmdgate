@@ -3,7 +3,7 @@ import { Parser } from './parser'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 
-export type Handler = (prompt: PromptInterface) => void
+export type Handler = (prompt: PromptInterface) => void|number
 
 export type CmdConfig = {
   description: string
@@ -67,7 +67,11 @@ export class Cmd {
     }
 
     for (const handler of this.handlers) {
-      handler(this.prompt)
+      const code = handler(this.prompt)
+      if (code !== undefined && typeof code === 'number') {
+        this.prompt.exit(code)
+        return
+      }
       if (this.prompt.isExited()) {
         return
       }

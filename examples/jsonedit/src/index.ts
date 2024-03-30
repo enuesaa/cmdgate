@@ -24,26 +24,28 @@ const value = cli.flag('--value', {
   description: 'new value',
 })
 
+// global flags
 cli.handle(prompt => {
   if (helpFlag.has) {
     prompt.info(cli.getHelpMessage())
-    prompt.exit(0)
-    return
+    return 0
   }
 
   if (versionFlag.has) {
     prompt.info('version 0.0.1')
-    prompt.exit(0)
+    return 0
   }
+})
 
+cli.handle(prompt => {
   if (!filename.has) {
     prompt.error('filename is required.')
-    prompt.exit(1)
+    return 1
   }
 
   if (!path.has || !value.has) {
     prompt.error('flag --path and --value are required.')
-    prompt.exit(1)
+    return 1
   }
 
   const jsonfile = fs.readFileSync(filename.value, {encoding: 'utf-8'})

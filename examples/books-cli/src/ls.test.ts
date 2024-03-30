@@ -11,7 +11,7 @@ describe('subcommand `ls`', () => {
     expect(prompt.out).toStrictEqual(`list books
 
 Flags:
-  --search: search books with name prefix
+  --search	search books with name prefix
 `)
   })
 

@@ -28,6 +28,7 @@ cli.handle(prompt => {
   if (helpFlag.has) {
     prompt.info(cli.getHelpMessage())
     prompt.exit(0)
+    return
   }
 
   if (versionFlag.has) {

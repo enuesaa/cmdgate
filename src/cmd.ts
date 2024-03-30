@@ -110,7 +110,7 @@ export class Cmd {
       helpMessage += '\n'
       helpMessage += 'Flags:\n'
       for (const flag of cmd.flags) {
-        helpMessage += `  ${flag.name}: ${flag.config.description}\n`
+        helpMessage += `  ${flag.name}\t${flag.config.description}\n`
       }
     }
 

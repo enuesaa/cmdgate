@@ -10,4 +10,20 @@ describe('jsonedit', () => {
     cli.run()
     expect(prompt.out).toStrictEqual('{"a":"c"}\n')
   })
+  
+  it('--help', () => {
+    cli.argv = ['node', './bin/jsonedit.js', '--help']
+    const prompt = new PromptMock()
+    cli.prompt = prompt
+    cli.run()
+    expect(prompt.out).toStrictEqual(`jsonedit
+
+Flags:
+  --help	Print help message.
+  --version	Print version information.
+  --path	edit path.
+  --value	new value
+
+`)
+  })
 })

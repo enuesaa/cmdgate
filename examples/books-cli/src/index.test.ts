@@ -24,8 +24,8 @@ Commands:
   add
 
 Flags:
-  --help: Print help message.
-  --version: Print version information.
+  --help	Print help message.
+  --version	Print version information.
 `)
     expect(prompt.code).toStrictEqual(0)
   })

@@ -5,6 +5,7 @@ export type FlagConfig = {
   alias: string | null
 }
 
+// TODO: mark value types: bool, string, string[]
 export class Flag {
   readonly name: string
   public config: FlagConfig

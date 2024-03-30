@@ -49,3 +49,23 @@ jobs:
           deno-version: v1.41
       - working-directory: examples/deno-simple
         run: deno test
+
+  test-example-jsonesit:
+    needs: test
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm build
+      - working-directory: examples/jsonedit
+        run: pnpm install
+      - working-directory: examples/jsonedit
+        run: pnpm build
+      - working-directory: examples/jsonedit
+        run: pnpm test

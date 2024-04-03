@@ -8,8 +8,8 @@ export class Positional {
   readonly name: string
   public config: PositionalConfig
   public position: number = 0
-  protected _parser: Parser | null
-  protected _route?: string
+  protected parser: Parser | null
+  protected route?: string
 
   constructor(name: string, config: Partial<PositionalConfig> = {}) {
     this.name = name
@@ -17,14 +17,14 @@ export class Positional {
       description: '',
       ...config,
     }
-    this._parser = null
+    this.parser = null
   }
 
   get value(): string {
-    if (this._parser === null) {
+    if (this.parser === null) {
       return ''
     }
-    const positionals = this._parser.getPositionals()
+    const positionals = this.parser.getPositionals()
     if (positionals.length > this.position) {
       return positionals[this.position]
     }
@@ -32,15 +32,15 @@ export class Positional {
   }
 
   get has(): boolean {
-    if (this._parser === null) {
+    if (this.parser === null) {
       return false
     }
-    return this._parser.getPositionals().length > this.position
+    return this.parser.getPositionals().length > this.position
   }
 
   bind(parser: Parser, position: number, route?: string) {
-    this._parser = parser
+    this.parser = parser
     this.position = position
-    this._route = route
+    this.route = route
   }
 }

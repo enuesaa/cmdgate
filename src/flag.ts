@@ -9,7 +9,7 @@ export type FlagConfig = {
 export class Flag {
   readonly name: string
   public config: FlagConfig
-  protected _parser?: Parser
+  protected parser?: Parser
 
   constructor(name: string, config: Partial<FlagConfig> = {}) {
     this.name = name
@@ -21,20 +21,20 @@ export class Flag {
   }
 
   get value(): string {
-    if (typeof this._parser === 'undefined') {
+    if (typeof this.parser === 'undefined') {
       return ''
     }
-    return this._parser.getFlagValue(this.name)
+    return this.parser.getFlagValue(this.name)
   }
 
   get has(): boolean {
-    if (typeof this._parser === 'undefined') {
+    if (typeof this.parser === 'undefined') {
       return false
     }
-    return this._parser.hasFlag(this.name)
+    return this.parser.hasFlag(this.name)
   }
 
   bind(parser: Parser) {
-    this._parser = parser
+    this.parser = parser
   }
 }

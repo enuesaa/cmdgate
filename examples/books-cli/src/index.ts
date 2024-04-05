@@ -17,11 +17,11 @@ const versionFlag = cli.flag('--version', {
 cli.handle(prompt => {
   if (helpFlag.has) {
     prompt.print(cli.getHelpMessage())
-    throw 1
+    return 0
   }
   if (versionFlag.has) {
     prompt.info('books-cli version 0.0.1.')
-    throw 0
+    return 0
   }
 })
 

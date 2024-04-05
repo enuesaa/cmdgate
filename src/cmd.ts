@@ -67,23 +67,13 @@ export class Cmd {
     }
 
     for (const handler of this.handlers) {
-      try {
-        handler(this.prompt)
-      } catch (error) {
-        if (typeof error === 'number') {
-          const code = error
-          this.prompt.exit(code)
-        } else if (typeof error === 'string') {
-          this.prompt.error(error)
-          this.prompt.exit(1)
-        } else {
-          this.prompt.error(`Error: ${error}`)
-          this.prompt.exit(1)
-        }
+      const code = handler(this.prompt)
+      if (typeof code === 'number') {
+        this.prompt.exit(code)
         return
       }
     }
-
+  
     if (typeof this.matchedRoute === 'undefined') {
       // TODO: This should be configrued inside handle function
       // this.printHelpMessage()

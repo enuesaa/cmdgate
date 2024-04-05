@@ -7,8 +7,7 @@ export const aaaCmd = createCmd({
 const aaaFlag = aaaCmd.flag('--aaa', { alias: '-a' })
 const bbbArg = aaaCmd.positional('bbb')
 aaaCmd.handle(() => {
-  throw 1; // if throw number exit with this code.
-  throw 'error message'; // if throw string, exit with this message with exit code 1
+  return 1; // if throw number exit with this code.
 })
 
 const cli = createCmd()

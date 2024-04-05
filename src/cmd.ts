@@ -72,13 +72,13 @@ export class Cmd {
       } catch (error) {
         if (typeof error === 'number') {
           const code = error
-          process.exit(code)
+          this.prompt.exit(code)
         } else if (typeof error === 'string') {
-          console.error(error)
-          process.exit(1)
+          this.prompt.error(error)
+          this.prompt.exit(1)
         } else {
-          console.error(error)
-          process.exit(1)
+          this.prompt.error(`Error: ${error}`)
+          this.prompt.exit(1)
         }
         return
       }
@@ -87,7 +87,7 @@ export class Cmd {
     if (typeof this.matchedRoute === 'undefined') {
       // TODO: This should be configrued inside handle function
       // this.printHelpMessage()
-      process.exit(1)
+      this.prompt.exit(1)
       return
     }
 

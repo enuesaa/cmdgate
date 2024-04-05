@@ -22,4 +22,5 @@ lsCmd.handle(prompt => {
   for (const book of books) {
     prompt.info(`${book.name}`)
   }
+  return 0
 })

@@ -3,7 +3,7 @@ import { Parser } from './parser'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 
-export type Handler = (prompt: PromptInterface) => void|number
+export type Handler = (prompt: PromptInterface) => void | number
 
 export type CmdConfig = {
   description: string
@@ -73,7 +73,7 @@ export class Cmd {
         return
       }
     }
-  
+
     if (typeof this.matchedRoute === 'undefined') {
       // TODO: This should be configrued inside handle function
       // this.printHelpMessage()

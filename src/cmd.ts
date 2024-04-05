@@ -67,12 +67,19 @@ export class Cmd {
     }
 
     for (const handler of this.handlers) {
-      const code = handler(this.prompt)
-      if (code !== undefined && typeof code === 'number') {
-        this.prompt.exit(code)
-        return
-      }
-      if (this.prompt.isExited()) {
+      try {
+        handler(this.prompt)
+      } catch (error) {
+        if (typeof error === 'number') {
+          const code = error
+          process.exit(code)
+        } else if (typeof error === 'string') {
+          console.error(error)
+          process.exit(1)
+        } else {
+          console.error(error)
+          process.exit(1)
+        }
         return
       }
     }
@@ -80,7 +87,7 @@ export class Cmd {
     if (typeof this.matchedRoute === 'undefined') {
       // TODO: This should be configrued inside handle function
       // this.printHelpMessage()
-      this.prompt.exit(0)
+      process.exit(1)
       return
     }
 

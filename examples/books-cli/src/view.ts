@@ -24,4 +24,5 @@ viewCmd.handle(prompt => {
   prompt.info(`summary: ${book.summary}`)
   prompt.info(`pageCount: ${book.pageCount}`)
   prompt.info(`published: ${book.published}`)
+  return 0
 })

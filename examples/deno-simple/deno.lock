@@ -2,11 +2,11 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "npm:@enuesaa/cmdgate": "npm:@enuesaa/cmdgate@0.0.2"
+      "npm:@enuesaa/cmdgate": "npm:@enuesaa/cmdgate@0.0.5"
     },
     "npm": {
-      "@enuesaa/cmdgate@0.0.2": {
-        "integrity": "sha512-RP+MW0iCMQGNMH5pAzvsZTb4O8McRT2Lf/CLfthmQ73ZZ0Gs0OVeXzT7FP8smsd61iHXlZJO07lme1DF3q7tLQ==",
+      "@enuesaa/cmdgate@0.0.5": {
+        "integrity": "sha512-x6fEO8DwKnDEKuUOitDZJMwlAsvwJXNDhgO98BwImOSXoaHkfwvcE3+ilZEe5k3/aERxunpT/DXVx2RyiiihjQ==",
         "dependencies": {}
       }
     }

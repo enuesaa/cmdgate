@@ -1,5 +1,4 @@
 import { Cmd } from './cmd'
-import { Parser } from './parser'
 
 export type FlagConfig = {
   description: string
@@ -36,7 +35,7 @@ export class Flag {
     return this.cmd.parser.hasFlag(this.name)
   }
 
-  bind(parser: Parser) {
-    this.parser = parser
+  bind(cmd: Cmd) {
+    this.cmd = cmd
   }
 }

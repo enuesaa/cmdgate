@@ -57,7 +57,7 @@ export class Cmd {
     })
 
     for (const flag of this.inheritFlags) {
-      flag.bind(this.parser)
+      flag.bind(this)
     }
 
     for (const handler of this.handlers) {

@@ -1,46 +1,40 @@
-import { Parser } from './parser'
+import { Cmd } from './cmd'
 
 export type PositionalConfig = {
   description: string
+  position: number
 }
 
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  public position: number = 0
-  protected parser: Parser | null
-  protected route?: string
+  protected cmd: Cmd
 
-  constructor(name: string, config: Partial<PositionalConfig> = {}) {
+  constructor(name: string, config: Partial<PositionalConfig> = {}, cmd: Cmd) {
     this.name = name
     this.config = {
       description: '',
+      position: 0,
       ...config,
     }
-    this.parser = null
+    this.cmd = cmd
   }
 
   get value(): string {
-    if (this.parser === null) {
+    if (this.cmd?.parser === undefined) {
       return ''
     }
-    const positionals = this.parser.getPositionals()
-    if (positionals.length > this.position) {
-      return positionals[this.position]
+    const positionals = this.cmd.parser.getPositionals()
+    if (positionals.length > this.config.position) {
+      return positionals[this.config.position]
     }
     return ''
   }
 
   get has(): boolean {
-    if (this.parser === null) {
+    if (this.cmd?.parser === undefined) {
       return false
     }
-    return this.parser.getPositionals().length > this.position
-  }
-
-  bind(parser: Parser, position: number, route?: string) {
-    this.parser = parser
-    this.position = position
-    this.route = route
+    return this.cmd.parser.getPositionals().length > this.config.position
   }
 }

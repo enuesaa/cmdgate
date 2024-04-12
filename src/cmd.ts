@@ -11,7 +11,7 @@ export type CmdConfig = {
 
 export class Cmd {
   public config: CmdConfig
-  readonly positionals: Positional[] = []
+  // readonly positionals: Positional[] = []
   readonly flags: Flag[] = []
   readonly handlers: Handler[] = []
   readonly routes: Record<string, Cmd> = {}
@@ -19,7 +19,10 @@ export class Cmd {
   public baseRoute: string = ''
   public inheritFlags: Flag[] = []
   public prompt: PromptInterface = new Prompt()
-  protected matchedRoute?: string
+  public matchedRoute?: string
+  public parser?: Parser
+  // todo remove
+  protected positionals: number = 0
 
   constructor(config: Partial<CmdConfig> = {}) {
     this.config = {
@@ -29,15 +32,12 @@ export class Cmd {
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
-    const positional = new Positional(name, config)
-    this.positionals.push(positional)
-    return positional
+    config.position = this.positionals++
+    return new Positional(name, config, this)
   }
 
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
-    const flag = new Flag(name, config)
-    this.flags.push(flag)
-    return flag
+    return new Flag(name, config, this)
   }
 
   handle(handler: Handler) {
@@ -50,20 +50,14 @@ export class Cmd {
 
   run() {
     const argv = this.argv ?? process.argv
-    const parser = new Parser(argv, this.baseRoute)
+    this.parser = new Parser(argv, this.baseRoute)
 
-    this.matchedRoute = parser.listMatchableRoutes().find((route) => {
+    this.matchedRoute = this.parser.listMatchableRoutes().find((route) => {
       return this.routes.hasOwnProperty(route)
     })
 
-    for (const [i, positional] of this.positionals.entries()) {
-      positional.bind(parser, i, this.matchedRoute)
-    }
     for (const flag of this.inheritFlags) {
-      flag.bind(parser)
-    }
-    for (const flag of this.flags) {
-      flag.bind(parser)
+      flag.bind(this.parser)
     }
 
     for (const handler of this.handlers) {
@@ -89,14 +83,12 @@ export class Cmd {
     cmd.run()
   }
 
-  // TODO: refactor
-  // this def is so ambiguous as compared to `matchedRoute` above.
-  getMatchedCmd(): Cmd {
+  get matchedCmd(): Cmd {
     return this.matchedRoute === undefined ? this : this.routes[this.matchedRoute]
   }
 
   getHelpMessage(): string {
-    const cmd = this.getMatchedCmd()
+    const cmd = this.matchedCmd
     let helpMessage = `${cmd.config.description}\n`
 
     if (Object.keys(cmd.routes).length > 0) {

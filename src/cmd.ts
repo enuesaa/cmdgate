@@ -20,7 +20,7 @@ export class Cmd {
   public inheritFlags: Flag[] = []
   public prompt: PromptInterface = new Prompt()
   public matchedRoute?: string
-  public parser?: Parser
+  public parser: Parser
   // todo remove
   protected positionals: number = 0
 
@@ -29,15 +29,16 @@ export class Cmd {
       description: '',
       ...config,
     }
+    this.parser = new Parser()
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
     config.position = this.positionals++
-    return new Positional(name, config, this)
+    return new Positional(name, config, this.parser)
   }
 
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
-    return new Flag(name, config, this)
+    return new Flag(name, config, this.parser)
   }
 
   handle(handler: Handler) {
@@ -50,14 +51,15 @@ export class Cmd {
 
   run() {
     const argv = this.argv ?? process.argv
-    this.parser = new Parser(argv, this.baseRoute)
+    this.parser.argv = argv
+    this.parser.baseRoute = this.baseRoute
 
     this.matchedRoute = this.parser.listMatchableRoutes().find((route) => {
       return this.routes.hasOwnProperty(route)
     })
 
     for (const flag of this.inheritFlags) {
-      flag.bind(this)
+      flag.bind(this.parser)
     }
 
     for (const handler of this.handlers) {
@@ -99,13 +101,14 @@ export class Cmd {
       }
     }
 
-    if (cmd.flags.length > 0) {
-      helpMessage += '\n'
-      helpMessage += 'Flags:\n'
-      for (const flag of cmd.flags) {
-        helpMessage += `  ${flag.name}\t${flag.config.description}\n`
-      }
-    }
+    // todo
+    // if (cmd.flags.length > 0) {
+    //   helpMessage += '\n'
+    //   helpMessage += 'Flags:\n'
+    //   for (const flag of cmd.flags) {
+    //     helpMessage += `  ${flag.name}\t${flag.config.description}\n`
+    //   }
+    // }
 
     return helpMessage
   }

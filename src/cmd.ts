@@ -11,7 +11,7 @@ export type CmdConfig = {
 
 export class Cmd {
   public config: CmdConfig
-  // readonly positionals: Positional[] = []
+  readonly positionals: Positional[] = []
   readonly flags: Flag[] = []
   readonly handlers: Handler[] = []
   readonly routes: Record<string, Cmd> = {}
@@ -21,8 +21,6 @@ export class Cmd {
   public prompt: PromptInterface = new Prompt()
   public matchedRoute?: string
   public parser?: Parser
-  // todo remove
-  protected positionals: number = 0
 
   constructor(config: Partial<CmdConfig> = {}) {
     this.config = {
@@ -32,12 +30,23 @@ export class Cmd {
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
-    config.position = this.positionals++
-    return new Positional(name, config, this)
+    const positional = new Positional(name, config)
+    this.usePositional(positional)
+    return positional
+  }
+
+  usePositional(positional: Positional) {
+    this.positionals.push(positional)
   }
 
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
-    return new Flag(name, config, this)
+    const flag = new Flag(name, config)
+    this.useFlag(flag)
+    return flag
+  }
+
+  useFlag(flag: Flag) {
+    this.flags.push(flag)
   }
 
   handle(handler: Handler) {

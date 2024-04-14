@@ -35,6 +35,9 @@ export class Flag {
     return this.cmd.parser.hasFlag(this.name)
   }
 
+  /**
+   * @todo cmd と flag は相互依存してしまっている. 一方方向にしたい
+   */
   bind(cmd: Cmd) {
     this.cmd = cmd
   }

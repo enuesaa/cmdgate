@@ -1,4 +1,4 @@
-import { Parser } from './parser'
+import { Cmd } from './cmd'
 
 export type FlagConfig = {
   description: string
@@ -9,33 +9,33 @@ export type FlagConfig = {
 export class Flag {
   readonly name: string
   public config: FlagConfig
-  protected parser: Parser
+  protected cmd: Cmd
 
-  constructor(name: string, config: Partial<FlagConfig> = {}, parser?: Parser) {
+  constructor(name: string, config: Partial<FlagConfig> = {}, cmd: Cmd) {
     this.name = name
     this.config = {
       description: '',
       alias: null,
       ...config,
     }
-    this.parser = parser ?? new Parser()
+    this.cmd = cmd
   }
 
   get value(): string {
-    if (this.parser === undefined) {
+    if (this.cmd?.parser === undefined) {
       return ''
     }
-    return this.parser.getFlagValue(this.name)
+    return this.cmd.parser.getFlagValue(this.name)
   }
 
   get has(): boolean {
-    if (this.parser === undefined) {
+    if (this.cmd?.parser === undefined) {
       return false
     }
-    return this.parser.hasFlag(this.name)
+    return this.cmd.parser.hasFlag(this.name)
   }
 
-  bind(parser: Parser) {
-    this.parser = parser
+  bind(cmd: Cmd) {
+    this.cmd = cmd
   }
 }

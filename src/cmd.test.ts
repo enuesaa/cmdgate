@@ -10,6 +10,18 @@ describe('cmd', () => {
     expect(cmd.config.description).toStrictEqual('this is cmd')
   })
 
+  it('add flag', () => {
+    const cmd = new Cmd()
+    const fileFlag = cmd.flag('--file')
+    expect(cmd.flags[0]).toStrictEqual(fileFlag)
+  })
+
+  it('add positional', () => {
+    const cmd = new Cmd()
+    const positional = cmd.positional('name')
+    expect(cmd.positionals[0]).toStrictEqual(positional)
+  })
+
   it('cmd call handler', () => {
     const cmd = new Cmd()
     cmd.prompt = new PromptMock()
@@ -35,5 +47,19 @@ describe('cmd', () => {
     cmd.cmd('aaa', subcommand)
     cmd.run()
     expect(called).toStrictEqual(true)
+  })
+})
+
+describe('sub cmd', () => {
+  it('inherit flag', () => {
+    const subcommand = new Cmd()
+
+    const cmd = new Cmd()
+    cmd.prompt = new PromptMock()
+    cmd.argv = ['node', 'test.js', 'aaa']
+    const fileFlag = cmd.flag('--file')
+    cmd.cmd('aaa', subcommand)
+    cmd.run()
+    expect(subcommand.inheritFlags).toStrictEqual([fileFlag])
   })
 })

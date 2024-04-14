@@ -11,14 +11,14 @@ export class Flag {
   public config: FlagConfig
   protected parser: Parser
 
-  constructor(name: string, config: Partial<FlagConfig> = {}, parser: Parser) {
+  constructor(name: string, config: Partial<FlagConfig> = {}, parser?: Parser) {
     this.name = name
     this.config = {
       description: '',
       alias: null,
       ...config,
     }
-    this.parser = parser
+    this.parser = parser ?? new Parser()
   }
 
   get value(): string {

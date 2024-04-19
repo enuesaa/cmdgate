@@ -1,4 +1,4 @@
-import { Cmd } from './cmd'
+import { Parser } from './parser'
 
 export type PositionalConfig = {
   description: string
@@ -8,23 +8,23 @@ export type PositionalConfig = {
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  protected cmd: Cmd
+  protected parser?: Parser
 
-  constructor(name: string, config: Partial<PositionalConfig> = {}, cmd: Cmd) {
+  constructor(name: string, config: Partial<PositionalConfig> = {}, parser?: Parser) {
     this.name = name
     this.config = {
       description: '',
       position: 0,
       ...config,
     }
-    this.cmd = cmd
+    this.parser = parser
   }
 
   get value(): string {
-    if (this.cmd?.parser === undefined) {
+    if (this.parser === undefined) {
       return ''
     }
-    const positionals = this.cmd.parser.getPositionals()
+    const positionals = this.parser.getPositionals()
     if (positionals.length > this.config.position) {
       return positionals[this.config.position]
     }
@@ -32,9 +32,9 @@ export class Positional {
   }
 
   get has(): boolean {
-    if (this.cmd?.parser === undefined) {
+    if (this.parser === undefined) {
       return false
     }
-    return this.cmd.parser.getPositionals().length > this.config.position
+    return this.parser.getPositionals().length > this.config.position
   }
 }

@@ -30,23 +30,15 @@ export class Cmd {
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
-    const positional = new Positional(name, config)
-    this.usePositional(positional)
+    const positional = new Positional(name, config, this.parser)
+    this.positionals.push(positional)
     return positional
   }
 
-  usePositional(positional: Positional) {
-    this.positionals.push(positional)
-  }
-
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
-    const flag = new Flag(name, config)
-    this.useFlag(flag)
-    return flag
-  }
-
-  useFlag(flag: Flag) {
+    const flag = new Flag(name, config, this.parser)
     this.flags.push(flag)
+    return flag
   }
 
   handle(handler: Handler) {
@@ -64,10 +56,6 @@ export class Cmd {
     this.matchedRoute = this.parser.listMatchableRoutes().find((route) => {
       return this.routes.hasOwnProperty(route)
     })
-
-    for (const flag of this.inheritFlags) {
-      flag.bind(this)
-    }
 
     for (const handler of this.handlers) {
       const code = handler(this.prompt)

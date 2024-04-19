@@ -26,7 +26,6 @@ export class Cmd {
       ...config,
     }
     this.parser = new Parser()
-    this.parser.argv = process.argv
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
@@ -53,6 +52,9 @@ export class Cmd {
     this.matchedRoute = this.parser.listMatchableRoutes().find((route) => {
       return this.routes.hasOwnProperty(route)
     })
+    for (const positional of this.positionals) {
+      positional.baseRoute = this.matchedRoute ?? ''
+    }
 
     for (const handler of this.handlers) {
       const code = handler(this.prompt)
@@ -70,8 +72,7 @@ export class Cmd {
     }
 
     const cmd = this.routes[this.matchedRoute]
-    cmd.parser = new Parser(this.matchedRoute)
-    cmd.parser.argv = this.parser.argv
+    cmd.parser = this.parser
     cmd.prompt = this.prompt
     cmd.inheritFlags = this.flags
     cmd.run()

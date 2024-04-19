@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { Flag } from './flag'
-import { Parser } from './parser'
 
 describe('flag configuration', () => {
   it('set description', () => {

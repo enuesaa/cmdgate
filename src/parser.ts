@@ -1,11 +1,8 @@
 export class Parser {
   public argv: string[]
-  public baseRoute: string
 
-  constructor(baseRoute: string = '') {
-    this.argv = []
-    // TODO: remove this 
-    this.baseRoute = baseRoute
+  constructor(argv: string[] = process.argv) {
+    this.argv = argv
   }
 
   getRawArgs(): string[] {
@@ -35,20 +32,20 @@ export class Parser {
   }
 
   // TODO rename to something.
-  getArgs(): string[] {
+  getArgs(baseRoute: string = ''): string[] {
     const rawargs = this.getRawArgs()
 
-    const baseRouteSplitted = this.baseRoute.split(' ').filter((v) => v !== '')
+    const baseRouteSplitted = baseRoute.split(' ').filter((v) => v !== '')
     return rawargs.slice(baseRouteSplitted.length)
   }
 
   // positional matched below.
   // - aaa --flag flagvalue positional
   // - aaa positional --flag flagvalue
-  getPositionals(): string[] {
+  getPositionals(baseRoute: string = ''): string[] {
     const list: string[] = []
     let nextIsFlagValue: boolean = false
-    for (const arg of this.getArgs()) {
+    for (const arg of this.getArgs(baseRoute)) {
       if (arg.startsWith('-')) {
         nextIsFlagValue = true
         continue

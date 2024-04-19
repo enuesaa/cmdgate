@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export class Parser {
   public argv: string[]
 

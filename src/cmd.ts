@@ -1,5 +1,5 @@
 import { Flag, FlagConfig } from './flag'
-import { Parser } from './parser'
+import { getRawArgs } from './parseutil'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 
@@ -11,31 +11,27 @@ export type CmdConfig = {
 
 export class Cmd {
   public config: CmdConfig
-  readonly positionals: Positional[] = []
-  readonly flags: Flag[] = []
-  readonly handlers: Handler[] = []
-  readonly routes: Record<string, Cmd> = {}
-  public inheritFlags: Flag[] = []
+  public positionals: Positional[] = []
+  public flags: Flag[] = []
+  public handlers: Handler[] = []
+  public routes: Record<string, Cmd> = {}
   public prompt: PromptInterface = new Prompt()
   public matchedRoute?: string
-  public parser: Parser
+  public argv: string[]
 
   constructor(config: Partial<CmdConfig> = {}) {
-    this.config = {
-      description: '',
-      ...config,
-    }
-    this.parser = new Parser()
+    this.config = { description: '', ...config }
+    this.argv = process.argv
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
-    const positional = new Positional(name, config, this.parser)
+    const positional = new Positional(name, config, this.argv)
     this.positionals.push(positional)
     return positional
   }
 
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
-    const flag = new Flag(name, config, this.parser)
+    const flag = new Flag(name, config, this.argv)
     this.flags.push(flag)
     return flag
   }
@@ -49,7 +45,7 @@ export class Cmd {
   }
 
   run() {
-    this.matchedRoute = this.parser.listMatchableRoutes().find((route) => {
+    this.matchedRoute = this.listMatchableRoutes().find((route) => {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
@@ -72,9 +68,9 @@ export class Cmd {
     }
 
     const cmd = this.routes[this.matchedRoute]
-    cmd.parser = this.parser
+    cmd.argv = this.argv
     cmd.prompt = this.prompt
-    cmd.inheritFlags = this.flags
+    cmd.flags = this.flags
     cmd.run()
   }
 
@@ -103,5 +99,28 @@ export class Cmd {
     }
 
     return helpMessage
+  }
+
+  private listMatchableRoutes(): string[] {
+    const list: string[][] = []
+
+    let isNextFlagValue: boolean = false
+    for (const raw of getRawArgs(this.argv)) {
+      const lastRoute: string[] = list.length === 0 ? [] : structuredClone(list[list.length - 1])
+      if (isNextFlagValue) {
+        isNextFlagValue = false
+        continue
+      }
+
+      if (raw.startsWith('-')) {
+        isNextFlagValue = true
+        continue
+      }
+
+      lastRoute.push(raw)
+      list.push(lastRoute)
+    }
+
+    return list.map((v) => v.join(' '))
   }
 }

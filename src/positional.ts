@@ -1,4 +1,4 @@
-import { Parser } from './parser'
+import { getRawArgs } from './parseutil'
 
 export type PositionalConfig = {
   description: string
@@ -8,22 +8,22 @@ export type PositionalConfig = {
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  public parser: Parser
+  public argv: string[]
   public baseRoute: string
 
-  constructor(name: string, config: Partial<PositionalConfig> = {}, parser: Parser = new Parser()) {
+  constructor(name: string, config: Partial<PositionalConfig> = {}, argv: string[]) {
     this.name = name
     this.config = {
       description: '',
       position: 0,
       ...config,
     }
-    this.parser = parser
+    this.argv = argv
     this.baseRoute = ''
   }
 
   get value(): string {
-    const positionals = this.parser.getPositionals(this.baseRoute)
+    const positionals = this.getPositionals(this.baseRoute)
     if (positionals.length > this.config.position) {
       return positionals[this.config.position]
     }
@@ -31,6 +31,34 @@ export class Positional {
   }
 
   get has(): boolean {
-    return this.parser.getPositionals().length > this.config.position
+    return this.getPositionals().length > this.config.position
+  }
+
+  // TODO rename to something.
+  private getArgs(baseRoute: string = ''): string[] {
+    const rawargs = getRawArgs(this.argv)
+
+    const baseRouteSplitted = baseRoute.split(' ').filter((v) => v !== '')
+    return rawargs.slice(baseRouteSplitted.length)
+  }
+
+  // positional matched below.
+  // - aaa --flag flagvalue positional
+  // - aaa positional --flag flagvalue
+  private getPositionals(baseRoute: string = ''): string[] {
+    const list: string[] = []
+    let nextIsFlagValue: boolean = false
+    for (const arg of this.getArgs(baseRoute)) {
+      if (arg.startsWith('-')) {
+        nextIsFlagValue = true
+        continue
+      }
+      if (nextIsFlagValue) {
+        nextIsFlagValue = false
+        continue
+      }
+      list.push(arg)
+    }
+    return list
   }
 }

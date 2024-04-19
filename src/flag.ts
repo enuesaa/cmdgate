@@ -1,4 +1,4 @@
-import { Parser } from './parser'
+import { getRawArgs } from './parseutil'
 
 export type FlagConfig = {
   description: string
@@ -9,23 +9,37 @@ export type FlagConfig = {
 export class Flag {
   readonly name: string
   public config: FlagConfig
-  public parser: Parser
+  public argv: string[]
 
-  constructor(name: string, config: Partial<FlagConfig> = {}, parser: Parser = new Parser()) {
+  constructor(name: string, config: Partial<FlagConfig> = {}, argv: string[]) {
     this.name = name
     this.config = {
       description: '',
       alias: null,
       ...config,
     }
-    this.parser = parser
+    this.argv = argv
   }
 
   get value(): string {
-    return this.parser.getFlagValue(this.name)
+    if (!this.has) {
+      return ''
+    }
+
+    const args = getRawArgs(this.argv)
+    let isNext: boolean = false
+    for (const raw of args) {
+      if (isNext) {
+        return raw
+      }
+      if (raw === this.name) {
+        isNext = true
+      }
+    }
+    return ''
   }
 
   get has(): boolean {
-    return this.parser.hasFlag(this.name)
+    return this.argv.includes(this.name)
   }
 }

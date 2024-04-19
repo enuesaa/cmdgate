@@ -60,6 +60,6 @@ describe('sub cmd', () => {
     const fileFlag = cmd.flag('--file')
     cmd.cmd('aaa', subcommand)
     cmd.run()
-    expect(subcommand.inheritFlags).toStrictEqual([fileFlag])
+    expect(subcommand.flags).toStrictEqual([fileFlag])
   })
 })

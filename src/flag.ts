@@ -9,9 +9,9 @@ export type FlagConfig = {
 export class Flag {
   readonly name: string
   public config: FlagConfig
-  protected parser?: Parser
+  public parser: Parser
 
-  constructor(name: string, config: Partial<FlagConfig> = {}, parser?: Parser) {
+  constructor(name: string, config: Partial<FlagConfig> = {}, parser: Parser = new Parser()) {
     this.name = name
     this.config = {
       description: '',
@@ -22,20 +22,10 @@ export class Flag {
   }
 
   get value(): string {
-    if (this.parser === undefined) {
-      return ''
-    }
     return this.parser.getFlagValue(this.name)
   }
 
   get has(): boolean {
-    if (this.parser === undefined) {
-      return false
-    }
     return this.parser.hasFlag(this.name)
-  }
-
-  bind(parser: Parser) {
-    this.parser = parser
   }
 }

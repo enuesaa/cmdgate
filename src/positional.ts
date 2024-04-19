@@ -8,9 +8,9 @@ export type PositionalConfig = {
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  protected parser?: Parser
+  public parser: Parser
 
-  constructor(name: string, config: Partial<PositionalConfig> = {}, parser?: Parser) {
+  constructor(name: string, config: Partial<PositionalConfig> = {}, parser: Parser = new Parser()) {
     this.name = name
     this.config = {
       description: '',
@@ -21,9 +21,6 @@ export class Positional {
   }
 
   get value(): string {
-    if (this.parser === undefined) {
-      return ''
-    }
     const positionals = this.parser.getPositionals()
     if (positionals.length > this.config.position) {
       return positionals[this.config.position]
@@ -32,9 +29,6 @@ export class Positional {
   }
 
   get has(): boolean {
-    if (this.parser === undefined) {
-      return false
-    }
     return this.parser.getPositionals().length > this.config.position
   }
 }

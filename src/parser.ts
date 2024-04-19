@@ -2,8 +2,9 @@ export class Parser {
   public argv: string[]
   public baseRoute: string
 
-  constructor(argv: string[], baseRoute: string) {
-    this.argv = argv
+  constructor(baseRoute: string = '') {
+    this.argv = []
+    // TODO: remove this 
     this.baseRoute = baseRoute
   }
 

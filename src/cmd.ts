@@ -15,18 +15,18 @@ export class Cmd {
   readonly flags: Flag[] = []
   readonly handlers: Handler[] = []
   readonly routes: Record<string, Cmd> = {}
-  public argv?: string[]
-  public baseRoute: string = ''
   public inheritFlags: Flag[] = []
   public prompt: PromptInterface = new Prompt()
   public matchedRoute?: string
-  public parser?: Parser
+  public parser: Parser
 
   constructor(config: Partial<CmdConfig> = {}) {
     this.config = {
       description: '',
       ...config,
     }
+    this.parser = new Parser()
+    this.parser.argv = process.argv
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
@@ -50,9 +50,6 @@ export class Cmd {
   }
 
   run() {
-    const argv = this.argv ?? process.argv
-    this.parser = new Parser(argv, this.baseRoute)
-
     this.matchedRoute = this.parser.listMatchableRoutes().find((route) => {
       return this.routes.hasOwnProperty(route)
     })
@@ -73,8 +70,8 @@ export class Cmd {
     }
 
     const cmd = this.routes[this.matchedRoute]
-    cmd.argv = this.argv
-    cmd.baseRoute = this.matchedRoute
+    cmd.parser = new Parser(this.matchedRoute)
+    cmd.parser.argv = this.parser.argv
     cmd.prompt = this.prompt
     cmd.inheritFlags = this.flags
     cmd.run()

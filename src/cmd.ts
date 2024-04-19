@@ -17,6 +17,7 @@ export class Cmd {
   public routes: Record<string, Cmd> = {}
   public prompt: PromptInterface = new Prompt()
   public matchedRoute?: string
+  public baseRoute: string = ''
   public argv: string[]
 
   constructor(config: Partial<CmdConfig> = {}) {
@@ -25,13 +26,14 @@ export class Cmd {
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
-    const positional = new Positional(name, config, this.argv)
+    config.position = this.positionals.length
+    const positional = new Positional(name, config)
     this.positionals.push(positional)
     return positional
   }
 
   flag(name: string, config: Partial<FlagConfig> = {}): Flag {
-    const flag = new Flag(name, config, this.argv)
+    const flag = new Flag(name, config)
     this.flags.push(flag)
     return flag
   }
@@ -49,7 +51,11 @@ export class Cmd {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
-      positional.baseRoute = this.matchedRoute ?? ''
+      positional.argv = this.argv
+      positional.baseRoute = this.baseRoute
+    }
+    for (const flag of this.flags) {
+      flag.argv = this.argv
     }
 
     for (const handler of this.handlers) {
@@ -69,6 +75,7 @@ export class Cmd {
 
     const cmd = this.routes[this.matchedRoute]
     cmd.argv = this.argv
+    cmd.baseRoute = this.matchedRoute
     cmd.prompt = this.prompt
     cmd.flags = this.flags
     cmd.run()

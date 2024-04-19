@@ -8,18 +8,16 @@ export type PositionalConfig = {
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  public argv: string[]
-  public baseRoute: string
+  public argv: string[] = []
+  public baseRoute: string = ''
 
-  constructor(name: string, config: Partial<PositionalConfig> = {}, argv: string[]) {
+  constructor(name: string, config: Partial<PositionalConfig> = {}) {
     this.name = name
     this.config = {
       description: '',
       position: 0,
       ...config,
     }
-    this.argv = argv
-    this.baseRoute = ''
   }
 
   get value(): string {
@@ -31,7 +29,7 @@ export class Positional {
   }
 
   get has(): boolean {
-    return this.getPositionals().length > this.config.position
+    return this.getPositionals(this.baseRoute).length > this.config.position
   }
 
   // TODO rename to something.

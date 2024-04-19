@@ -9,16 +9,15 @@ export type FlagConfig = {
 export class Flag {
   readonly name: string
   public config: FlagConfig
-  public argv: string[]
+  public argv: string[] = []
 
-  constructor(name: string, config: Partial<FlagConfig> = {}, argv: string[]) {
+  constructor(name: string, config: Partial<FlagConfig> = {}) {
     this.name = name
     this.config = {
       description: '',
       alias: null,
       ...config,
     }
-    this.argv = argv
   }
 
   get value(): string {

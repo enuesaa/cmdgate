@@ -1,4 +1,4 @@
-import { getRawArgs } from './parseutil'
+import { Argv, getRawArgs } from './parseutil'
 
 export type FlagConfig = {
   description: string
@@ -25,20 +25,13 @@ export class Flag {
       return ''
     }
 
-    let useNext: boolean = false
-    for (const arg of getRawArgs(this.argv)) {
-      if (useNext) {
-        return arg
-      }
-      if (arg === this.name) {
-        useNext = true
-      }
-    }
-
-    return ''
+    const argv = new Argv(this.argv)
+    const values = argv.find((i, value, prev) => prev === this.name)
+    return values.length > 0 ? values[0] : ''
   }
 
   get has(): boolean {
-    return this.argv.includes(this.name)
+    const argv = new Argv(this.argv)
+    return argv.find((i, value) => value === this.name).length > 0
   }
 }

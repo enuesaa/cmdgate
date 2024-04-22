@@ -1,4 +1,4 @@
-import { getRawArgs } from './parseutil'
+import { Argv, getRawArgs } from './parseutil'
 
 export type PositionalConfig = {
   description: string
@@ -32,36 +32,20 @@ export class Positional {
     return this.listPositionals().length > this.config.position
   }
 
-  filterRouteMatchedArgs(): string[] {
-    const matched = this.baseRoute.split(' ').filter((v) => v !== '')
-    return getRawArgs(this.argv).slice(matched.length)
-  }
-
   /**
    * positional matched below.
    * - aaa --flag flagvalue positional
    * - aaa positional --flag flagvalue
    */
   listPositionals(): string[] {
-    const list: string[] = []
-
-    /**
-     * in the future,
-     * these logic also should be look at the definition of flags.
-     */
-    let nextIsFlagValue: boolean = false
-    for (const arg of this.filterRouteMatchedArgs()) {
-      if (nextIsFlagValue) {
-        nextIsFlagValue = false
-        continue
+    const argv = new Argv(this.argv)
+    const routed = this.baseRoute.split(' ').filter((v) => v !== '')
+    const values = argv.find((i, value, prev) => {
+      if (i < routed.length) {
+        return false
       }
-      if (arg.startsWith('-')) {
-        nextIsFlagValue = true
-        continue
-      }
-      list.push(arg)
-    }
-
-    return list
+      return !value.startsWith('-') && !prev.startsWith('-')
+    })
+    return values
   }
 }

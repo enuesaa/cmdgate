@@ -1,5 +1,5 @@
 import { Flag, FlagConfig } from './flag'
-import { getRawArgs } from './parseutil'
+import { Argv, getRawArgs } from './parseutil'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 
@@ -51,11 +51,11 @@ export class Cmd {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
-      positional.argv = this.argv
+      positional.argv = new Argv(this.argv)
       positional.baseRoute = this.baseRoute
     }
     for (const flag of this.flags) {
-      flag.argv = this.argv
+      flag.argv = new Argv(this.argv)
     }
 
     for (const handler of this.handlers) {

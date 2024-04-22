@@ -8,7 +8,7 @@ export type PositionalConfig = {
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  public argv: string[] = []
+  public argv: Argv = new Argv([])
   public baseRoute: string = ''
 
   constructor(name: string, config: Partial<PositionalConfig> = {}) {
@@ -38,9 +38,8 @@ export class Positional {
    * - aaa positional --flag flagvalue
    */
   listPositionals(): string[] {
-    const argv = new Argv(this.argv)
     const routed = this.baseRoute.split(' ').filter((v) => v !== '')
-    const values = argv.find((i, value, prev) => {
+    const values = this.argv.find((i, value, prev) => {
       if (i < routed.length) {
         return false
       }

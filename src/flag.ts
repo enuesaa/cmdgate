@@ -25,16 +25,16 @@ export class Flag {
       return ''
     }
 
-    const args = getRawArgs(this.argv)
-    let isNext: boolean = false
-    for (const raw of args) {
-      if (isNext) {
-        return raw
+    let useNext: boolean = false
+    for (const arg of getRawArgs(this.argv)) {
+      if (useNext) {
+        return arg
       }
-      if (raw === this.name) {
-        isNext = true
+      if (arg === this.name) {
+        useNext = true
       }
     }
+
     return ''
   }
 

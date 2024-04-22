@@ -36,22 +36,24 @@ describe('flag get value', () => {
   })
 })
 
-// describe('flag normal test', () => {
-//   const argv = ['node', 'main.js', 'thisiscontent', '--filename', 'aa.json']
+describe('flag normal test', () => {
+  const argv = ['node', 'main.js', 'thisiscontent', '--filename', 'aa.json']
 
-//   it('parser.hasFlag() true', () => {
-//     const flag = new Flag('--file')
-//     flag.argv = argv
-//     expect(flag.hasFlag('--filename')).toStrictEqual(true)
-//   })
+  it('flag.has true', () => {
+    const flag = new Flag('--filename')
+    flag.argv = argv
+    expect(flag.has).toStrictEqual(true)
+  })
 
-//   it('parser.hasFlag() false', () => {
-//     const parser = new Parser(argv, '')
-//     expect(parser.hasFlag('--not-exist')).toStrictEqual(false)
-//   })
+  it('flag.has false', () => {
+    const flag = new Flag('--not-exist')
+    flag.argv = argv
+    expect(flag.has).toStrictEqual(false)
+  })
 
-//   it('parser.getFlagValue()', () => {
-//     const parser = new Parser(argv, '')
-//     expect(parser.getFlagValue('--filename')).toStrictEqual('aa.json')
-//   })
-// })
+  it('flag.value return its value', () => {
+    const flag = new Flag('--filename')
+    flag.argv = argv
+    expect(flag.value).toStrictEqual('aa.json')
+  })
+})

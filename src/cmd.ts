@@ -1,5 +1,5 @@
 import { Flag, FlagConfig } from './flag'
-import { Argv, getRawArgs } from './parseutil'
+import { Argv } from './parseutil'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 
@@ -109,25 +109,15 @@ export class Cmd {
   }
 
   listMatchableRoutes(): string[] {
-    const list: string[][] = []
+    const list: string[] = []
 
-    let isNextFlagValue: boolean = false
-    for (const raw of getRawArgs(this.argv)) {
-      const lastRoute: string[] = list.length === 0 ? [] : structuredClone(list[list.length - 1])
-      if (isNextFlagValue) {
-        isNextFlagValue = false
-        continue
-      }
+    const argv = new Argv(this.argv)
+    const mayCommandArgs = argv.find((i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
 
-      if (raw.startsWith('-')) {
-        isNextFlagValue = true
-        continue
-      }
-
-      lastRoute.push(raw)
-      list.push(lastRoute)
+    for (let i = 0; i < mayCommandArgs.length; i++) {
+      list.push(mayCommandArgs.slice(0, i + 1).join(' '))
     }
 
-    return list.map((v) => v.join(' '))
+    return list
   }
 }

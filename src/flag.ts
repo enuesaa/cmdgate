@@ -1,4 +1,4 @@
-import { Argv, getRawArgs } from './parseutil'
+import { Argv } from './parseutil'
 
 export type FlagConfig = {
   description: string

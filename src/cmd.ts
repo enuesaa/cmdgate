@@ -18,11 +18,11 @@ export class Cmd {
   public prompt: PromptInterface = new Prompt()
   public matchedRoute?: string
   public baseRoute: string = ''
-  public argv: string[]
+  public argv: Argv
 
   constructor(config: Partial<CmdConfig> = {}) {
     this.config = { description: '', ...config }
-    this.argv = process.argv
+    this.argv = new Argv(process.argv)
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
@@ -51,11 +51,11 @@ export class Cmd {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
-      positional.argv = new Argv(this.argv)
+      positional.argv = this.argv
       positional.baseRoute = this.baseRoute
     }
     for (const flag of this.flags) {
-      flag.argv = new Argv(this.argv)
+      flag.argv = this.argv
     }
 
     for (const handler of this.handlers) {
@@ -109,11 +109,9 @@ export class Cmd {
   }
 
   listMatchableRoutes(): string[] {
+    const mayCommandArgs = this.argv.find((i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
+
     const list: string[] = []
-
-    const argv = new Argv(this.argv)
-    const mayCommandArgs = argv.find((i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
-
     for (let i = 0; i < mayCommandArgs.length; i++) {
       list.push(mayCommandArgs.slice(0, i + 1).join(' '))
     }

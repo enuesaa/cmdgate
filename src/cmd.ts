@@ -108,7 +108,7 @@ export class Cmd {
     return helpMessage
   }
 
-  private listMatchableRoutes(): string[] {
+  public listMatchableRoutes(): string[] {
     const list: string[][] = []
 
     let isNextFlagValue: boolean = false

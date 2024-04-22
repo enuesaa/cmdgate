@@ -43,7 +43,7 @@ export class Positional {
   // positional matched below.
   // - aaa --flag flagvalue positional
   // - aaa positional --flag flagvalue
-  private getPositionals(baseRoute: string = ''): string[] {
+  public getPositionals(baseRoute: string = ''): string[] {
     const list: string[] = []
     let nextIsFlagValue: boolean = false
     for (const arg of this.getArgs(baseRoute)) {

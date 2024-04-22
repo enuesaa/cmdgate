@@ -45,3 +45,26 @@ describe('multiple position', () => {
     expect(positional.value).toStrictEqual('')
   })
 })
+
+describe('positional complex', () => {
+  it('positional.getPositionals() remove flags', () => {
+    const positional = new Positional('name', { position: 2 })
+    positional.argv = ['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use']
+    expect(positional.getPositionals()).toStrictEqual(['thisiscontent', 'thismaypositional'])
+  })
+})
+
+// it('parser.getArgs()', () => {
+//   const parser = new Parser(argv, '')
+//   expect(parser.getArgs()).toStrictEqual(['thisiscontent', '--filename', 'aa.json'])
+// })
+
+// it('parser.getPositionals() remove flags', () => {
+//   const parser = new Parser(argv, '')
+//   expect(parser.getPositionals()).toStrictEqual(['thisiscontent'])
+// })
+
+// it('parser.listMatchableRoutes()', () => {
+//   const parser = new Parser(argv, '')
+//   expect(parser.listMatchableRoutes()).toStrictEqual(['thisiscontent'])
+// })

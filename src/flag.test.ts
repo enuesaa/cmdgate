@@ -35,3 +35,23 @@ describe('flag get value', () => {
     expect(flag.value).toStrictEqual('')
   })
 })
+
+// describe('flag normal test', () => {
+//   const argv = ['node', 'main.js', 'thisiscontent', '--filename', 'aa.json']
+
+//   it('parser.hasFlag() true', () => {
+//     const flag = new Flag('--file')
+//     flag.argv = argv
+//     expect(flag.hasFlag('--filename')).toStrictEqual(true)
+//   })
+
+//   it('parser.hasFlag() false', () => {
+//     const parser = new Parser(argv, '')
+//     expect(parser.hasFlag('--not-exist')).toStrictEqual(false)
+//   })
+
+//   it('parser.getFlagValue()', () => {
+//     const parser = new Parser(argv, '')
+//     expect(parser.getFlagValue('--filename')).toStrictEqual('aa.json')
+//   })
+// })

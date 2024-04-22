@@ -63,3 +63,11 @@ describe('sub cmd', () => {
     expect(subcommand.flags).toStrictEqual([fileFlag])
   })
 })
+
+describe('cmd complex', () => {
+  it('cmd.listMatchableRoutes()', () => {
+    const cmd = new Cmd()
+    cmd.argv = ['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use']
+    expect(cmd.listMatchableRoutes()).toStrictEqual(['thisiscontent', 'thisiscontent thismaypositional'])
+  })
+})

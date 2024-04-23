@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { cli } from './index'
-import { PromptMock } from '@enuesaa/cmdgate'
+import { PromptMock, Argv } from '@enuesaa/cmdgate'
 
 describe('subcommand `view`', () => {
   it('--help', () => {

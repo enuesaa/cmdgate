@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { cli } from './index'
-import { PromptMock } from '@enuesaa/cmdgate'
+import { PromptMock, Argv } from '@enuesaa/cmdgate'
 
 describe('subcommand `ls`', () => {
   it('--help', () => {
-    cli.argv = ['node', '/workspace/books.js', 'ls', '--help']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'ls', '--help'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -16,7 +16,7 @@ Flags:
   })
 
   it('`ls` lists book names', () => {
-    cli.argv = ['node', '/workspace/books.js', 'ls']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'ls'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()

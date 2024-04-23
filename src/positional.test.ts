@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { Positional } from './positional'
-import { Argv } from './parseutil'
+import { Argv } from './argv'
 
 describe('positional configuration', () => {
   it('set description', () => {

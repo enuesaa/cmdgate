@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { cli } from './index'
-import { PromptMock } from '@enuesaa/cmdgate'
+import { PromptMock, Argv } from '@enuesaa/cmdgate'
 
 describe('add', () => {
   it('--help', () => {
-    cli.argv = ['node', '/workspace/books.js', 'add', '--help']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'add', '--help'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -12,7 +12,7 @@ describe('add', () => {
   })
 
   it('name is required', () => {
-    cli.argv = ['node', '/workspace/books.js', 'add']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'add'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -20,7 +20,7 @@ describe('add', () => {
   })
   
   it('description is required', () => {
-    cli.argv = ['node', '/workspace/books.js', 'add', 'hey']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'add', 'hey'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -28,7 +28,7 @@ describe('add', () => {
   })
 
   it('description is required', () => {
-    cli.argv = ['node', '/workspace/books.js', 'add', 'hey', 'hello']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'add', 'hey', 'hello'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { cli } from '../src/index'
-import { PromptMock } from '@enuesaa/cmdgate'
+import { PromptMock, Argv } from '@enuesaa/cmdgate'
 
 describe('jsonedit', () => {
   it('edit', () => {
-    cli.argv = ['node', './bin/jsonedit.js', 'tests/testdata.json', '--path', 'a', '--value', 'c']
+    cli.argv = new Argv(['node', './bin/jsonedit.js', 'tests/testdata.json', '--path', 'a', '--value', 'c'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -12,7 +12,7 @@ describe('jsonedit', () => {
   })
   
   it('--help', () => {
-    cli.argv = ['node', './bin/jsonedit.js', '--help']
+    cli.argv = new Argv(['node', './bin/jsonedit.js', '--help'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()

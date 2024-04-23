@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { Flag } from './flag'
-import { Argv } from './parseutil'
+import { Argv } from './argv'
 
 describe('flag configuration', () => {
   it('set description', () => {

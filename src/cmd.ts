@@ -1,5 +1,5 @@
 import { Flag, FlagConfig } from './flag'
-import { Argv } from './parseutil'
+import { Argv } from './argv'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 

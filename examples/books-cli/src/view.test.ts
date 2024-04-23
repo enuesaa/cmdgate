@@ -4,7 +4,7 @@ import { PromptMock } from '@enuesaa/cmdgate'
 
 describe('subcommand `view`', () => {
   it('--help', () => {
-    cli.argv = ['node', '/workspace/books.js', 'view', '--help']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'view', '--help'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -12,7 +12,7 @@ describe('subcommand `view`', () => {
   })
 
   it('`view` looks up with book name', () => {
-    cli.argv = ['node', '/workspace/books.js', 'view', 'Explore Paris']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'view', 'Explore Paris'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -25,7 +25,7 @@ published: 2022-03-15
   })
 
   it('`view` exits 1 when the book does not exist.', () => {
-    cli.argv = ['node', '/workspace/books.js', 'view', 'not-exists-book-name']
+    cli.argv = new Argv(['node', '/workspace/books.js', 'view', 'not-exists-book-name'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()

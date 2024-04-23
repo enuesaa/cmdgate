@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { cli } from './index'
-import { PromptMock } from '@enuesaa/cmdgate'
+import { PromptMock, Argv } from '@enuesaa/cmdgate'
 
 describe('books cli', () => {
   it('no flag passed', () => {
-    cli.argv = ['node', '/workspace/books.js', '']
+    cli.argv = new Argv(['node', '/workspace/books.js', ''])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -12,7 +12,7 @@ describe('books cli', () => {
   })
 
   it('help flag passed', () => {
-    cli.argv = ['node', '/workspace/books.js', '--help']
+    cli.argv = new Argv(['node', '/workspace/books.js', '--help'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()
@@ -31,7 +31,7 @@ Flags:
   })
 
   it('version flag passed', () => {
-    cli.argv = ['node', '/workspace/books.js', '--version']
+    cli.argv = new Argv(['node', '/workspace/books.js', '--version'])
     const prompt = new PromptMock()
     cli.prompt = prompt
     cli.run()

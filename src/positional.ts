@@ -1,4 +1,4 @@
-import { Argv } from './parseutil'
+import { Argv } from './argv'
 
 export type PositionalConfig = {
   description: string

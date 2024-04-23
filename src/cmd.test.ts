@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { Cmd } from './cmd'
 import { PromptMock } from './promptmock'
-import { Argv } from './parseutil'
+import { Argv } from './argv'
 
 describe('cmd', () => {
   it('set description', () => {

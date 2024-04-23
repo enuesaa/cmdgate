@@ -4,3 +4,4 @@ export const createCmd = (config: Partial<CmdConfig> = {}) => new Cmd(config)
 
 export { type PromptInterface, Prompt } from './prompt'
 export { PromptMock } from './promptmock'
+export { Argv } from './argv'

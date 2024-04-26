@@ -51,12 +51,12 @@ describe('positional complex', () => {
   it('positional.listPositionals() remove flags', () => {
     const positional = new Positional('name', { position: 2 })
     positional.argv = new Argv(['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use'])
-    expect(positional.listPositionals()).toStrictEqual(['thisiscontent', 'thismaypositional'])
+    expect(positional._positionals).toStrictEqual(['thisiscontent', 'thismaypositional'])
   })
 
   it('positional.listPositionals() remove flags', () => {
     const positional = new Positional('name', { position: 2 })
     positional.argv = new Argv(['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use'])
-    expect(positional.listPositionals()).toStrictEqual(['thisiscontent', 'thismaypositional'])
+    expect(positional._positionals).toStrictEqual(['thisiscontent', 'thismaypositional'])
   })
 })

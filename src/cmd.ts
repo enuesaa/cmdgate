@@ -47,7 +47,7 @@ export class Cmd {
   }
 
   run() {
-    this.matchedRoute = this.listMatchableRoutes().find((route) => {
+    this.matchedRoute = this._listMatchableRoutes.find((route) => {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
@@ -108,7 +108,7 @@ export class Cmd {
     return helpMessage
   }
 
-  listMatchableRoutes(): string[] {
+  get _listMatchableRoutes(): string[] {
     const mayCommandArgs = this.argv.find((i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
 
     const list: string[] = []

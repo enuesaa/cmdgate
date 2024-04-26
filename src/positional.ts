@@ -21,15 +21,14 @@ export class Positional {
   }
 
   get value(): string {
-    const positionals = this.listPositionals()
-    if (positionals.length > this.config.position) {
-      return positionals[this.config.position]
+    if (this._positionals.length > this.config.position) {
+      return this._positionals[this.config.position]
     }
     return ''
   }
 
   get has(): boolean {
-    return this.listPositionals().length > this.config.position
+    return this._positionals.length > this.config.position
   }
 
   /**
@@ -37,7 +36,7 @@ export class Positional {
    * - aaa --flag flagvalue positional
    * - aaa positional --flag flagvalue
    */
-  listPositionals(): string[] {
+  get _positionals(): string[] {
     const routed = this.baseRoute.split(' ').filter((v) => v !== '')
     const values = this.argv.find((i, value, prev) => {
       if (i < routed.length) {

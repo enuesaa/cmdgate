@@ -1,4 +1,4 @@
-import { findArgsFromArgv } from './argv'
+import { listMatchableRouteFromArgv } from './argv'
 import { Flag, FlagConfig } from './flag'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
@@ -45,7 +45,7 @@ export class Cmd {
   }
 
   run(argv: string[] = process.argv) {
-    this.matchedRoute = this._getMatchableRoutes(argv).find((route) => {
+    this.matchedRoute = listMatchableRouteFromArgv(argv).find((route) => {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
@@ -102,16 +102,5 @@ export class Cmd {
     }
 
     return helpMessage
-  }
-
-  _getMatchableRoutes(argv: string[]): string[] {
-    const mayCommandArgs = findArgsFromArgv(argv, (i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
-
-    const list: string[] = []
-    for (let i = 0; i < mayCommandArgs.length; i++) {
-      list.push(mayCommandArgs.slice(0, i + 1).join(' '))
-    }
-
-    return list
   }
 }

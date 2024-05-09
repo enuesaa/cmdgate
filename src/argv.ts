@@ -19,3 +19,13 @@ export const findArgsFromArgv = (argv: string[], finder: Finder): string[] => {
 
   return list
 }
+
+export const listMatchableRouteFromArgv = (argv: string[]): string[] => {
+  const mayCommandArgs = findArgsFromArgv(argv, (i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
+
+  const list: string[] = []
+  for (let i = 0; i < mayCommandArgs.length; i++) {
+    list.push(mayCommandArgs.slice(0, i + 1).join(' '))
+  }
+  return list
+}

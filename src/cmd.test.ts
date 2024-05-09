@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { Cmd } from './cmd'
 import { PromptMock } from './promptmock'
-import { Argv } from './argv'
 
 describe('cmd', () => {
   it('set description', () => {
@@ -26,12 +25,11 @@ describe('cmd', () => {
   it('cmd call handler', () => {
     const cmd = new Cmd()
     cmd.prompt = new PromptMock()
-    cmd.argv = new Argv(['node', 'test.js'])
     let called = false
     cmd.handle((prompt) => {
       called = true
     })
-    cmd.run()
+    cmd.run(['node', 'test.js'])
     expect(called).toStrictEqual(true)
   })
 
@@ -44,9 +42,8 @@ describe('cmd', () => {
 
     const cmd = new Cmd()
     cmd.prompt = new PromptMock()
-    cmd.argv = new Argv(['node', 'test.js', 'aaa'])
     cmd.cmd('aaa', subcommand)
-    cmd.run()
+    cmd.run(['node', 'test.js', 'aaa'])
     expect(called).toStrictEqual(true)
   })
 })
@@ -57,18 +54,17 @@ describe('sub cmd', () => {
 
     const cmd = new Cmd()
     cmd.prompt = new PromptMock()
-    cmd.argv = new Argv(['node', 'test.js', 'aaa'])
     const fileFlag = cmd.flag('--file')
     cmd.cmd('aaa', subcommand)
-    cmd.run()
+    cmd.run(['node', 'test.js', 'aaa'])
     expect(subcommand.flags).toStrictEqual([fileFlag])
   })
 })
 
 describe('cmd complex', () => {
-  it('cmd._matchableRoutes', () => {
+  it('cmd._getMatchableRoutes', () => {
     const cmd = new Cmd()
-    cmd.argv = new Argv(['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use'])
-    expect(cmd._matchableRoutes).toStrictEqual(['thisiscontent', 'thisiscontent thismaypositional'])
+    const argv = ['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use']
+    expect(cmd._getMatchableRoutes(argv)).toStrictEqual(['thisiscontent', 'thisiscontent thismaypositional'])
   })
 })

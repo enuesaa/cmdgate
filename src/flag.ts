@@ -1,4 +1,4 @@
-import { Argv } from './argv'
+import { findArgsFromArgv } from './argv'
 
 export type FlagConfig = {
   description: string
@@ -9,7 +9,7 @@ export type FlagConfig = {
 export class Flag {
   readonly name: string
   public config: FlagConfig
-  public argv: Argv = new Argv([])
+  public argv: string[] = []
 
   constructor(name: string, config: Partial<FlagConfig> = {}) {
     this.name = name
@@ -25,11 +25,11 @@ export class Flag {
       return ''
     }
 
-    const values = this.argv.find((i, value, prev) => prev === this.name)
+    const values = findArgsFromArgv(this.argv, (i, value, prev) => prev === this.name)
     return values.length > 0 ? values[0] : ''
   }
 
   get has(): boolean {
-    return this.argv.find((i, value) => value === this.name).length > 0
+    return findArgsFromArgv(this.argv, (i, value) => value === this.name).length > 0
   }
 }

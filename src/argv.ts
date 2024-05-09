@@ -1,27 +1,21 @@
-export class Argv {
-  public argv: string[] = []
+export const getArgsFromArgv = (argv: string[]): string[] => {
+  const [_nodebin, _filename, ...args] = argv
+  return args
+}
 
-  constructor(argv: string[]) {
-    this.argv = argv
-  }
+type Finder = (i: number, value: string, prev: string) => boolean
+export const findArgsFromArgv = (argv: string[], finder: Finder): string[] => {
+  const list: string[] = []
 
-  get args(): string[] {
-    const [_nodebin, _filename, ...args] = this.argv
-    return args
-  }
-
-  find(fn: (i: number, value: string, prev: string) => boolean): string[] {
-    const list: string[] = []
-
-    let prev: string = ''
-    for (let i = 0; i < this.args.length; i++) {
-      const arg = this.args[i]
-      if (fn(i, arg, prev)) {
-        list.push(arg)
-      }
-      prev = arg
+  const args = getArgsFromArgv(argv)
+  let prev: string = ''
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]
+    if (finder(i, arg, prev)) {
+      list.push(arg)
     }
-
-    return list
+    prev = arg
   }
+
+  return list
 }

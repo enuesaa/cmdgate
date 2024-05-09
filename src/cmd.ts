@@ -1,5 +1,5 @@
+import { findArgsFromArgv } from './argv'
 import { Flag, FlagConfig } from './flag'
-import { Argv } from './argv'
 import { Positional, PositionalConfig } from './positional'
 import { Prompt, type PromptInterface } from './prompt'
 
@@ -18,11 +18,9 @@ export class Cmd {
   public prompt: PromptInterface = new Prompt()
   public matchedRoute?: string
   public baseRoute: string = ''
-  public argv: Argv
 
   constructor(config: Partial<CmdConfig> = {}) {
     this.config = { description: '', ...config }
-    this.argv = new Argv(process.argv)
   }
 
   positional(name: string, config: Partial<PositionalConfig> = {}): Positional {
@@ -46,16 +44,16 @@ export class Cmd {
     this.routes[route] = cmd
   }
 
-  run() {
-    this.matchedRoute = this._matchableRoutes.find((route) => {
+  run(argv: string[] = process.argv) {
+    this.matchedRoute = this._getMatchableRoutes(argv).find((route) => {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
-      positional.argv = this.argv
+      positional.argv = argv
       positional.baseRoute = this.baseRoute
     }
     for (const flag of this.flags) {
-      flag.argv = this.argv
+      flag.argv = argv
     }
 
     for (const handler of this.handlers) {
@@ -74,11 +72,10 @@ export class Cmd {
     }
 
     const cmd = this.routes[this.matchedRoute]
-    cmd.argv = this.argv
     cmd.baseRoute = this.matchedRoute
     cmd.prompt = this.prompt
     cmd.flags = this.flags
-    cmd.run()
+    cmd.run(argv)
   }
 
   get matchedCmd(): Cmd {
@@ -108,8 +105,8 @@ export class Cmd {
     return helpMessage
   }
 
-  get _matchableRoutes(): string[] {
-    const mayCommandArgs = this.argv.find((i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
+  _getMatchableRoutes(argv: string[]): string[] {
+    const mayCommandArgs = findArgsFromArgv(argv, (i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
 
     const list: string[] = []
     for (let i = 0; i < mayCommandArgs.length; i++) {

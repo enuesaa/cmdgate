@@ -1,4 +1,4 @@
-import { Argv } from './argv'
+import { findArgsFromArgv } from './argv'
 
 export type PositionalConfig = {
   description: string
@@ -8,7 +8,7 @@ export type PositionalConfig = {
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  public argv: Argv = new Argv([])
+  public argv: string[] = []
   public baseRoute: string = ''
 
   constructor(name: string, config: Partial<PositionalConfig> = {}) {
@@ -38,7 +38,7 @@ export class Positional {
    */
   get _positionals(): string[] {
     const routed = this.baseRoute.split(' ').filter((v) => v !== '')
-    const values = this.argv.find((i, value, prev) => {
+    const values = findArgsFromArgv(this.argv, (i, value, prev) => {
       if (i < routed.length) {
         return false
       }

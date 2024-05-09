@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { cli } from './index'
-import { PromptMock, Argv } from '@enuesaa/cmdgate'
+import { PromptMock } from '@enuesaa/cmdgate'
 
 describe('subcommand `ls`', () => {
   it('--help', () => {
-    cli.argv = new Argv(['node', '/workspace/books.js', 'ls', '--help'])
+    const argv = ['node', '/workspace/books.js', 'ls', '--help']
     const prompt = new PromptMock()
     cli.prompt = prompt
-    cli.run()
+    cli.run(argv)
     expect(prompt.out).toStrictEqual(`list books
 
 Flags:
@@ -16,10 +16,10 @@ Flags:
   })
 
   it('`ls` lists book names', () => {
-    cli.argv = new Argv(['node', '/workspace/books.js', 'ls'])
+    const argv = ['node', '/workspace/books.js', 'ls']
     const prompt = new PromptMock()
     cli.prompt = prompt
-    cli.run()
+    cli.run(argv)
     expect(prompt.out).toStrictEqual(`Explore Paris
 Journey to the Grand Canyon
 Adventures in Rome

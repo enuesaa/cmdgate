@@ -8,8 +8,8 @@ export type PositionalConfig = {
 export class Positional {
   readonly name: string
   public config: PositionalConfig
-  public argv: string[] = []
-  public baseRoute: string = ''
+  protected argv: string[] = []
+  protected baseRoute: string = ''
 
   constructor(name: string, config: Partial<PositionalConfig> = {}) {
     this.name = name
@@ -45,5 +45,10 @@ export class Positional {
       return !value.startsWith('-') && !prev.startsWith('-')
     })
     return values
+  }
+
+  bind(argv: string[], baseRoute: string = '') {
+    this.argv = argv
+    this.baseRoute = baseRoute
   }
 }

@@ -9,7 +9,7 @@ export type FlagConfig = {
 export class Flag {
   readonly name: string
   public config: FlagConfig
-  public argv: string[] = []
+  protected argv: string[] = []
 
   constructor(name: string, config: Partial<FlagConfig> = {}) {
     this.name = name
@@ -31,5 +31,9 @@ export class Flag {
 
   get has(): boolean {
     return findArgsFromArgv(this.argv, (i, value) => value === this.name).length > 0
+  }
+
+  bind(argv: string[]) {
+    this.argv = argv
   }
 }

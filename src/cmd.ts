@@ -49,11 +49,10 @@ export class Cmd {
       return this.routes.hasOwnProperty(route)
     })
     for (const positional of this.positionals) {
-      positional.argv = argv
-      positional.baseRoute = this.baseRoute
+      positional.bind(argv, this.baseRoute)
     }
     for (const flag of this.flags) {
-      flag.argv = argv
+      flag.bind(argv)
     }
 
     for (const handler of this.handlers) {

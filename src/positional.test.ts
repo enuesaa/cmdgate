@@ -45,17 +45,3 @@ describe('multiple position', () => {
     expect(positional.value).toStrictEqual('')
   })
 })
-
-describe('positional complex', () => {
-  it('positional.listPositionals() remove flags', () => {
-    const positional = new Positional('name', { position: 2 })
-    positional.bind(['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use'])
-    expect(positional._positionals).toStrictEqual(['thisiscontent', 'thismaypositional'])
-  })
-
-  it('positional.listPositionals() remove flags', () => {
-    const positional = new Positional('name', { position: 2 })
-    positional.bind(['node', 'main.js', 'thisiscontent', 'thismaypositional', '--filename', 'aa.json', '--use'])
-    expect(positional._positionals).toStrictEqual(['thisiscontent', 'thismaypositional'])
-  })
-})

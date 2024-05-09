@@ -29,3 +29,20 @@ export const listMatchableRouteFromArgv = (argv: string[]): string[] => {
   }
   return list
 }
+
+/**
+ * positional matched below.
+ * - aaa --flag flagvalue positional
+ * - aaa positional --flag flagvalue
+ */
+export const listPositionalsFromArgv = (argv: string[], baseRoute: string): string[] => {
+  const routed = baseRoute.split(' ').filter((v) => v !== '')
+  const values = findArgsFromArgv(argv, (i, value, prev) => {
+    if (i < routed.length) {
+      return false
+    }
+    return !value.startsWith('-') && !prev.startsWith('-')
+  })
+
+  return values
+}

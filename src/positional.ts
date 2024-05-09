@@ -1,4 +1,4 @@
-import { findArgsFromArgv } from './argv'
+import { listPositionalsFromArgv } from './argv'
 
 export type PositionalConfig = {
   description: string
@@ -21,30 +21,16 @@ export class Positional {
   }
 
   get value(): string {
-    if (this._positionals.length > this.config.position) {
-      return this._positionals[this.config.position]
+    const positionals = listPositionalsFromArgv(this.argv, this.baseRoute)
+    if (positionals.length > this.config.position) {
+      return positionals[this.config.position]
     }
     return ''
   }
 
   get has(): boolean {
-    return this._positionals.length > this.config.position
-  }
-
-  /**
-   * positional matched below.
-   * - aaa --flag flagvalue positional
-   * - aaa positional --flag flagvalue
-   */
-  get _positionals(): string[] {
-    const routed = this.baseRoute.split(' ').filter((v) => v !== '')
-    const values = findArgsFromArgv(this.argv, (i, value, prev) => {
-      if (i < routed.length) {
-        return false
-      }
-      return !value.startsWith('-') && !prev.startsWith('-')
-    })
-    return values
+    const positionals = listPositionalsFromArgv(this.argv, this.baseRoute)
+    return positionals.length > this.config.position
   }
 
   bind(argv: string[], baseRoute: string = '') {

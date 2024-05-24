@@ -9,11 +9,15 @@ NodeJS cli helper.
 export const aaaCmd = createCmd({
   description: 'aaa',
 })
-const aaaFlag = aaaCmd.flag('--aaa', { alias: '-a' })
-const bbbArg = aaaCmd.positional('bbb')
-aaaCmd.handle(() => {
+aaaCmd.handle(prompt => {
+  // write app logic here.
+
   return 1; // exit code
 })
+```
+
+```ts
+import { aaaCmd } from './aaa'
 
 const cli = createCmd()
 cli.cmd("aaa", aaaCmd)
@@ -25,5 +29,7 @@ cli.handle((prompt) => {
     return 0
   }
 })
+
+// run
 cli.run()
 ```

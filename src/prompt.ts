@@ -4,7 +4,6 @@ import util from 'node:util'
 export interface PromptInterface {
   print(message: string): void
   info(message: string): void
-  error(message: string): void
   exit(code: number): void
 }
 
@@ -15,10 +14,6 @@ export class Prompt implements PromptInterface {
   }
 
   info(message: string) {
-    this.print(message + `\n`)
-  }
-
-  error(message: string) {
     this.print(message + `\n`)
   }
 

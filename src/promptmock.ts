@@ -14,10 +14,6 @@ export class PromptMock implements PromptInterface {
     this.print(message + `\n`)
   }
 
-  error(message: string) {
-    this.print(message + `\n`)
-  }
-
   exit(code: number) {
     // TODO: this method should be `never`. try os exit here not to override code.
     if (this.code !== -1) {

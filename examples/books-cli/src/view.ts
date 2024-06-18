@@ -16,7 +16,7 @@ viewCmd.handle(prompt => {
   const bookname = nameArg.value
   const book = books.find(b => b.name === bookname)
   if (typeof book === 'undefined') {
-    prompt.error(`book name ${bookname} not found.`)
+    prompt.info(`book name ${bookname} not found.`)
     return 1
   }
 

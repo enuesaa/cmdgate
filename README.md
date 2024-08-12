@@ -6,12 +6,34 @@ NodeJS cli helper.
 > And also, I will make a breaking change.
 
 ## Usage
+### Simple Example
 ```ts
-// subcommand
+import { createCmd } from '@enuesaa/cmdgate'
+
+const app = createCmd()
+
+const helpFlag = app.flag('--help', {
+  alias: '-h',
+})
+
+app.handle((prompt) => {
+  if (helpFlag.has) {
+    prompt.print(app.getHelpMessage())
+    return 0
+  }
+})
+
+app.run()
+```
+
+
+### Subcommand Example
+```ts
+import { createCmd } from '@enuesaa/cmdgate'
+
 export const aaaCmd = createCmd({
   description: 'aaa',
 })
-// handler
 aaaCmd.handle(prompt => {
   // write app logic here.
 
@@ -20,23 +42,23 @@ aaaCmd.handle(prompt => {
 ```
 
 ```ts
+import { createCmd } from '@enuesaa/cmdgate'
 import { aaaCmd } from './aaa'
 
-// cli
-const cli = createCmd()
+const app = createCmd()
 
-// register subcommands
-cli.cmd("aaa", aaaCmd)
+app.cmd('aaa', aaaCmd)
 
-// flag
-const helpFlag = cli.flag('--help', { alias: '-h' })
-cli.handle((prompt) => {
+const helpFlag = app.flag('--help', {
+  alias: '-h',
+})
+
+app.handle((prompt) => {
   if (helpFlag.has) {
-    prompt.print(cli.getHelpMessage())
+    prompt.print(app.getHelpMessage())
     return 0
   }
 })
 
-// run
-cli.run()
+app.run()
 ```

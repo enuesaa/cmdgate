@@ -4,6 +4,10 @@ export const getArgsFromArgv = (argv: string[]): string[] => {
 }
 
 type Finder = (i: number, value: string, prev: string) => boolean
+
+/**
+ * filter args with finder fn.
+ */
 export const findArgsFromArgv = (argv: string[], finder: Finder): string[] => {
   const list: string[] = []
 
@@ -20,6 +24,9 @@ export const findArgsFromArgv = (argv: string[], finder: Finder): string[] => {
   return list
 }
 
+/**
+ * list routes
+ */
 export const listMatchableRouteFromArgv = (argv: string[]): string[] => {
   const mayCommandArgs = findArgsFromArgv(argv, (i, value, prev) => !value.startsWith('-') && !prev.startsWith('-'))
 
@@ -31,9 +38,11 @@ export const listMatchableRouteFromArgv = (argv: string[]): string[] => {
 }
 
 /**
- * positional matched below.
- * - aaa --flag flagvalue positional
- * - aaa positional --flag flagvalue
+ * list positional args.
+ * 
+ * Positional args may be `after flags` or `before flags` like below.
+ * - after flags: `cmd --flag flagvalue positional`
+ * - before flags: `cmd positional --flag flagvalue`
  */
 export const listPositionalsFromArgv = (argv: string[], baseRoute: string): string[] => {
   const routed = baseRoute.split(' ').filter((v) => v !== '')

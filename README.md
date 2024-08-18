@@ -62,3 +62,6 @@ app.handle((prompt) => {
 
 app.run()
 ```
+
+## TODO
+- help message builder. help message のカスタマイズはよくあることなので、簡単に調整できるようにしたい

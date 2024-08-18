@@ -65,7 +65,7 @@ export class Cmd {
 
     if (typeof this.matchedRoute === 'undefined') {
       // TODO: This should be configrued inside handle function
-      // this.printHelpMessage()
+      // this.prompt(this.getHelpMessage())
       this.prompt.exit(1)
       return
     }
@@ -81,6 +81,7 @@ export class Cmd {
     return this.matchedRoute === undefined ? this : this.routes[this.matchedRoute]
   }
 
+  // TODO refator
   getHelpMessage(): string {
     const cmd = this.matchedCmd
     let helpMessage = `${cmd.config.description}\n`

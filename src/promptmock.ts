@@ -16,6 +16,7 @@ export class PromptMock implements PromptInterface {
 
   exit(code: number) {
     // TODO: this method should be `never`. try os exit here not to override code.
+    // throw してどこかでキャッチすれば、この問題は解決するかも?
     if (this.code !== -1) {
       return
     }
